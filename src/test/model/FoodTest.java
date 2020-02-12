@@ -33,10 +33,13 @@ class FoodTest {
         assertEquals(apple.getProteins(), 1.0);
         assertEquals(apple.getPrimaryType(), "carbs");
     }
-
-
-
-    // implement into food
+    @Test
+    void foodComplexMethodsTests() {
+        apple.addPurchaseInfo(1.3);
+        assertEquals(1.0, apple.getCost());
+        apple.addPurchaseInfo(2);
+        assertEquals(4.0/3.0, apple.getCost());
+    }
 
 
 
