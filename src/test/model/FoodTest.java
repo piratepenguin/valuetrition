@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Test.*;
 
-class MyModelTest {
+class FoodTest {
 
     Food banana = new Food("banana", 0.7, 100, 24, 0, 1);
     Food rice = new Food("rice", 5, 3000, 700, 11, 25;
@@ -32,6 +32,25 @@ class MyModelTest {
         assertEquals(apple.getFats(), 0);
         assertEquals(apple.getProteins(), 1);
         assertEquals(apple.getPrimaryType(), "carbs");
+    }
+
+
+
+    // implement into food
+
+    public String viewInfo() {
+        return ("food: " + foodName + "\ncost: " + cost + "\ncalories: " + calories + "\ncarbs: "
+                + carbs + "\nfats: " + fats + "\nproteins: " + proteins + "\nprimary type: " + primaryType);
+    }
+
+    public double caloriesPerDollar() {
+        return calories/cost;
+    }
+
+    public String value() {
+        if (caloriesPerDollar() < 100) {
+            return ("terrible value\ncalories per dollar:: " + this.caloriesPerDollar());
+        }
     }
 
 
