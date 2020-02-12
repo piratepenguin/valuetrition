@@ -1,6 +1,6 @@
- # &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ![alt-text](data/NutritivityLogo.png)
+ # ![alt-text](data/NutritivityLogo.png)
 
-## &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The best value and quality of food
+## The best value and quality of food
 
 **Oftentimes, we hear the phrase "eat healthy". But what does healthy look like?**
 Nutritivity is here to show you. It's the perfect all-around program to keep track of
@@ -22,3 +22,13 @@ I'm very passionate about this project because while I've been trying to build a
 difficult to keep track of all the factors that make up the term *healthy*. I also wish there was a program that would analyze my 
 food for me and show statistics such as what foods I'm wasting money on, what foods are the most beneficial, and how 
 good my overall diet is.
+
+## User Stories:
+
+As a user, I want to add a food to the list of foods I've eaten today
+
+As a user, I want to create my own version of a certain food by inputting its nutrients and cost
+
+As a user, I want to be able to select a food and view its nutrients
+
+As a user, I want to be able to select a food and see how economical it is
