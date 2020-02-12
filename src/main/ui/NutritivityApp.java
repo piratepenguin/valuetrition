@@ -2,26 +2,42 @@ package ui;
 
 import model.Food;
 import model.FoodList;
+import model.FoodNotFoundException;
 import model.InvalidUserChoiceException;
 
 import java.util.Scanner;
 
 public class NutritivityApp {
 
-
     Scanner keyboard = new Scanner(System.in);
-    FoodList foodlist = new FoodList();
+    FoodList database = new FoodList();
+    FoodList log = new FoodList();
+    boolean running = true;
+
+    //  FOR TESTING
+    Food banana = new Food("banana", 0.7, 100, 24, 0, 1);
+    Food rice = new Food("rice", 5.0, 3000, 700, 11, 25);
+    Food buckwheat = new Food("buckwheat", 0.7, 100, 24, 0, 1);
+    Food apple = new Food("apple", 0.7, 100, 24, 0, 1);
+    Food milk = new Food("milk", 5, 1500, 250, 40, 15);
+    Food emptyFood = new Food("unnamed food", 0, 0, 0, 0, 0);
+
 
     public NutritivityApp() {
+        database.add(banana);
+        database.add(rice);
+        database.add(buckwheat);
+        database.add(apple);
+        database.add(milk);
+        database.add(emptyFood);
         runApplication();
     }
 
     public void runApplication() {
-        boolean running = true;
         String choice;
         while (running) {
 
-            showOptions();
+            showMenu();
             choice = keyboard.next();
             // optional:  choice = choice.toLowerCase();
 
@@ -31,24 +47,48 @@ public class NutritivityApp {
                 try {
                     foodAction(choice);
                 } catch (InvalidUserChoiceException e) {
-                    System.out.println("please choose from the available 4 actions");
+                    System.out.println("please choose from the available 6 actions");
                 }
             }
         }
     }
 
-
-    public void showOptions() {
-        System.out.println("Enter a new food - 'add' \nRemove a food - 'remove'\n"
-                + "View the list of all foods, type 'list'\nAdd food to the log - 'add to log'\n"
-                + "View log - 'log'");
+    public void showMenu() {
+        System.out.println("               Menu \n ===================================\n"
+                + "Enter a new food        - 'new'\nRemove a food           - 'remove'\n"
+                + "View a food's info      - 'info'\nEdit a food's name      - 'edit'\n"
+                + "View list of all foods  - 'list'\nAdd food to log         - 'add to log'\n"
+                + "View log                - 'log'\nExit                    - 'exit'");
     }
 
+    public void foodAction(String choice) throws InvalidUserChoiceException {
 
-    public void addFood() {
+        switch (choice) {
+            case "new": newFood();
+                break;
+            case "remove": removeFood();
+                break;
+            case "info": info();
+                break;
+            case "edit": edit();
+                break;
+            case "list": list();
+                break;
+            case "add": addToLog();
+                break;
+            case "log": log();
+                break;
+            case "exit":
+                running = false;
+                break;
+            default:
+                throw new InvalidUserChoiceException();
+        }
+    }
 
+    public void newFood() {
         System.out.println("Please enter the foods name: ");
-        String name = keyboard.nextLine();
+        String name = keyboard.next();
         System.out.println("Please enter the foods calories: ");
         double calories = keyboard.nextDouble();
         System.out.println("Please enter the foods carbs: ");
@@ -58,26 +98,99 @@ public class NutritivityApp {
         System.out.println("Please enter the foods fats: ");
         short fats = keyboard.nextShort();
         System.out.println("Please enter the foods cost in dollars: ");
-        short cost = keyboard.nextShort();
+        double cost = keyboard.nextDouble();
         Food food = new Food(name, cost, calories, carbs, fats, proteins);
-        System.out.println("sweet! food " + name + " has been created");
+        database.add(food);
+        System.out.println("\nsweet! food " + name + " has been created\n");
+    }
+
+    public void removeFood() throws InvalidUserChoiceException {
+        System.out.println("Please enter the name of the food you want to remove");
+        String choice = keyboard.nextLine();
+        try {
+            database.removeFood(choice);
+            print("\nfood " + choice + " has been removed! \n");
+        } catch (FoodNotFoundException ex) {
+            errorMessage();
+            choice = keyboard.nextLine();
+            switch (choice) {
+                case "1":
+                    foodAction("remove");
+                    break;
+                case "2":
+                    break;
+                default:
+                    throw new InvalidUserChoiceException();
+            }
+        }
+    }
+
+    public void info() {
+        print("enter the name of the food: ");
+        String foodName = keyboard.next();
+        try {
+            print(database.getFood(foodName).viewInfo());
+        } catch (FoodNotFoundException ex) {
+            errorMessage();
+            String choice = keyboard.next();
+            switch (choice) {
+                case "1":
+                    info();
+                case"2":
+                    break;
+            }
+        }
+    }
+
+    public void edit() {
+        print("enter the food's current name: \n");
+        String name = keyboard.next();
+        try {
+            Food food = database.getFood(name);
+            print("enter a new name:");
+            name = keyboard.next();
+            food.editName(name);
+        } catch (FoodNotFoundException ex) {
+            errorMessage();
+        }
+    }
+
+    public void list() {
+        print(database.toString());
+    }
+
+    public void addToLog() {
+        Food food = new Food();
+        print("enter the food's name: ");
+        String name = keyboard.next();
+        try {
+            food = database.getFood(name);
+            log.add(food);
+            print("Successfully added food " + name + " to log!\n");
+        } catch (FoodNotFoundException ex) {
+            errorMessage();
+            String choice = keyboard.next();
+            switch (choice) {
+                case "1":
+                    addToLog();
+                case"2":
+                    break;
+            }
+        }
 
     }
 
+    public void log() {
+        print(log.toString());
+    }
 
 
+    public void print(String str) {
+        System.out.println(str);
+    }
 
-    public void foodAction(String choice) throws InvalidUserChoiceException {
 
-        if (choice.equals("add")) {
-            addFood();
-        } else if (choice.equals("remove")) {
-            System.out.println("Please enter the name of the food you want to remove");
-            choice = keyboard.next();
-            foodlist.removeFood(choice);
-        } else {
-            throw new InvalidUserChoiceException();
-        }
-
+    public void errorMessage() {
+        print("Food not found\n'1' - try again\n'2' - back to main menu");
     }
 }

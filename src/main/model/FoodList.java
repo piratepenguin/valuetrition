@@ -10,9 +10,37 @@ public class FoodList {
         foodlist = new ArrayList<>();
     }
 
-    public void removeFood(String foodname) {
-
+    public void removeFood(String foodname) throws FoodNotFoundException {
+        int size = foodlist.size();
         foodlist.removeIf(food -> food.getName().equals(foodname));
+        if (foodlist.size() == size) {
+            throw new FoodNotFoundException();
+        }
     }
 
+    public void add(Food food) {
+        foodlist.add(food);
+    }
+
+    public Food getFood(String name) throws FoodNotFoundException {
+        for (Food food: foodlist) {
+            if (food.getName().equals(name)) {
+                return food;
+            }
+        }
+        throw new FoodNotFoundException();
+
+    }
+
+    public String toString() {
+        String list = "";
+        for (Food each : foodlist) {
+            if (foodlist.indexOf(each) == foodlist.size() - 1) {
+                list = list + each.getName();
+            } else {
+                list = list + each.getName() + ", ";
+            }
+        }
+        return list;
+    }
 }
