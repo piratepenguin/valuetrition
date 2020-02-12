@@ -1,6 +1,6 @@
-#    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ![alt-text](data/NutritivityLogo.png)
+ # &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ![alt-text](data/NutritivityLogo.png)
 
-## &nbsp; &nbsp; &nbsp;The best value and quality of food
+## &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The best value and quality of food
 
 **Oftentimes, we hear the phrase "eat healthy". But what does healthy look like?**
 Nutritivity is here to show you. It's the perfect all-around program to keep track of
