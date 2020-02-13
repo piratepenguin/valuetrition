@@ -42,10 +42,13 @@ public class Food {
         return cost;
     }
 
+    public double getTotalCost() {
+        return totalCost;
+    }
+
     public double getProteins() {
         return proteins;
     }
-
 
     public double getFats() {
         return fats;
@@ -75,8 +78,8 @@ public class Food {
 
         if (carbs * 4 > proteins * 4 + fats * 2.2) {
             return "carbs";
-        } else if (proteins * 4 > proteins * 4 + fats * 2.2) {
-            return "protein";
+        } else if (proteins * 4 > carbs * 4 + fats * 2.2) {
+            return "proteins";
         } else if (fats * 2.2 > proteins * 4 + carbs * 4) {
             return "fats";
         } else {

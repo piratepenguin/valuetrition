@@ -68,4 +68,5 @@ public class FoodListTest {
         assertEquals("banana, rice, buckwheat, apple, milk", foodlist.toString());
     }
 
+
 }
