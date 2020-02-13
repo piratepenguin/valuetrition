@@ -33,6 +33,15 @@ public class NutritivityApp {
         runApplication();
     }
 
+    public NutritivityApp(String str) {     // MADE EXPLICITLY FOR TESTING PURPOSES
+        database.add(banana);
+        database.add(rice);
+        database.add(buckwheat);
+        database.add(apple);
+        database.add(milk);
+        database.add(emptyFood);
+    }
+
     public void runApplication() {
         String choice;
         while (running) {

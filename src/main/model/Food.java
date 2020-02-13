@@ -88,7 +88,7 @@ public class Food {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds instance of purchase
+    // EFFECTS: adds instance of purchase by increasing total money spent on food by price and adding 1 to costTimes
     public void addPurchaseInfo(double price) {
         costTimes++;
         totalCost += price;
@@ -109,11 +109,13 @@ public class Food {
                 + "\nfood value: " + this.value();
     }
 
+    //EFFECTS: returns foods calories divided by cost in dollars
     public double caloriesPerDollar() {
         return calories / cost;
     }
 
-
+    // EFFECTS: determines and returns whether food is very low, low, medium, good, or of excellent value
+    //          as well as its calories per dollar
     public String value() {
         if (this.caloriesPerDollar() < 100) {
             return ("very low\ncalories per dollar: " + this.caloriesPerDollar());
