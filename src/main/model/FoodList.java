@@ -18,6 +18,7 @@ public class FoodList {
         foodlist.clear();
     }
 
+    // EFFECTS: removes food from list
     public void removeFood(String foodname) throws FoodNotFoundException {
         int size = foodlist.size();
         foodlist.removeIf(food -> food.getName().equals(foodname));
@@ -30,6 +31,8 @@ public class FoodList {
         foodlist.add(food);
     }
 
+    // EFFECTS: returns food with given name from list,
+    //          if not found returns FoodNotFoundException
     public Food getFood(String name) throws FoodNotFoundException {
         for (Food food: foodlist) {
             if (food.getName().equals(name)) {
@@ -40,6 +43,7 @@ public class FoodList {
 
     }
 
+    // EFFECTS: returns a string of all the foods contained in the list
     public String toString() {
         String list = "";
         for (Food each : foodlist) {
