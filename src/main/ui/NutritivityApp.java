@@ -57,12 +57,11 @@ public class NutritivityApp {
         System.out.println("               Menu \n ===================================\n"
                 + "Enter a new food        - 'new'\nRemove a food           - 'remove'\n"
                 + "View a food's info      - 'info'\nEdit a food's name      - 'edit'\n"
-                + "View list of all foods  - 'list'\nAdd food to log         - 'add to log'\n"
+                + "View list of all foods  - 'list'\nAdd food to log         - 'add'\n"
                 + "View log                - 'log'\nExit                    - 'exit'");
     }
 
     public void foodAction(String choice) throws InvalidUserChoiceException {
-
         switch (choice) {
             case "new": newFood();
                 break;
@@ -78,8 +77,7 @@ public class NutritivityApp {
                 break;
             case "log": log();
                 break;
-            case "exit":
-                running = false;
+            case "exit": running = false;
                 break;
             default:
                 throw new InvalidUserChoiceException();
@@ -136,7 +134,7 @@ public class NutritivityApp {
             switch (choice) {
                 case "1":
                     info();
-                case"2":
+                case "2":
                     break;
             }
         }
@@ -150,8 +148,16 @@ public class NutritivityApp {
             print("enter a new name:");
             name = keyboard.next();
             food.editName(name);
+            print("Food name successfully changed to " + name);
         } catch (FoodNotFoundException ex) {
             errorMessage();
+            String choice = keyboard.next();
+            switch (choice) {
+                case "1":
+                    edit();
+                case "2":
+                    break;
+            }
         }
     }
 
@@ -160,7 +166,7 @@ public class NutritivityApp {
     }
 
     public void addToLog() {
-        Food food = new Food();
+        Food food;
         print("enter the food's name: ");
         String name = keyboard.next();
         try {
@@ -173,7 +179,7 @@ public class NutritivityApp {
             switch (choice) {
                 case "1":
                     addToLog();
-                case"2":
+                case "2":
                     break;
             }
         }

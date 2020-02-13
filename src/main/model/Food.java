@@ -4,7 +4,8 @@ public class Food {
     String name;
     double cost;
     double calories;
-    double costTimes; // how many times prices have been logged, used to find avg price
+    short costTimes; // how many times prices have been logged, used to find avg price
+    double totalCost;
     double carbs;
     double fats;
     double proteins;
@@ -17,6 +18,7 @@ public class Food {
         this.name = "unnamed food";
         this.calories = 0;
         this.costTimes = 1;
+        this.totalCost = 0;
         this.cost = 0;
         primaryType = "none";
     }
@@ -28,6 +30,7 @@ public class Food {
         this.calories = calories;
         this.name = name;
         this.cost = cost;
+        this.totalCost = cost;
         this.costTimes = 1;
         primaryType = determinePrimary();
     }
@@ -81,11 +84,12 @@ public class Food {
         }
     }
 
-    // MODOFIES: this
+    // MODIFIES: this
     // EFFECTS: adds instance of purchase
     public void addPurchaseInfo(double price) {
         costTimes++;
-        this.cost = (cost + price) / costTimes;
+        totalCost += price;
+        this.cost = totalCost / costTimes;
     }
 
 

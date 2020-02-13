@@ -10,6 +10,14 @@ public class FoodList {
         foodlist = new ArrayList<>();
     }
 
+    public int size() {
+        return foodlist.size();
+    }
+
+    public void clear() {
+        foodlist.clear();
+    }
+
     public void removeFood(String foodname) throws FoodNotFoundException {
         int size = foodlist.size();
         foodlist.removeIf(food -> food.getName().equals(foodname));
