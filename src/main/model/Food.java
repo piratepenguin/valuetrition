@@ -104,8 +104,8 @@ public class Food {
 
     // EFFECTS: returns all the food's information
     public String viewInfo() {
-        return "food: " + name + "\ncost: " + cost + "\ncalories: " + calories + "\ncarbs: "
-                + carbs + "\nfats: " + fats + "\nproteins: " + proteins + "\nprimary type: " + primaryType
+        return "food: " + name + "\ncost: $" + cost + "\ncalories: " + calories + "Cal\ncarbs: "
+                + carbs + "g\nfats: " + fats + "g\nproteins: " + proteins + "g\nprimary type: " + primaryType
                 + "\nfood value: " + this.value();
     }
 
@@ -119,11 +119,11 @@ public class Food {
     public String value() {
         if (this.caloriesPerDollar() < 100) {
             return ("very low\ncalories per dollar: " + this.caloriesPerDollar());
-        } else if (caloriesPerDollar() <= 200) {
+        } else if (caloriesPerDollar() < 200) {
             return ("low\ncalories per dollar: " + this.caloriesPerDollar());
-        } else if (caloriesPerDollar() <= 300) {
+        } else if (caloriesPerDollar() < 300) {
             return ("medium\ncalories per dollar: " + this.caloriesPerDollar());
-        } else if (caloriesPerDollar() <= 500) {
+        } else if (caloriesPerDollar() < 500) {
             return ("good\ncalories per dollar: " + this.caloriesPerDollar());
         } else {
             return ("excellent\ncalories per dollar: " + this.caloriesPerDollar());

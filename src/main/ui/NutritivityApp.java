@@ -14,7 +14,7 @@ public class NutritivityApp {
     FoodList log = new FoodList();
     boolean running = true;
 
-    //  FOR TESTING
+      // FOR TESTING
     Food banana = new Food("banana", 0.7, 100, 24, 0, 1);
     Food rice = new Food("rice", 5.0, 3000, 700, 11, 25);
     Food buckwheat = new Food("buckwheat", 0.7, 100, 24, 0, 1);
@@ -24,16 +24,17 @@ public class NutritivityApp {
 
 
     public NutritivityApp() {
-        database.add(banana);
-        database.add(rice);
-        database.add(buckwheat);
-        database.add(apple);
-        database.add(milk);
-        database.add(emptyFood);
+//        database.add(banana);             // FOR DEMO PURPOSES
+//        database.add(rice);
+//        database.add(buckwheat);
+//        database.add(apple);
+//        database.add(milk);
+//        database.add(emptyFood);
+
         runApplication();
     }
 
-    public NutritivityApp(String str) {     // MADE EXPLICITLY FOR TESTING PURPOSES
+    public NutritivityApp(String str) {     // MADE EXPLICITLY FOR UI TESTING PURPOSES (exceptions, etc.)
         database.add(banana);
         database.add(rice);
         database.add(buckwheat);
@@ -98,13 +99,13 @@ public class NutritivityApp {
         String name = keyboard.next();
         System.out.println("Please enter the foods calories: ");
         double calories = keyboard.nextDouble();
-        System.out.println("Please enter the foods carbs: ");
+        System.out.println("Please enter the foods carbs (g): ");
         short carbs = keyboard.nextShort();
-        System.out.println("Please enter the foods protein: ");
+        System.out.println("Please enter the foods protein (g): ");
         short proteins = keyboard.nextShort();
-        System.out.println("Please enter the foods fats: ");
+        System.out.println("Please enter the foods fats (g): ");
         short fats = keyboard.nextShort();
-        System.out.println("Please enter the foods cost in dollars: ");
+        System.out.println("Please enter the foods cost ($): ");
         double cost = keyboard.nextDouble();
         Food food = new Food(name, cost, calories, carbs, fats, proteins);
         database.add(food);
@@ -113,13 +114,13 @@ public class NutritivityApp {
 
     public void removeFood() throws InvalidUserChoiceException {
         System.out.println("Please enter the name of the food you want to remove");
-        String choice = keyboard.nextLine();
+        String choice = keyboard.next();
         try {
             database.removeFood(choice);
             print("\nfood " + choice + " has been removed! \n");
         } catch (FoodNotFoundException ex) {
             errorMessage();
-            choice = keyboard.nextLine();
+            choice = keyboard.next();
             switch (choice) {
                 case "1":
                     foodAction("remove");

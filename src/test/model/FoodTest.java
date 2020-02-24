@@ -50,7 +50,7 @@ class FoodTest {
         assertEquals(4.0/3.0, apple.getCost());
         apple.editName("ambrosia");
         assertEquals("ambrosia", apple.getName());
-        assertEquals("food: ambrosia\ncost: 1.3333333333333333\ncalories: 100.0\ncarbs: 24.0\nfats: 0.0\nproteins: 1.0"
+        assertEquals("food: ambrosia\ncost: $1.3333333333333333\ncalories: 100.0Cal\ncarbs: 24.0g\nfats: 0.0g\nproteins: 1.0g"
         + "\nprimary type: carbs\nfood value: very low\ncalories per dollar: 75.0", apple.viewInfo());
     }
 
