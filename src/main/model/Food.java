@@ -1,5 +1,7 @@
 package model;
 
+// represents a food item with nutritional and economical data
+
 public class Food {
     String name;
     double cost;
@@ -82,8 +84,14 @@ public class Food {
             return "proteins";
         } else if (fats * 2.2 > proteins * 4 + carbs * 4) {
             return "fats";
+        } else if (fats * 2.2 + proteins * 4 > carbs * 4 * 8) {
+            return "fats & proteins";
+        } else if (fats * 2.2 + carbs * 4 > proteins * 4 * 8) {
+            return "carbs & fats";
+        } else if (proteins * 4 + carbs * 4 > fats * 2.2 * 8) {
+            return "carbs & proteins";
         } else {
-            return "none";
+            return "carbs & fats & proteins";
         }
     }
 

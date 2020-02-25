@@ -3,6 +3,7 @@ package model;
 import model.Food;
 import java.util.*;
 
+// represents a list of Food items
 public class FoodList {
     private ArrayList<Food> foodlist;
 
@@ -45,14 +46,14 @@ public class FoodList {
 
     // EFFECTS: returns a string of all the foods contained in the list
     public String toString() {
-        String list = "";
+        StringBuilder list = new StringBuilder();
         for (Food each : foodlist) {
             if (foodlist.indexOf(each) == foodlist.size() - 1) {
-                list = list + each.getName();
+                list.append(each.getName());
             } else {
-                list = list + each.getName() + ", ";
+                list.append(each.getName()).append(", ");
             }
         }
-        return list;
+        return list.toString();
     }
 }

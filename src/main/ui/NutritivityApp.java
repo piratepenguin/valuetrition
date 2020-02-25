@@ -66,7 +66,7 @@ public class NutritivityApp {
                 + "Enter a new food        - 'new'\nRemove a food           - 'remove'\n"
                 + "View a food's info      - 'info'\nEdit a food's name      - 'edit'\n"
                 + "View list of all foods  - 'list'\nAdd food to log         - 'add'\n"
-                + "View log                - 'log'\nFinish today's log      - 'finish'"
+                + "View log                - 'log'\nFinish today's log      - 'finish'\n"
                 + "Exit                    - 'exit'");
     }
 
