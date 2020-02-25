@@ -25,12 +25,14 @@ good my overall diet is.
 
 ## User Stories:
 
+#### Basics
 As a user, I want to create my own version of a certain food by inputting its nutrients and cost
 
-As a user, I want to be able to select a food and view its nutrients
-
-As a user, I want to be able to select a food and see its economical value
+As a user, I want to be able to select a food and view its nutrients and economical value
 
 As a user, I want to add a food to the log of foods I've eaten today
 
-As a user, I want to be able to look over today's log 
+#### Saving
+As a user, I want to my log to auto-save when I exit the application
+
+As a user, I want the application to load my log when i open it

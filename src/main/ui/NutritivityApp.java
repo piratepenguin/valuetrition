@@ -14,7 +14,7 @@ public class NutritivityApp {
     FoodList log = new FoodList();
     boolean running = true;
 
-      // FOR TESTING
+    //  FOR TESTING
     Food banana = new Food("banana", 0.7, 100, 24, 0, 1);
     Food rice = new Food("rice", 5.0, 3000, 700, 11, 25);
     Food buckwheat = new Food("buckwheat", 0.7, 100, 24, 0, 1);
@@ -24,17 +24,16 @@ public class NutritivityApp {
 
 
     public NutritivityApp() {
-//        database.add(banana);             // FOR DEMO PURPOSES
-//        database.add(rice);
-//        database.add(buckwheat);
-//        database.add(apple);
-//        database.add(milk);
-//        database.add(emptyFood);
-
+        database.add(banana);
+        database.add(rice);
+        database.add(buckwheat);
+        database.add(apple);
+        database.add(milk);
+        database.add(emptyFood);
         runApplication();
     }
 
-    public NutritivityApp(String str) {     // MADE EXPLICITLY FOR UI TESTING PURPOSES (exceptions, etc.)
+    public NutritivityApp(String str) {     // MADE EXPLICITLY FOR TESTING PURPOSES
         database.add(banana);
         database.add(rice);
         database.add(buckwheat);
@@ -49,7 +48,6 @@ public class NutritivityApp {
 
             showMenu();
             choice = keyboard.next();
-            // optional:  choice = choice.toLowerCase();
 
             if (choice.equals("exit")) {
                 running = false;
@@ -57,7 +55,7 @@ public class NutritivityApp {
                 try {
                     foodAction(choice);
                 } catch (InvalidUserChoiceException e) {
-                    System.out.println("please choose from the available 6 actions");
+                    System.out.println("please choose from the available 7 actions");
                 }
             }
         }
@@ -68,7 +66,8 @@ public class NutritivityApp {
                 + "Enter a new food        - 'new'\nRemove a food           - 'remove'\n"
                 + "View a food's info      - 'info'\nEdit a food's name      - 'edit'\n"
                 + "View list of all foods  - 'list'\nAdd food to log         - 'add'\n"
-                + "View log                - 'log'\nExit                    - 'exit'");
+                + "View log                - 'log'\nFinish today's log      - 'finish'"
+                + "Exit                    - 'exit'");
     }
 
     public void foodAction(String choice) throws InvalidUserChoiceException {
@@ -87,6 +86,8 @@ public class NutritivityApp {
                 break;
             case "log": log();
                 break;
+            case "finish": newDay();
+                break;
             case "exit": running = false;
                 break;
             default:
@@ -96,16 +97,17 @@ public class NutritivityApp {
 
     public void newFood() {
         System.out.println("Please enter the foods name: ");
-        String name = keyboard.next();
+        keyboard.nextLine();
+        String name = keyboard.nextLine();
         System.out.println("Please enter the foods calories: ");
         double calories = keyboard.nextDouble();
-        System.out.println("Please enter the foods carbs (g): ");
+        System.out.println("Please enter the foods carbs: ");
         short carbs = keyboard.nextShort();
-        System.out.println("Please enter the foods protein (g): ");
+        System.out.println("Please enter the foods protein: ");
         short proteins = keyboard.nextShort();
-        System.out.println("Please enter the foods fats (g): ");
+        System.out.println("Please enter the foods fats: ");
         short fats = keyboard.nextShort();
-        System.out.println("Please enter the foods cost ($): ");
+        System.out.println("Please enter the foods cost in dollars: ");
         double cost = keyboard.nextDouble();
         Food food = new Food(name, cost, calories, carbs, fats, proteins);
         database.add(food);
@@ -113,8 +115,10 @@ public class NutritivityApp {
     }
 
     public void removeFood() throws InvalidUserChoiceException {
-        System.out.println("Please enter the name of the food you want to remove");
-        String choice = keyboard.next();
+        System.out.println("Please enter the name of the food you want to remove: ");
+        keyboard.nextLine();
+        String choice = keyboard.nextLine();
+        print("choice is: " + choice + " tada\n");
         try {
             database.removeFood(choice);
             print("\nfood " + choice + " has been removed! \n");
@@ -135,7 +139,8 @@ public class NutritivityApp {
 
     public void info() {
         print("enter the name of the food: ");
-        String foodName = keyboard.next();
+        keyboard.nextLine();
+        String foodName = keyboard.nextLine();
         try {
             print(database.getFood(foodName).viewInfo());
         } catch (FoodNotFoundException ex) {
@@ -152,11 +157,13 @@ public class NutritivityApp {
 
     public void edit() {
         print("enter the food's current name: \n");
-        String name = keyboard.next();
+        keyboard.nextLine();
+        String name = keyboard.nextLine();
         try {
             Food food = database.getFood(name);
             print("enter a new name:");
-            name = keyboard.next();
+            keyboard.nextLine();
+            name = keyboard.nextLine();
             food.editName(name);
             print("Food name successfully changed to " + name);
         } catch (FoodNotFoundException ex) {
@@ -178,7 +185,8 @@ public class NutritivityApp {
     public void addToLog() {
         Food food;
         print("enter the food's name: ");
-        String name = keyboard.next();
+        keyboard.nextLine();
+        String name = keyboard.nextLine();
         try {
             food = database.getFood(name);
             log.add(food);
@@ -197,6 +205,10 @@ public class NutritivityApp {
     }
 
     public void log() {
+        print(log.toString());
+    }
+
+    public void newDay() {
         print(log.toString());
     }
 
