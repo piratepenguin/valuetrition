@@ -1,35 +1,38 @@
 package ui;
 
-import model.Food;
-import model.FoodList;
-import model.FoodNotFoundException;
-import model.InvalidUserChoiceException;
+import model.*;
+import persistence.readers.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class NutritivityApp {
 
+    private static final String MEALS_FILE = "./data/log.txt";
+    private static final String FOODS_FILE = "./data/foods.txt";
     Scanner keyboard = new Scanner(System.in);
     FoodList database = new FoodList();
-    FoodList log = new FoodList();
+    List<Meal> log;
     boolean running = true;
 
     //  FOR TESTING
-    Food banana = new Food("banana", 0.7, 100, 24, 0, 1);
-    Food rice = new Food("rice", 5.0, 3000, 700, 11, 25);
-    Food buckwheat = new Food("buckwheat", 0.7, 100, 24, 0, 1);
-    Food apple = new Food("apple", 0.7, 100, 24, 0, 1);
-    Food milk = new Food("milk", 5, 1500, 250, 40, 15);
-    Food emptyFood = new Food("unnamed food", 0, 0, 0, 0, 0);
+    Food banana = new Food("banana", 1, 0.7, 100, 24, 0, 1);
+    Food rice = new Food("rice", 1, 5.0, 3000, 700, 11, 25);
+    Food buckwheat = new Food("buckwheat", 1, 0.7, 100, 24, 0, 1);
+    Food apple = new Food("apple", 1, 0.7, 100, 24, 0, 1);
+    Food milk = new Food("milk", 1, 5, 1500, 250, 40, 15);
+    Food emptyFood = new Food("unnamed food", 1, 0, 0, 0, 0, 0);
 
 
     public NutritivityApp() {
-        database.add(banana);
-        database.add(rice);
-        database.add(buckwheat);
-        database.add(apple);
-        database.add(milk);
-        database.add(emptyFood);
+//        database.add(banana);
+//        database.add(rice);
+//        database.add(buckwheat);
+//        database.add(apple);
+//        database.add(milk);
+//        database.add(emptyFood);
         runApplication();
     }
 
@@ -42,8 +45,11 @@ public class NutritivityApp {
         database.add(emptyFood);
     }
 
+    // EFFECTS: runs the application
     public void runApplication() {
         String choice;
+        load();
+
         while (running) {
 
             showMenu();
@@ -51,6 +57,7 @@ public class NutritivityApp {
 
             if (choice.equals("exit")) {
                 running = false;
+                print("see ya!");
             } else {
                 try {
                     foodAction(choice);
@@ -60,6 +67,23 @@ public class NutritivityApp {
             }
         }
     }
+
+    // MODIFIES: this
+    // EFFECTS: loads log from ACCOUNTS_FILE, if that file exists;
+    // otherwise initializes accounts with default values
+    private void load() {
+        try {
+            log = MealReader.readMeals(new File(MEALS_FILE));
+        } catch (IOException e) {
+            print("no meal save file found; starting from scratch");
+        }
+        try {
+            database = FoodReader.readFoods(new File(FOODS_FILE));
+        } catch (IOException e) {
+            print("no food save file found; starting from scratch");
+        }
+    }
+
 
     public void showMenu() {
         System.out.println("               Menu \n ===================================\n"
@@ -99,6 +123,8 @@ public class NutritivityApp {
         System.out.println("Please enter the foods name: ");
         keyboard.nextLine();
         String name = keyboard.nextLine();
+        System.out.println("Please enter the foods weight: ");
+        double weight = keyboard.nextDouble();
         System.out.println("Please enter the foods calories: ");
         double calories = keyboard.nextDouble();
         System.out.println("Please enter the foods carbs: ");
@@ -109,7 +135,7 @@ public class NutritivityApp {
         short fats = keyboard.nextShort();
         System.out.println("Please enter the foods cost in dollars: ");
         double cost = keyboard.nextDouble();
-        Food food = new Food(name, cost, calories, carbs, fats, proteins);
+        Food food = new Food(name, weight, cost, calories, carbs, fats, proteins);
         database.add(food);
         System.out.println("\nsweet! food " + name + " has been created\n");
     }
@@ -118,7 +144,6 @@ public class NutritivityApp {
         System.out.println("Please enter the name of the food you want to remove: ");
         keyboard.nextLine();
         String choice = keyboard.nextLine();
-        print("choice is: " + choice + " tada\n");
         try {
             database.removeFood(choice);
             print("\nfood " + choice + " has been removed! \n");
@@ -183,14 +208,19 @@ public class NutritivityApp {
     }
 
     public void addToLog() {
-        Food food;
+        Meal meal;
         print("enter the food's name: ");
         keyboard.nextLine();
         String name = keyboard.nextLine();
         try {
-            food = database.getFood(name);
-            log.add(food);
-            print("Successfully added food " + name + " to log!\n");
+            Food food = database.getFood(name);
+            print("enter the amount (g): ");
+            Double amount = keyboard.nextDouble();
+            print("enter the day: ");
+            int day = keyboard.nextInt();
+            meal = new Meal(food, amount,day);
+            log.add(meal);
+            print("Successfully added meal " + name + " to log!\n");
         } catch (FoodNotFoundException ex) {
             errorMessage();
             String choice = keyboard.next();
@@ -209,7 +239,7 @@ public class NutritivityApp {
     }
 
     public void newDay() {
-        print(log.toString());
+        log.clear();
     }
 
 

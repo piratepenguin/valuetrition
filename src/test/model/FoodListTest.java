@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Test.*;
 
 public class FoodListTest {
 
-    Food banana = new Food("banana", 0.7, 100, 24, 0, 1);
-    Food rice = new Food("rice", 5.0, 3000, 700, 11, 25);
-    Food buckwheat = new Food("buckwheat", 0.7, 100, 24, 0, 1);
-    Food apple = new Food("apple", 0.7, 100, 24, 0, 1);
-    Food milk = new Food("milk", 5, 1500, 250, 40, 15);
-    Food emptyFood = new Food("unnamed food", 0, 0, 0, 0, 0);
+    Food banana = new Food("banana", 1,0.7, 100, 24, 0, 1);
+    Food rice = new Food("rice", 1,5.0, 3000, 700, 11, 25);
+    Food buckwheat = new Food("buckwheat", 1,0.7, 100, 24, 0, 1);
+    Food apple = new Food("apple",1, 0.7, 100, 24, 0, 1);
+    Food milk = new Food("milk", 5, 1,1500, 250, 40, 15);
+    Food emptyFood = new Food("unnamed food", 1,0, 0, 0, 0, 0);
     FoodList foodlist;
 
     @BeforeEach

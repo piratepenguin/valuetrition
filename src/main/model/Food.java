@@ -4,6 +4,7 @@ package model;
 
 public class Food {
     String name;
+    double weight;
     double cost;
     double calories;
     short costTimes; // how many times prices have been logged, used to find avg price
@@ -25,12 +26,13 @@ public class Food {
         primaryType = "none";
     }
 
-    public Food(String name, double cost, double calories, double carbs, double fats, double proteins) {
+    public Food(String name, double weight, double cost, double calories, double carbs, double fats, double proteins) {
         this.carbs = carbs;
         this.fats = fats;
         this.proteins = proteins;
         this.calories = calories;
         this.name = name;
+        this.weight = weight;
         this.cost = cost;
         this.totalCost = cost;
         this.costTimes = 1;
@@ -64,6 +66,10 @@ public class Food {
         return name;
     }
 
+    public double getWeight() {
+        return weight;
+    }
+
     public double getCalories() {
         return calories;
     }
@@ -78,17 +84,17 @@ public class Food {
     //EFFECTS: returns the primary macro nutrient type of the food
     private String determinePrimary() {
 
-        if (carbs * 4 > proteins * 4 + fats * 2.2) {
+        if (carbs * 4 > proteins * 4 + fats * 8.8) {
             return "carbs";
-        } else if (proteins * 4 > carbs * 4 + fats * 2.2) {
+        } else if (proteins * 4 > carbs * 4 + fats * 8.8) {
             return "proteins";
-        } else if (fats * 2.2 > proteins * 4 + carbs * 4) {
+        } else if (fats * 8.8 > proteins * 4 + carbs * 4) {
             return "fats";
-        } else if (fats * 2.2 + proteins * 4 > carbs * 4 * 8) {
+        } else if (fats * 8.8 + proteins * 4 > carbs * 4 * 8) {
             return "fats & proteins";
-        } else if (fats * 2.2 + carbs * 4 > proteins * 4 * 8) {
+        } else if (fats * 8.8 + carbs * 4 > proteins * 4 * 8) {
             return "carbs & fats";
-        } else if (proteins * 4 + carbs * 4 > fats * 2.2 * 8) {
+        } else if (proteins * 4 + carbs * 4 > fats * 8.8 * 8) {
             return "carbs & proteins";
         } else {
             return "carbs & fats & proteins";
@@ -112,9 +118,9 @@ public class Food {
 
     // EFFECTS: returns all the food's information
     public String viewInfo() {
-        return "food: " + name + "\ncost: $" + cost + "\ncalories: " + calories + "Cal\ncarbs: "
-                + carbs + "g\nfats: " + fats + "g\nproteins: " + proteins + "g\nprimary type: " + primaryType
-                + "\nfood value: " + this.value();
+        return "food: " + name + "\nweight: " + weight + "g\ncost: $" + cost + "\ncalories: "
+                + calories + "\ncarbs: " + carbs + "g\nfats: " + fats + "g\nproteins: " + proteins
+                + "g\nprimary type: " + primaryType + "\nfood value: " + this.value();
     }
 
     //EFFECTS: returns foods calories divided by cost in dollars
