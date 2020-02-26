@@ -2,6 +2,7 @@ package persistence.readers;
 
 import model.Food;
 import model.Meal;
+import model.MealList;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class MealReader {
 
     // EFFECTS: returns a list of meals parsed from file; throws
     // IOException if an exception is raised when opening / reading from file
-    public static List<Meal> readMeals(File file) throws IOException {
+    public static MealList readMeals(File file) throws IOException {
         List<String> fileContent = readFile(file);
         return parseContent(fileContent);
     }
@@ -29,8 +30,8 @@ public class MealReader {
 
     // EFFECTS: returns a list of meals parsed from list of strings
     // where each string contains data for one meal
-    private static List<Meal> parseContent(List<String> fileContent) {
-        List<Meal> meals = new ArrayList<>();
+    private static MealList parseContent(List<String> fileContent) {
+        MealList meals = new MealList();
 
         for (String line : fileContent) {
             ArrayList<String> lineComponents = splitString(line);

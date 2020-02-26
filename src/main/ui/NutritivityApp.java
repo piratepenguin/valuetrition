@@ -14,7 +14,7 @@ public class NutritivityApp {
     private static final String FOODS_FILE = "./data/foods.txt";
     Scanner keyboard = new Scanner(System.in);
     FoodList database = new FoodList();
-    List<Meal> log;
+    MealList log;
     boolean running = true;
 
     //  FOR TESTING
@@ -215,7 +215,7 @@ public class NutritivityApp {
         try {
             Food food = database.getFood(name);
             print("enter the amount (g): ");
-            Double amount = keyboard.nextDouble();
+            double amount = keyboard.nextDouble();
             print("enter the day: ");
             int day = keyboard.nextInt();
             meal = new Meal(food, amount,day);

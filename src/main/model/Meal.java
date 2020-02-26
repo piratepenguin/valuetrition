@@ -55,4 +55,15 @@ public class Meal {
     public String getPrimaryType() {
         return primaryType;
     }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+
+
 }
