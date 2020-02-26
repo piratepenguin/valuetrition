@@ -1,10 +1,14 @@
 package model;
 
 import model.Food;
+import persistence.Saveable;
+import persistence.ReaderTest;
+
+import java.io.PrintWriter;
 import java.util.*;
 
 // represents a list of Food items
-public class FoodList {
+public class FoodList implements Saveable {
     private ArrayList<Food> foodlist;
 
     public FoodList() {
@@ -55,5 +59,18 @@ public class FoodList {
             }
         }
         return list.toString();
+    }
+
+    @Override
+    public void save(PrintWriter printWriter) {
+        for (Food food : foodlist) {
+            printWriter.print(nextAccountId);
+            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(id);
+            printWriter.print(Reader.DELIMITER);
+            printWriter.print(name);
+            printWriter.print(Reader.DELIMITER);
+            printWriter.println(balance);
+        }
     }
 }

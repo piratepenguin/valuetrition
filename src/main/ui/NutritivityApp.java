@@ -2,9 +2,12 @@ package ui;
 
 import model.*;
 import persistence.readers.*;
+import persistence.writers.Writer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -91,7 +94,7 @@ public class NutritivityApp {
                 + "View a food's info      - 'info'\nEdit a food's name      - 'edit'\n"
                 + "View list of all foods  - 'list'\nAdd food to log         - 'add'\n"
                 + "View log                - 'log'\nFinish today's log      - 'finish'\n"
-                + "Exit                    - 'exit'");
+                + "Save                    - 'save'\nExit                    - 'exit'");
     }
 
     public void foodAction(String choice) throws InvalidUserChoiceException {
@@ -111,6 +114,8 @@ public class NutritivityApp {
             case "log": log();
                 break;
             case "finish": newDay();
+                break;
+            case "save": save();
                 break;
             case "exit": running = false;
                 break;
@@ -242,6 +247,41 @@ public class NutritivityApp {
         log.clear();
     }
 
+    // EFFECTS: saves log and food database
+    private void save() {
+        saveFoods();
+        saveMeals();
+    }
+
+    // EFFECTS: saves food database
+    private void saveFoods() {
+        try {
+            Writer writer = new Writer(new File(FOODS_FILE));
+            writer.write(database);
+            writer.close();
+            System.out.println("Food database saved to file " + FOODS_FILE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save foods to " + FOODS_FILE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            // this is due to a programming error
+        }
+    }
+
+    // EFFECTS: saves log
+    private void saveMeals() {
+        try {
+            Writer writer = new Writer(new File(MEALS_FILE));
+            writer.write(log);
+            writer.close();
+            System.out.println("Log saved to file " + MEALS_FILE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save foods to " + MEALS_FILE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            // this is due to a programming error
+        }
+    }
 
     public void print(String str) {
         System.out.println(str);
