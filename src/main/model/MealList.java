@@ -49,6 +49,10 @@ public class MealList implements Saveable {
 
     }
 
+    public Meal get(int index) {
+        return mealList.get(index);
+    }
+
     public Meal getLast() {
         return mealList.get(mealList.size() - 1);
     }
@@ -90,7 +94,7 @@ public class MealList implements Saveable {
         for (Meal meal : mealList) {
             printWriter.print(meal.getName());
             printWriter.print(FoodReader.DELIMITER);
-            printWriter.print(meal.getWeight());
+            printWriter.print(meal.getFoodWeight());
             printWriter.print(FoodReader.DELIMITER);
             printWriter.print(meal.getCost());
             printWriter.print(FoodReader.DELIMITER);

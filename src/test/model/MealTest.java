@@ -26,7 +26,7 @@ class MealTest {
     void getterMethodTests() {
 
         assertEquals(blueberry.getName(), "blueberry");
-        assertEquals(blueberry.getWeight(), 100);
+        assertEquals(blueberry.getFoodWeight(), 100);
         assertEquals(blueberry.getCalories(), 300.0);
         assertEquals(blueberry.getCost(), 6.0);
         assertEquals(blueberry.getCarbs(), 72.0);
@@ -40,6 +40,7 @@ class MealTest {
         assertEquals("fats", nuts.getPrimaryType());
         assertEquals("carbs & fats & proteins", milk.getPrimaryType());
     }
+
     @Test
     void editMealTest() {
         assertEquals(rice.getCost(), 1.0);

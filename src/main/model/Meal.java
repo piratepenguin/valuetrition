@@ -7,7 +7,7 @@ public class Meal {
     int day;
 
     String name;
-    double weight;
+    double foodWeight;
     double cost;
     double calories;
     double carbs;
@@ -20,38 +20,51 @@ public class Meal {
         this.amount = amount;
         this.day = day;
         name = food.getName();
-        weight = food.getWeight();
-        cost = food.getCost();
-        calories = food.getCalories();
-        carbs = food.getCarbs();
-        fats = food.getFats();
-        proteins = food.getProteins();
+        foodWeight = food.getWeight();
+        cost = food.getCost() * (amount / foodWeight);
+        calories = food.getCalories() * (amount / foodWeight);
+        carbs = food.getCarbs() * (amount / foodWeight);
+        fats = food.getFats() * (amount / foodWeight);
+        proteins = food.getProteins() * (amount / foodWeight);
         primaryType = food.getPrimaryType();
     }
 
+    public Meal(String name, double weight, double cost, double calories, double carbs, double fats, double proteins, double amount, int day) {
+        this.food = new Food(name, weight, cost, calories, carbs, fats, proteins);
+        this.amount = amount;
+        this.day = day;
+        this.name = name;
+        this.foodWeight = weight;
+        this.cost = cost;
+        this.calories = calories;
+        this.carbs = carbs;
+        this.fats = fats;
+        this.proteins = proteins;
+        this.primaryType = food.getPrimaryType();
+    }
 
     public String getName() {
         return name;
     }
 
     public double getCost() {
-        return cost * (amount / weight);
+        return cost;
     }
 
     public double getCalories() {
-        return calories * (amount / weight);
+        return calories;
     }
 
     public double getCarbs() {
-        return carbs * (amount / weight);
+        return carbs;
     }
 
     public double getFats() {
-        return fats * (amount / weight);
+        return fats;
     }
 
     public double getProteins() {
-        return proteins * (amount / weight);
+        return proteins;
     }
 
     public String getPrimaryType() {
@@ -62,8 +75,8 @@ public class Meal {
         return amount;
     }
 
-    public double getWeight() {
-        return weight;
+    public double getFoodWeight() {
+        return foodWeight;
     }
 
     public int getDay() {
@@ -72,12 +85,21 @@ public class Meal {
 
     // EDITING METHODS
 
-    public void editCost(double price) {
-        this.cost = price * weight / amount;
+    public void editCost(double newCost) {
+        this.cost = newCost;
     }
 
-    public void editAmount(double amount) {
-        this.amount = amount;
+    public void editAmount(double newAmount) {
+        refactor(newAmount / amount);
+        this.amount = newAmount;
+    }
+
+    public void refactor(double scale) {
+        cost = cost * scale;
+        calories = calories * scale;
+        carbs = carbs * scale;
+        fats = fats * scale;
+        proteins = proteins * scale;
     }
 
     public void editDay(int day) {

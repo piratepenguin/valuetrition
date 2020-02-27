@@ -1,11 +1,10 @@
 package model;
 
-import model.Food;
 import persistence.Saveable;
-import persistence.readers.FoodReader;
+import persistence.readers.*;
 
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
 
 // represents a list of Food items
 public class FoodList implements Saveable {
@@ -17,6 +16,10 @@ public class FoodList implements Saveable {
 
     public int size() {
         return foodlist.size();
+    }
+
+    public Food get(int index) {
+        return foodlist.get(index);
     }
 
     public void clear() {
