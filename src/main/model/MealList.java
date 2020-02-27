@@ -37,7 +37,7 @@ public class MealList implements Saveable {
         mealList.add(meal);
     }
 
-    // EFFECTS: returns food with given name from list,
+    // EFFECTS: returns Meal with given name and day from list,
     //          if not found returns FoodNotFoundException
     public Meal getMeal(String name, int day) throws FoodNotFoundException {
         for (Meal meal: mealList) {
@@ -49,14 +49,17 @@ public class MealList implements Saveable {
 
     }
 
+    // EFFECTS: returns meal at given index in MealList
     public Meal get(int index) {
         return mealList.get(index);
     }
 
+    // EFFECTS: returns last meal in MealList
     public Meal getLast() {
         return mealList.get(mealList.size() - 1);
     }
 
+    // REQUIRES: meals should already be sorted increasingly by day
     // EFFECTS: returns a string of all the foods contained in the list
     public String toString() {
         StringBuilder list = new StringBuilder();
@@ -84,11 +87,14 @@ public class MealList implements Saveable {
         return list.toString();
     }
 
+    // my condolences
     static void checkStyleMethodLengthRuleIsABitch(StringBuilder list, Meal each) {
         list.append(each.getName()).append(" - ");
         list.append(each.getCalories()).append("Cal, ");
     }
 
+
+    // for printing to file
     @Override
     public void save(PrintWriter printWriter) {
         for (Meal meal : mealList) {

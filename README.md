@@ -33,6 +33,6 @@ As a user, I want to be able to select a food and view its nutrients and economi
 As a user, I want to add a food to the log of foods I've eaten today
 
 #### Saving
-As a user, I want to my log to auto-save when I exit the application
+As a user, I want to be able to save my log and the food database
 
-As a user, I want the application to load my log when i open it
+As a user, I want the application to load my saved log when i open it

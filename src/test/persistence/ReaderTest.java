@@ -1,7 +1,9 @@
 package persistence;
 
 import model.*;
-import persistence.readers.*;
+import persistence.readers.MealReader;
+import persistence.readers.FoodReader;
+import persistence.Saveable;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

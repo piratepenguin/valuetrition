@@ -1,7 +1,7 @@
 package model;
 
 import persistence.Saveable;
-import persistence.readers.*;
+import persistence.readers.FoodReader;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;

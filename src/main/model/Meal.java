@@ -29,19 +29,20 @@ public class Meal {
         primaryType = food.getPrimaryType();
     }
 
-    public Meal(String name, double weight, double cost, double calories, double carbs, double fats, double proteins, double amount, int day) {
-        this.food = new Food(name, weight, cost, calories, carbs, fats, proteins);
+    public Meal(int ignored, Food food, double amount, int day) {
+        this.food = food;
         this.amount = amount;
         this.day = day;
-        this.name = name;
-        this.foodWeight = weight;
-        this.cost = cost;
-        this.calories = calories;
-        this.carbs = carbs;
-        this.fats = fats;
-        this.proteins = proteins;
-        this.primaryType = food.getPrimaryType();
+        name = food.getName();
+        foodWeight = food.getWeight();
+        cost = food.getCost();
+        calories = food.getCalories();
+        carbs = food.getCarbs();
+        fats = food.getFats();
+        proteins = food.getProteins();
+        primaryType = food.getPrimaryType();
     }
+
 
     public String getName() {
         return name;

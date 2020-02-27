@@ -112,6 +112,7 @@ public class NutritivityApp {
                 + "Enter a new food        - 'new'\nRemove a food           - 'remove'\n"
                 + "View a food's info      - 'info'\nEdit a food's name      - 'edit'\n"
                 + "View list of all foods  - 'list'\nAdd food to log         - 'add'\n"
+                + "Remove meal from log    - 'removemeal'\nClear log               - 'clear'\n"
                 + "View log                - 'log'\nFinish today's log      - 'finish'\n"
                 + "Save                    - 'save'\nExit                    - 'exit'");
     }
@@ -138,7 +139,41 @@ public class NutritivityApp {
                 break;
             case "exit": running = false;
                 break;
+            default: secondaryOptions(choice);
+        }
+    }
+
+    public void secondaryOptions(String choice) throws InvalidUserChoiceException {
+        switch (choice) {
+            case "removemeal": removeMeal();
+                break;
+            case "clear": log.clear();
+                break;
             default: throw new InvalidUserChoiceException();
+        }
+    }
+
+    public void removeMeal() throws InvalidUserChoiceException {
+        System.out.println("Please enter the name of the meal you want to remove: ");
+        keyboard.nextLine();
+        String choice = keyboard.nextLine();
+        System.out.println("Please enter the day it is logged on: ");
+        int day = keyboard.nextInt();
+        try {
+            log.removeMeal(choice, day);
+            print("\nmeal " + choice + " on day " + day + " has been removed! \n");
+        } catch (FoodNotFoundException ex) {
+            errorMessage();
+            choice = keyboard.next();
+            switch (choice) {
+                case "1":
+                    removeMeal();
+                    break;
+                case "2":
+                    break;
+                default:
+                    throw new InvalidUserChoiceException();
+            }
         }
     }
 

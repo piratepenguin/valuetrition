@@ -59,6 +59,7 @@ public class MealReader {
         double proteins = Double.parseDouble(components.get(6));
         double amount = Double.parseDouble(components.get(7));
         int day = Integer.parseInt(components.get(8));
-        return new Meal(name, weight, cost, calories, carbs, fats, proteins, amount, day);
+        Food notARealFood = new Food(name, weight, cost, calories, carbs, fats, proteins);
+        return new Meal(0, notARealFood, amount, day);
     }
 }
