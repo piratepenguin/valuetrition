@@ -13,6 +13,7 @@ public class MealListTest {
     Meal rice = new Meal(new Food("rice", 3000,5.0, 3000, 700, 11, 25), 4500, 1);
     Meal beef = new Meal(new Food("beef", 100,5, 500, 0, 50, 70),250,2);
     Meal milk = new Meal(new Food("milk", 4000, 1,1500, 120, 70, 100),500,3);
+    Meal beef2 = new Meal(new Food("beef", 100,5, 500, 0, 50, 70),250,2);
     MealList meallist;
 
     @BeforeEach
@@ -50,7 +51,7 @@ public class MealListTest {
         } catch (FoodNotFoundException e) { fail(); }
 
         try {
-            meallist.getMeal("beef",1);
+            beef2 = meallist.getMeal("beef",1);
             fail();
         } catch (FoodNotFoundException ignored) { }
 
