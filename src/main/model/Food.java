@@ -90,11 +90,11 @@ public class Food {
             return "proteins";
         } else if (fats * 8.8 > proteins * 4 + carbs * 4) {
             return "fats";
-        } else if (fats * 8.8 + proteins * 4 > carbs * 4 * 8) {
+        } else if (fats * 8.8 + proteins * 4 > carbs * 4 * 6) {
             return "fats & proteins";
-        } else if (fats * 8.8 + carbs * 4 > proteins * 4 * 8) {
+        } else if (fats * 8.8 + carbs * 4 > proteins * 4 * 6) {
             return "carbs & fats";
-        } else if (proteins * 4 + carbs * 4 > fats * 8.8 * 8) {
+        } else if (proteins * 4 + carbs * 4 > fats * 8.8 * 6) {
             return "carbs & proteins";
         } else {
             return "carbs & fats & proteins";

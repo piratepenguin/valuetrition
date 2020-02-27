@@ -1,6 +1,5 @@
 package model;
 
-@SuppressWarnings("checkstyle:LineLength")
 public class Meal {
 
     Food food;
@@ -8,6 +7,7 @@ public class Meal {
     int day;
 
     String name;
+    double weight;
     double cost;
     double calories;
     double carbs;
@@ -20,6 +20,7 @@ public class Meal {
         this.amount = amount;
         this.day = day;
         name = food.getName();
+        weight = food.getWeight();
         cost = food.getCost();
         calories = food.getCalories();
         carbs = food.getCarbs();
@@ -28,28 +29,29 @@ public class Meal {
         primaryType = food.getPrimaryType();
     }
 
-    public double getCost() {
-        return cost;
-    }
-
-    public double getProteins() {
-        return proteins;
-    }
-
-    public double getFats() {
-        return fats;
-    }
-
-    public double getCarbs() {
-        return carbs;
-    }
 
     public String getName() {
         return name;
     }
 
+    public double getCost() {
+        return cost * (amount / weight);
+    }
+
     public double getCalories() {
-        return calories;
+        return calories * (amount / weight);
+    }
+
+    public double getCarbs() {
+        return carbs * (amount / weight);
+    }
+
+    public double getFats() {
+        return fats * (amount / weight);
+    }
+
+    public double getProteins() {
+        return proteins * (amount / weight);
     }
 
     public String getPrimaryType() {
@@ -60,10 +62,25 @@ public class Meal {
         return amount;
     }
 
+    public double getWeight() {
+        return weight;
+    }
+
     public int getDay() {
         return day;
     }
 
+    // EDITING METHODS
 
+    public void editCost(double price) {
+        this.cost = price * weight / amount;
+    }
 
+    public void editAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void editDay(int day) {
+        this.day = day;
+    }
 }

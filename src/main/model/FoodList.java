@@ -2,7 +2,7 @@ package model;
 
 import model.Food;
 import persistence.Saveable;
-import persistence.ReaderTest;
+import persistence.readers.FoodReader;
 
 import java.io.PrintWriter;
 import java.util.*;
@@ -64,13 +64,19 @@ public class FoodList implements Saveable {
     @Override
     public void save(PrintWriter printWriter) {
         for (Food food : foodlist) {
-            printWriter.print(nextAccountId);
+            printWriter.print(food.getName());
             printWriter.print(FoodReader.DELIMITER);
-            printWriter.print(id);
-            printWriter.print(Reader.DELIMITER);
-            printWriter.print(name);
-            printWriter.print(Reader.DELIMITER);
-            printWriter.println(balance);
+            printWriter.print(food.getWeight());
+            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(food.getCost());
+            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(food.getCalories());
+            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(food.getCarbs());
+            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(food.getFats());
+            printWriter.print(FoodReader.DELIMITER);
+            printWriter.println(food.getProteins());
         }
     }
 }

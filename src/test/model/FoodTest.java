@@ -15,6 +15,9 @@ class FoodTest {
     Food apple = new Food("apple", 1, 0.75, 100, 24, 0, 1); // bad value
     Food milk = new Food("milk", 1, 6, 2000, 180, 65, 180); // good value
     Food nuts = new Food("nuts", 1, 2.5, 600, 5, 50, 30); // medium value
+    Food cf = new Food("cf", 1, 2.5, 1000, 101, 50, 10);
+    Food cp = new Food("cp", 1, 2.5, 600, 100, 15, 100);
+    Food fp = new Food("fp", 1, 2.5, 600, 20, 50, 100);
 
     FoodList foodlist;
 
@@ -40,6 +43,9 @@ class FoodTest {
         assertEquals(apple.getPrimaryType(), "carbs");
         assertEquals("proteins", beef.getPrimaryType());
         assertEquals("fats", nuts.getPrimaryType());
+        assertEquals("carbs & fats", cf.getPrimaryType());
+        assertEquals("carbs & proteins", cp.getPrimaryType());
+        assertEquals("fats & proteins", fp.getPrimaryType());
         assertEquals("carbs & fats & proteins", milk.getPrimaryType());
     }
     @Test
