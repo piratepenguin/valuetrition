@@ -163,7 +163,7 @@ public class NutritivityApp {
             log.removeMeal(choice, day);
             print("\nmeal " + choice + " on day " + day + " has been removed! \n");
         } catch (FoodNotFoundException ex) {
-            errorMessage();
+            errorMessage("meal");
             choice = keyboard.next();
             switch (choice) {
                 case "1":
@@ -206,7 +206,7 @@ public class NutritivityApp {
             database.removeFood(choice);
             print("\nfood " + choice + " has been removed! \n");
         } catch (FoodNotFoundException ex) {
-            errorMessage();
+            errorMessage("Food");
             choice = keyboard.next();
             switch (choice) {
                 case "1":
@@ -227,7 +227,7 @@ public class NutritivityApp {
         try {
             print(database.getFood(foodName).viewInfo());
         } catch (FoodNotFoundException ex) {
-            errorMessage();
+            errorMessage("Food");
             String choice = keyboard.next();
             switch (choice) {
                 case "1":
@@ -239,18 +239,20 @@ public class NutritivityApp {
     }
 
     public void edit() {
-        print("enter the food's current name: \n");
-        keyboard.nextLine();
+        print("Enter the food's name");
         String name = keyboard.nextLine();
         try {
             Food food = database.getFood(name);
-            print("enter a new name:");
+            print("what information about the food would you like to change?");
             keyboard.nextLine();
-            name = keyboard.nextLine();
-            food.editName(name);
-            print("Food name successfully changed to " + name);
-        } catch (FoodNotFoundException ex) {
-            errorMessage();
+            String info = keyboard.nextLine();
+            switch (info) {
+                case ("name"):
+                    editName(food);
+                case ("cost"):
+                    editCost(food);
+            } } catch (FoodNotFoundException ex) {
+            errorMessage("Food");
             String choice = keyboard.next();
             switch (choice) {
                 case "1":
@@ -259,6 +261,25 @@ public class NutritivityApp {
                     break;
             }
         }
+    }
+
+
+    public void editCost(Food food) {
+
+        print("enter a new cost:");
+        double cost = keyboard.nextDouble();
+        food.editCost(cost);
+        print("Food cost successfully changed to " + cost);
+
+    }
+
+    public void editName(Food food) {
+
+            print("enter a new name:");
+            String name = keyboard.nextLine();
+            food.editName(name);
+            print("Food name successfully changed to " + name);
+
     }
 
     public void list() {
@@ -280,7 +301,7 @@ public class NutritivityApp {
             log.add(meal);
             print("Successfully added meal " + name + " to log!\n");
         } catch (FoodNotFoundException ex) {
-            errorMessage();
+            errorMessage("Food");
             String choice = keyboard.next();
             switch (choice) {
                 case "1":
@@ -341,7 +362,7 @@ public class NutritivityApp {
     }
 
 
-    public void errorMessage() {
-        print("Food not found\n'1' - try again\n'2' - back to main menu");
+    public void errorMessage(String item) {
+        print(item + " not found\n'1' - try again\n'2' - back to main menu");
     }
 }
