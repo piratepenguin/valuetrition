@@ -125,7 +125,7 @@ public class NutritivityApp {
                 break;
             case "info": info();
                 break;
-            case "edit": edit();
+            case "edit": getReadyForEdit();
                 break;
             case "list": list();
                 break;
@@ -135,21 +135,26 @@ public class NutritivityApp {
                 break;
             case "finish": newDay();
                 break;
-            case "save": save();
+            case "exit":
+                running = false;
                 break;
-            case "exit": running = false;
-                break;
-            default: secondaryOptions(choice);
+            default:
+                secondaryOptions(choice);
         }
     }
 
     public void secondaryOptions(String choice) throws InvalidUserChoiceException {
         switch (choice) {
-            case "removemeal": removeMeal();
+            case "removemeal":
+                removeMeal();
                 break;
-            case "clear": log.clear();
+            case "clear":
+                log.clear();
                 break;
-            default: throw new InvalidUserChoiceException();
+            case "save": save();
+                break;
+            default:
+                throw new InvalidUserChoiceException();
         }
     }
 
@@ -238,48 +243,85 @@ public class NutritivityApp {
         }
     }
 
-    public void edit() {
+    public void getReadyForEdit() {
         print("Enter the food's name");
         String name = keyboard.nextLine();
         try {
             Food food = database.getFood(name);
             print("what information about the food would you like to change?");
-            keyboard.nextLine();
-            String info = keyboard.nextLine();
-            switch (info) {
-                case ("name"):
-                    editName(food);
-                case ("cost"):
-                    editCost(food);
-            } } catch (FoodNotFoundException ex) {
+            String info = keyboard.nextLine().toLowerCase();
+            edit(food, info);
+        } catch (FoodNotFoundException ex) {
             errorMessage("Food");
             String choice = keyboard.next();
             switch (choice) {
                 case "1":
-                    edit();
+                    getReadyForEdit();
                 case "2":
                     break;
             }
         }
     }
 
+    public void edit(Food food, String choice) {
+        switch (choice) {
+            case ("name"):
+                editName(food);
+                break;
+            case ("cost"):
+                editCost(food);
+                break;
+            case ("weight"):
+                editWeight(food);
+                break;
+            case ("calories"):
+                editCalories(food);
+                break;
+            case ("macros"):
+                editMacros(food);
+                break;
+        }
+    }
 
     public void editCost(Food food) {
-
         print("enter a new cost:");
         double cost = keyboard.nextDouble();
         food.editCost(cost);
         print("Food cost successfully changed to " + cost);
-
     }
 
     public void editName(Food food) {
+        print("enter a new name:");
+        String name = keyboard.nextLine();
+        food.editName(name);
+        print("Food name successfully changed to " + name);
+    }
 
-            print("enter a new name:");
-            String name = keyboard.nextLine();
-            food.editName(name);
-            print("Food name successfully changed to " + name);
+    public void editWeight(Food food) {
+        print("enter a new weight:");
+        double weight = keyboard.nextDouble();
+        food.editWeight(weight);
+        print("Food name successfully changed to " + weight);
+    }
 
+    public void editCalories(Food food) {
+        print("enter new calorie amount:");
+        double calories = keyboard.nextDouble();
+        food.editCalories(calories);
+        print("Food calories successfully changed to " + calories);
+    }
+
+    public void editMacros(Food food) {
+        print("enter either new values of leave blank to remain unchanged");
+        print("enter new carb amount (g):");
+        String carbs = keyboard.next();
+        print("enter new fat amount (g):");
+        String fats = keyboard.next();
+        print("enter new protein amount (g):");
+        String proteins = keyboard.next();
+        if (isNull(carbs))
+        food.editMacros(name);
+        print("Food name successfully changed to " + name);
     }
 
     public void list() {
@@ -297,7 +339,7 @@ public class NutritivityApp {
             double amount = keyboard.nextDouble();
             print("enter the day: ");
             int day = keyboard.nextInt();
-            meal = new Meal(food, amount,day);
+            meal = new Meal(food, amount, day);
             log.add(meal);
             print("Successfully added meal " + name + " to log!\n");
         } catch (FoodNotFoundException ex) {
