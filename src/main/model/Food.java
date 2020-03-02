@@ -107,9 +107,19 @@ public class Food {
 
     // MODIFIES: this
     // EFFECTS: changes food name
-    public void editMacros(double carbs, double fats, double proteins) {
+    public void editCarbs(double carbs) {
         this.carbs = carbs;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: changes food name
+    public void editFats(double fats) {
         this.fats = fats;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: changes food name
+    public void editProteins(double proteins) {
         this.proteins = proteins;
     }
 
