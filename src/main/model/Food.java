@@ -81,6 +81,48 @@ public class Food {
 
     // END OF GETTER METHODS
 
+    // MODIFIES: this
+    // EFFECTS: changes food name
+    public void editName(String name) {
+        this.name = name;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: changes food name
+    public void editCost(double cost) {
+        this.cost = cost;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: changes food name
+    public void editWeight(double weight) {
+        this.weight = weight;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: changes food name
+    public void editCalories(double calories) {
+        this.calories = calories;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: changes food name
+    public void editCarbs(double carbs) {
+        this.carbs = carbs;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: changes food name
+    public void editFats(double fats) {
+        this.fats = fats;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: changes food name
+    public void editProteins(double proteins) {
+        this.proteins = proteins;
+    }
+
     //EFFECTS: returns the primary macro nutrient type of the food
     private String determinePrimary() {
 
@@ -110,11 +152,6 @@ public class Food {
     }
 
 
-    // MODIFIES: this
-    // EFFECTS: changes food name
-    public void editName(String name) {
-        this.name = name;
-    }
 
     // EFFECTS: returns all the food's information
     public String viewInfo() {

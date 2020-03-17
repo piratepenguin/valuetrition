@@ -11,6 +11,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Scanner;
 
+import static java.util.Objects.isNull;
+
 public class NutritivityApp {
 
     private static final String MEALS_FILE = "./data/log.txt";
@@ -63,7 +65,7 @@ public class NutritivityApp {
         while (running) {
 
             showMenu();
-            choice = keyboard.next();
+            choice = keyboard.nextLine().toLowerCase();
 
             if (choice.equals("exit")) {
                 running = false;
@@ -110,9 +112,9 @@ public class NutritivityApp {
     public void showMenu() {
         System.out.println("               Menu \n ===================================\n"
                 + "Enter a new food        - 'new'\nRemove a food           - 'remove'\n"
-                + "View a food's info      - 'info'\nEdit a food's name      - 'edit'\n"
+                + "View a food's info      - 'info'\nEdit a food's info      - 'edit'\n"
                 + "View list of all foods  - 'list'\nAdd food to log         - 'add'\n"
-                + "Remove meal from log    - 'removemeal'\nClear log               - 'clear'\n"
+                + "Remove meal from log    - 'remove meal'\nClear log               - 'clear'\n"
                 + "View log                - 'log'\nFinish today's log      - 'finish'\n"
                 + "Save                    - 'save'\nExit                    - 'exit'");
     }
@@ -125,7 +127,7 @@ public class NutritivityApp {
                 break;
             case "info": info();
                 break;
-            case "edit": edit();
+            case "edit": getReadyForEdit();
                 break;
             case "list": list();
                 break;
@@ -135,36 +137,41 @@ public class NutritivityApp {
                 break;
             case "finish": newDay();
                 break;
-            case "save": save();
+            case "exit":
+                running = false;
                 break;
-            case "exit": running = false;
-                break;
-            default: secondaryOptions(choice);
+            default:
+                secondaryOptions(choice);
         }
     }
 
     public void secondaryOptions(String choice) throws InvalidUserChoiceException {
         switch (choice) {
-            case "removemeal": removeMeal();
+            case "remove meal":
+                removeMeal();
                 break;
-            case "clear": log.clear();
+            case "clear":
+                log.clear();
                 break;
-            default: throw new InvalidUserChoiceException();
+            case "save": save();
+                break;
+            default:
+                throw new InvalidUserChoiceException();
         }
     }
 
     public void removeMeal() throws InvalidUserChoiceException {
         System.out.println("Please enter the name of the meal you want to remove: ");
-        keyboard.nextLine();
         String choice = keyboard.nextLine();
         System.out.println("Please enter the day it is logged on: ");
         int day = keyboard.nextInt();
+        keyboard.nextLine();
         try {
             log.removeMeal(choice, day);
             print("\nmeal " + choice + " on day " + day + " has been removed! \n");
         } catch (FoodNotFoundException ex) {
-            errorMessage();
-            choice = keyboard.next();
+            errorMessage("meal");
+            choice = keyboard.nextLine();
             switch (choice) {
                 case "1":
                     removeMeal();
@@ -179,20 +186,20 @@ public class NutritivityApp {
 
     public void newFood() {
         System.out.println("Please enter the foods name: ");
-        keyboard.nextLine();
         String name = keyboard.nextLine();
         System.out.println("Please enter the foods weight: ");
         double weight = keyboard.nextDouble();
         System.out.println("Please enter the foods calories: ");
         double calories = keyboard.nextDouble();
         System.out.println("Please enter the foods carbs: ");
-        short carbs = keyboard.nextShort();
+        double carbs = keyboard.nextDouble();
         System.out.println("Please enter the foods fats: ");
-        short fats = keyboard.nextShort();
+        double fats = keyboard.nextDouble();
         System.out.println("Please enter the foods protein: ");
-        short proteins = keyboard.nextShort();
+        double proteins = keyboard.nextDouble();
         System.out.println("Please enter the foods cost in dollars: ");
         double cost = keyboard.nextDouble();
+        keyboard.nextLine();
         Food food = new Food(name, weight, cost, calories, carbs, fats, proteins);
         database.add(food);
         System.out.println("\nsweet! food " + name + " has been created\n");
@@ -200,14 +207,14 @@ public class NutritivityApp {
 
     public void removeFood() throws InvalidUserChoiceException {
         System.out.println("Please enter the name of the food you want to remove: ");
-        keyboard.nextLine();
         String choice = keyboard.nextLine();
         try {
             database.removeFood(choice);
             print("\nfood " + choice + " has been removed! \n");
         } catch (FoodNotFoundException ex) {
-            errorMessage();
+            errorMessage("Food");
             choice = keyboard.next();
+            keyboard.nextLine();
             switch (choice) {
                 case "1":
                     foodAction("remove");
@@ -222,13 +229,13 @@ public class NutritivityApp {
 
     public void info() {
         print("enter the name of the food: ");
-        keyboard.nextLine();
         String foodName = keyboard.nextLine();
         try {
             print(database.getFood(foodName).viewInfo());
         } catch (FoodNotFoundException ex) {
-            errorMessage();
+            errorMessage("Food");
             String choice = keyboard.next();
+            keyboard.nextLine();
             switch (choice) {
                 case "1":
                     info();
@@ -238,26 +245,101 @@ public class NutritivityApp {
         }
     }
 
-    public void edit() {
-        print("enter the food's current name: \n");
-        keyboard.nextLine();
+    public void getReadyForEdit() {
+        print("Enter the food's name");
         String name = keyboard.nextLine();
         try {
             Food food = database.getFood(name);
-            print("enter a new name:");
-            keyboard.nextLine();
-            name = keyboard.nextLine();
-            food.editName(name);
-            print("Food name successfully changed to " + name);
+            print("what information about the food would you like to change?\n"
+                    + "Choose from:   'name'   'weight'   'cost'   'calories'   'macros'");
+            String info = keyboard.nextLine().toLowerCase();
+            edit(food, info);
         } catch (FoodNotFoundException ex) {
-            errorMessage();
+            errorMessage("Food");
             String choice = keyboard.next();
+            keyboard.nextLine();
             switch (choice) {
                 case "1":
-                    edit();
+                    getReadyForEdit();
                 case "2":
                     break;
             }
+        }
+    }
+
+    public void edit(Food food, String choice) {
+        switch (choice) {
+            case ("name"):
+                editName(food);
+                break;
+            case ("cost"):
+                editCost(food);
+                break;
+            case ("weight"):
+                editWeight(food);
+                break;
+            case ("calories"):
+                editCalories(food);
+                break;
+            case ("macros"):
+                editMacros(food);
+                break;
+        }
+    }
+
+    public void editCost(Food food) {
+        print("enter a new cost:");
+        double cost = keyboard.nextDouble();
+        keyboard.nextLine();
+        food.editCost(cost);
+        print("Food cost successfully changed to " + cost);
+    }
+
+    public void editName(Food food) {
+        print("enter a new name:");
+        String name = keyboard.nextLine();
+        food.editName(name);
+        print("Food name successfully changed to " + name);
+    }
+
+    public void editWeight(Food food) {
+        print("enter a new weight:");
+        double weight = keyboard.nextDouble();
+        keyboard.nextLine();
+        food.editWeight(weight);
+        print("Food weight successfully changed to " + weight);
+    }
+
+    public void editCalories(Food food) {
+        print("enter new calorie amount:");
+        double calories = keyboard.nextDouble();
+        keyboard.nextLine();
+        food.editCalories(calories);
+        print("Food calories successfully changed to " + calories);
+    }
+
+    public void editMacros(Food food) {
+        print("enter either new values or leave blank to remain unchanged");
+        print("enter new carb amount (g):");
+        String carbs = keyboard.nextLine();
+        print("enter new fat amount (g):");
+        String fats = keyboard.nextLine();
+        print("enter new protein amount (g):");
+        String proteins = keyboard.nextLine();
+        if (!carbs.equals("")) {
+            food.editCarbs(Double.parseDouble(carbs));
+        }
+        if (!fats.equals("")) {
+            food.editFats(Double.parseDouble(fats));
+        }
+        if (!proteins.equals("")) {
+            food.editProteins(Double.parseDouble(proteins));
+        }
+        if (!carbs.equals("") || !fats.equals("") || !proteins.equals("")) {
+            print("change successful!");
+        }
+        if (carbs.equals("") && fats.equals("") && proteins.equals("")) {
+            print("nothing has been changed, good one.");
         }
     }
 
@@ -276,11 +358,11 @@ public class NutritivityApp {
             double amount = keyboard.nextDouble();
             print("enter the day: ");
             int day = keyboard.nextInt();
-            meal = new Meal(food, amount,day);
+            meal = new Meal(food, amount, day);
             log.add(meal);
             print("Successfully added meal " + name + " to log!\n");
         } catch (FoodNotFoundException ex) {
-            errorMessage();
+            errorMessage("Food");
             String choice = keyboard.next();
             switch (choice) {
                 case "1":
@@ -341,7 +423,7 @@ public class NutritivityApp {
     }
 
 
-    public void errorMessage() {
-        print("Food not found\n'1' - try again\n'2' - back to main menu");
+    public void errorMessage(String item) {
+        print(item + " not found\n'1' - try again\n'2' - back to main menu");
     }
 }
