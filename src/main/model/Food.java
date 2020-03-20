@@ -124,7 +124,7 @@ public class Food {
     }
 
     //EFFECTS: returns the primary macro nutrient type of the food
-    private String determinePrimary() {
+    public String determinePrimary() {
 
         if (carbs * 4 > proteins * 4 + fats * 8.8) {
             return "carbs";
@@ -161,8 +161,8 @@ public class Food {
     }
 
     //EFFECTS: returns foods calories divided by cost in dollars
-    public double caloriesPerDollar() {
-        return calories / cost;
+    public int caloriesPerDollar() {
+        return (int) (calories / cost);
     }
 
     // EFFECTS: determines and returns whether food is very low, low, medium, good, or of excellent value

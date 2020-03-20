@@ -8,10 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Scanner;
-
-import static java.util.Objects.isNull;
 
 public class NutritivityApp {
 
@@ -107,7 +104,6 @@ public class NutritivityApp {
         log = new MealList();
         today = 1;
     }
-
 
     public void showMenu() {
         System.out.println("               Menu \n ===================================\n"

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 // represents a list of Food items
 public class FoodList implements Saveable {
+
     private ArrayList<Food> foodlist;
 
     public FoodList() {
@@ -43,7 +44,7 @@ public class FoodList implements Saveable {
     //          if not found returns FoodNotFoundException
     public Food getFood(String name) throws FoodNotFoundException {
         for (Food food: foodlist) {
-            if (food.getName().equals(name)) {
+            if (food.getName().equalsIgnoreCase(name)) {
                 return food;
             }
         }

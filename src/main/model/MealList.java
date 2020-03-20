@@ -71,7 +71,7 @@ public class MealList implements Saveable {
                     currentDay = each.getDay();
                 }
                 list.append(each.getName()).append(" - ");
-                list.append(each.getCalories()).append("Cal");
+                list.append(each.getRoundedCalories()).append("Cal");
             } else if (mealList.indexOf(each) == 0) {
                 list.append("| Day ").append(each.getDay()).append("| ");
                 currentDay = each.getDay();
@@ -90,7 +90,7 @@ public class MealList implements Saveable {
     // my condolences
     static void checkStyleMethodLengthRuleIsABitch(StringBuilder list, Meal each) {
         list.append(each.getName()).append(" - ");
-        list.append(each.getCalories()).append("Cal, ");
+        list.append(each.getRoundedCalories()).append("Cal, ");
     }
 
 

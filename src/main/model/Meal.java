@@ -56,6 +56,10 @@ public class Meal {
         return calories;
     }
 
+    public int getRoundedCalories() {
+        return (int) calories;
+    }
+
     public double getCarbs() {
         return carbs;
     }
