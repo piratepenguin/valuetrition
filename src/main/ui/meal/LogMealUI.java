@@ -9,32 +9,33 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.Food;
-import model.Meal;
-import model.MealList;
+import model.food.Food;
+import model.meal.Log;
+import model.meal.Meal;
+import model.meal.MealList;
 
 
 public class LogMealUI {
 
-    static Food food;
-    static Meal meal;
-    static MealList log;
-    static double amount;
-    static int date;
+    Food food;
+    Meal meal;
+    Log log;
+    double amount;
+    int date;
 
-    static Button addToLogButton;
-    static GridPane grid;
-    static Scene scene;
-    static Stage window;
+    Button addToLogButton;
+    GridPane grid;
+    Scene scene;
+    Stage window;
 
-    static TextField amountField;
-    static TextField dateField;
+    TextField amountField;
+    TextField dateField;
 
-    static Label dateLabel;
-    static Label amountLabel;
-    static Label headerLabel;
+    Label dateLabel;
+    Label amountLabel;
+    Label headerLabel;
 
-    public static void display(Food food, MealList log, int date) {
+    public void display(Food food, Log log, int date) {
 
         initParams(food, date, log);
         initTextFields();
@@ -46,7 +47,7 @@ public class LogMealUI {
 
     }
 
-    private static void initGridLines() {
+    private void initGridLines() {
         GridPane.setConstraints(headerLabel,1,0);
         GridPane.setConstraints(amountLabel,0,1);
         GridPane.setConstraints(amountField,0,2);
@@ -55,42 +56,42 @@ public class LogMealUI {
         GridPane.setConstraints(addToLogButton,2,4);
     }
 
-    public static void initLabels() {
+    public void initLabels() {
         headerLabel = new Label("Enter meal info");
         amountLabel = new Label("Weight:");
         dateLabel = new Label("Day:");
     }
 
-    public static void initButtons() {
+    public void initButtons() {
 
         addToLogButton = new Button("Add Meal to Log");
         addToLogButton.setOnAction(e -> {
             createMeal();
-            log.add(meal);
+            log.logMeal(date, meal);
             window.close();
         });
     }
 
-    private static void createMeal() {
+    private void createMeal() {
         amount = Double.parseDouble(amountField.getText());
         date = Integer.parseInt(dateField.getText());
         meal = new Meal(food, amount, date);
     }
 
-    public static void initTextFields() {
+    public void initTextFields() {
         amountField = new TextField();
         amountField.setPromptText("grams");
         dateField = new TextField(Integer.toString(date));
     }
 
-    public static void initScene() {
+    public void initScene() {
         grid = new GridPane();
         grid.getChildren().addAll(headerLabel, amountLabel, amountField, dateLabel, dateField, addToLogButton);
         grid.setAlignment(Pos.BASELINE_CENTER);
         scene = new Scene(grid);
     }
 
-    public static void initWindow() {
+    public void initWindow() {
         // initializing window
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);
@@ -101,10 +102,10 @@ public class LogMealUI {
         window.show();
     }
 
-    public static void initParams(Food food1, int day, MealList mealList) {
+    public void initParams(Food food1, int day, Log givenLog) {
         food = food1;
         date = day;
-        log = mealList;
+        log = givenLog;
     }
 
 

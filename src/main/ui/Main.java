@@ -10,15 +10,24 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import model.*;
+import model.accounts.Account;
+import model.accounts.AccountList;
+import model.exceptions.FoodNotFoundException;
+import model.food.Food;
+import model.food.FoodList;
+import model.meal.Log;
+import model.meal.MealList;
+import persistence.readers.AccountReader;
 import persistence.readers.FoodReader;
-import persistence.readers.MealReader;
+import persistence.readers.LogReader;
 import persistence.writers.Writer;
+import ui.boxes.ConfirmBox;
+import ui.boxes.EnterTextBoxWithFooter;
 import ui.food.CreateFoodUI;
 import ui.food.ViewFoodUI;
+import ui.login.LoginScreen;
 import ui.meal.LogMealUI;
 
 import java.io.File;
@@ -39,24 +48,32 @@ public class Main extends Application {
     static Button viewFoodButton;
     static Button createFoodButton;
 
-    // imported from nutritivityApp
-    private static final String MEALS_FILE = "./data/log.txt";
-    private static final String FOODS_FILE = "./data/foods.txt";
+    Account account;
+
+
+    private static final String ACCOUNTS_FILE = "./data/accounts/accountDatabase.txt";
+    public File mealsFile;
+    public File foodsFile;
+    static AccountList accountList;
     static FoodList database;
-    static MealList log;
+    static Log log;
     static int date = 1;
 
 
-    public static void main(String[] args) {
-//        NutritivityApp = new NutritivityApp();
-        load();
+    public static void main(String[] args) throws IOException {
+
+        loadAccountList();
         launch(args);
     }
-
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        LoginScreen loginScreen = new LoginScreen();
+        account = loginScreen.display();
+        foodsFile = account.getFoodsFile();
+        mealsFile = account.getMealsFile();
+        load();
         initialize(primaryStage);
 
     }
@@ -150,7 +167,8 @@ public class Main extends Application {
 
     private void setCreateFoodButton() {
         createFoodButton.setOnAction(e -> {
-            CreateFoodUI.display(database);
+            CreateFoodUI createFoodUI = new CreateFoodUI();
+            createFoodUI.display(database);
         });
     }
 
@@ -163,7 +181,8 @@ public class Main extends Application {
                                 databaseString);
                         try {
                             Food foodToLog = database.getFood(foodName);
-                            LogMealUI.display(foodToLog, log, date);
+                            LogMealUI logMealUI = new LogMealUI();
+                            logMealUI.display(foodToLog, log, date);
                             retry = false;
                         } catch (FoodNotFoundException ex) {
                             retry = ConfirmBox.display("error", "Food not found, would you like to try again?");
@@ -188,7 +207,8 @@ public class Main extends Application {
                         databaseString);
                 try {
                     Food foodToView = database.getFood(foodName);
-                    ViewFoodUI.displayFoodInfo(foodToView);
+                    ViewFoodUI viewFoodUI = new ViewFoodUI();
+                    viewFoodUI.displayFoodInfo(foodToView);
                     retry = false;
                 } catch (FoodNotFoundException ex) {
                     retry = ConfirmBox.display("error", "Food not found, would you like to try again?");
@@ -198,35 +218,43 @@ public class Main extends Application {
         );
     }
 
-    private static void load() {
+    private void load() {
         try {
-            log = MealReader.readMeals(new File(MEALS_FILE));
-            date = log.getLast().getDay();
+            log = LogReader.readLog(new File(".data/accounts/deniskov/meals.txt"));
         } catch (IOException e) {
             System.out.println("no meal save file found; starting from scratch");
-            log = new MealList();
+            log = new Log();
         }
         try {
-            database = FoodReader.readFoods(new File(FOODS_FILE));
+            database = FoodReader.readFoods(new File(".data/accounts/deniskov/foods.txt"));
         } catch (IOException e) {
             System.out.println("no food save file found; starting from scratch");
             database = new FoodList();
         }
     }
 
-    private static void save() {
+    private static void loadAccountList() {
+        AccountList.newAccountList();
+        try {
+            accountList = AccountReader.readAccounts(new File(ACCOUNTS_FILE));
+        } catch (IOException ignored) {
+            System.out.println("Neo you've broken the matrix");
+        }
+    }
+
+    private void save() {
         saveFoods();
         saveMeals();
     }
 
-    private static void saveFoods() {
+    private void saveFoods() {
         try {
-            Writer writer = new Writer(new File(FOODS_FILE));
+            Writer writer = new Writer(foodsFile);
             writer.write(database);
             writer.close();
-            System.out.println("Food database saved to file " + FOODS_FILE);
+            System.out.println("Food database saved to file " + foodsFile.getPath());
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to save foods to " + FOODS_FILE);
+            System.out.println("Unable to save foods to " + foodsFile.getPath());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             // this is due to a programming error
@@ -234,14 +262,14 @@ public class Main extends Application {
     }
 
     // EFFECTS: saves log
-    private static void saveMeals() {
+    private void saveMeals() {
         try {
-            Writer writer = new Writer(new File(MEALS_FILE));
+            Writer writer = new Writer(mealsFile);
             writer.write(log);
             writer.close();
-            System.out.println("Log saved to file " + MEALS_FILE);
+            System.out.println("Log saved to file " + mealsFile.getPath());
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to save foods to " + MEALS_FILE);
+            System.out.println("Unable to save log to " + mealsFile.getPath());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             // this is due to a programming error

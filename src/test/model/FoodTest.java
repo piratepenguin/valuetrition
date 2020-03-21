@@ -1,11 +1,11 @@
 package model;
 
-import model.*;
+import model.food.Food;
+import model.food.FoodList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Test.*;
 
 class FoodTest {
 

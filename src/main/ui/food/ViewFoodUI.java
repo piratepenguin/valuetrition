@@ -7,18 +7,15 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import model.*;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import model.food.Food;
 
 
 public class ViewFoodUI extends FoodUI {
 
-    static Button editInfoButton;
+    Button editInfoButton;
 
-    public static void displayFoodInfo(Food givenFood) {
+    public void displayFoodInfo(Food givenFood) {
 
         food = givenFood;
         purposeString = "Food Info";
@@ -31,13 +28,16 @@ public class ViewFoodUI extends FoodUI {
         window.show();
     }
 
-    public static void initButtons() {
+    public void initButtons() {
         // buttons
         editInfoButton = new Button("edit");
-        editInfoButton.setOnAction(e -> EditFoodUI.displayEditMenu(food));
+        editInfoButton.setOnAction(e -> {
+            EditFoodUI editFoodUI = new EditFoodUI(food);
+            editFoodUI.displayEditMenu();
+        });
     }
 
-    public static void initSceneForViewing() {
+    public void initSceneForViewing() {
 
         GridPane.setConstraints(editInfoButton, 1,10);
         grid.getChildren().addAll(editInfoButton);

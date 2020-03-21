@@ -10,40 +10,53 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import model.Food;
-import model.FoodList;
+import javafx.scene.text.Font;
+import model.food.Food;
+import model.food.FoodList;
+import model.exceptions.NullFoodException;
+import ui.boxes.AlertBox;
 
 public class CreateFoodUI extends FoodUI {
 
 
     // text fields
-    static TextField nameField;
-    static TextField weightField;
-    static TextField costField;
-    static TextField caloriesField;
-    static TextField carbsField;
-    static TextField fatsField;
-    static TextField proteinField;
-    static Button createButton;
-    static Label enterBelowLabel;
-    static Label foodInfoLabel;
+    TextField nameField;
+    TextField weightField;
+    TextField costField;
+    TextField caloriesField;
+    TextField carbsField;
+    TextField fatsField;
+    TextField proteinField;
 
-    static FoodList database;
+    Button createButton;
+    Button uploadImageButton;
 
+    Label enterBelowLabel;
+    Label foodInfoLabel;
 
-    public static void display(FoodList database1) {
+    FoodList database;
+
+    String name;
+    double weight;
+    double cost;
+    double calories;
+    double carbs;
+    double fats;
+    double protein;
+
+    public void display(FoodList database) {
 
         purposeString = "New Food Creator";
-        database = database1;
+        this.database = database;
         initTextFields();
         initLabels();
         initButtons();
         initScene();
-        initWindow(350,400);
+        initWindow(500,500);
         window.showAndWait();
     }
 
-    public static void initTextFields() {
+    public void initTextFields() {
 
         nameField = new TextField("");
         weightField = new TextField(Integer.toString(0));
@@ -54,7 +67,7 @@ public class CreateFoodUI extends FoodUI {
         proteinField = new TextField(Integer.toString(0));
     }
 
-    public static void initLabels() {
+    public void initLabels() {
 
         nameLabel = new Label("Name");
         weightLabel = new Label("Weight");
@@ -64,15 +77,23 @@ public class CreateFoodUI extends FoodUI {
         fatsLabel = new Label("Fats");
         proteinLabel = new Label("Protein");
         enterBelowLabel = new Label("Enter Below");
-        foodInfoLabel = new Label("Food Info");
+        enterBelowLabel.setFont(new Font("Arial", 20));;
+        foodInfoLabel = new Label("Food Info   ");
+        foodInfoLabel.setFont(new Font("Arial", 20));;
     }
 
-    public static void initButtons() {
+    public void initButtons() {
         createButton = new Button("Create Food");
         createButton.setOnAction(e -> create());
+        createButton.setFont(new Font("Arial", 20));
+        createButton.setTextFill(Color.LIGHTSALMON);
+        uploadImageButton = new Button("Upload\nImage");
+        uploadImageButton.setOnAction(e -> uploadImage());
+        uploadImageButton.setFont(new Font("Arial", 20));
+        uploadImageButton.setTextFill(Color.LIGHTSALMON);
     }
 
-    public static void initScene() {
+    public void initScene() {
         grid = new GridPane();
         grid.setPadding(new Insets(10,10,10,10));
         grid.setVgap(8);
@@ -82,12 +103,12 @@ public class CreateFoodUI extends FoodUI {
         grid.getChildren().addAll(nameLabel, weightLabel, costLabel, caloriesLabel,
                 carbsLabel, fatsLabel, proteinLabel, foodInfoLabel, enterBelowLabel);
         grid.getChildren().addAll(nameField, weightField, costField);
-        grid.getChildren().addAll(caloriesField, carbsField, fatsField, proteinField, createButton);
+        grid.getChildren().addAll(caloriesField, carbsField, fatsField, proteinField, createButton, uploadImageButton);
         grid.setBackground(new Background(new BackgroundFill(Color.LIGHTSALMON, CornerRadii.EMPTY, Insets.EMPTY)));
         scene = new Scene(grid);
     }
 
-    public static void initGridConstraints() {
+    public void initGridConstraints() {
 
         GridPane.setConstraints(foodInfoLabel,0,0);
         GridPane.setConstraints(enterBelowLabel,1,0);
@@ -106,21 +127,36 @@ public class CreateFoodUI extends FoodUI {
         GridPane.setConstraints(fatsField,1,6);
         GridPane.setConstraints(proteinField,1,7);
         GridPane.setConstraints(createButton,1,9);
+        GridPane.setConstraints(uploadImageButton,7,4);
     }
 
-    public static void create() {
-        String name = nameField.getText();
-        double weight = Double.parseDouble(weightField.getText());
-        double cost = Double.parseDouble(costField.getText());
-        double calories = Double.parseDouble(caloriesField.getText());
-        double carbs = Double.parseDouble(carbsField.getText());
-        double fats = Double.parseDouble(fatsField.getText());
-        double protein = Double.parseDouble(proteinField.getText());
+    public void create() {
 
-        food = new Food(name, weight, cost, calories, carbs, fats, protein);
-        database.add(food);
-        window.close();
+        name = nameField.getText();
+        weight = Double.parseDouble(weightField.getText());
+        cost = Double.parseDouble(costField.getText());
+        calories = Double.parseDouble(caloriesField.getText());
+        carbs = Double.parseDouble(carbsField.getText());
+        fats = Double.parseDouble(fatsField.getText());
+        protein = Double.parseDouble(proteinField.getText());
+
+        try {
+            checkFormNotBlank();
+            food = new Food(name, weight, cost, calories, carbs, fats, protein);
+            database.add(food);
+            window.close();
+        } catch (NullFoodException ex) {
+            AlertBox.display("Incomplete", "Please enter all necessary values", 400, 120);
+        }
     }
 
+    public void checkFormNotBlank() throws NullFoodException {
+        if (name.equals("") || (carbs == 0.0 && fats == 0.0 && protein == 0.0) || calories == 0.0) {
+            throw new NullFoodException();
+        }
+    }
+
+    private void uploadImage() {
+    }
 
 }

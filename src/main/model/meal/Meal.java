@@ -1,4 +1,6 @@
-package model;
+package model.meal;
+
+import model.food.Food;
 
 public class Meal {
 

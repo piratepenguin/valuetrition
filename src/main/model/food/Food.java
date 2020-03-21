@@ -1,4 +1,4 @@
-package model;
+package model.food;
 
 // represents a food item with nutritional and economical data
 

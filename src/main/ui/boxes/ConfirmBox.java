@@ -1,4 +1,4 @@
-package ui;
+package ui.boxes;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

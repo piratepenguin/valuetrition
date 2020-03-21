@@ -1,8 +1,9 @@
 package persistence.readers;
 
-import model.Food;
-import model.Meal;
-import model.MealList;
+import model.food.Food;
+import model.meal.Log;
+import model.meal.Meal;
+import model.meal.MealList;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,12 +13,12 @@ import java.util.Arrays;
 import java.util.List;
 
 // A reader that can read meal data from a file
-public class MealReader {
+public class LogReader {
     public static final String DELIMITER = ",";
 
-    // EFFECTS: returns a list of meals parsed from file; throws
+    // EFFECTS: returns a Log parsed from file; throws
     // IOException if an exception is raised when opening / reading from file
-    public static MealList readMeals(File file) throws IOException {
+    public static Log readLog(File file) throws IOException {
         List<String> fileContent = readFile(file);
         return parseContent(fileContent);
     }
@@ -29,16 +30,16 @@ public class MealReader {
     }
 
     // EFFECTS: returns a list of meals parsed from list of strings
-    // where each string contains data for one meal
-    private static MealList parseContent(List<String> fileContent) {
-        MealList meals = new MealList();
+    // where each string contains data for one day
+    private static Log parseContent(List<String> fileContent) {
+        Log log = new Log();
 
         for (String line : fileContent) {
             ArrayList<String> lineComponents = splitString(line);
-            meals.add(parseMeal(lineComponents));
+            log.logMeal(parseDate(lineComponents), parseMeal(lineComponents));
         }
 
-        return meals;
+        return log;
     }
 
     // EFFECTS: returns a list of strings obtained by splitting line on DELIMITER
@@ -50,16 +51,21 @@ public class MealReader {
     // REQUIRES: components has size 10
     // EFFECTS: returns an account constructed from components
     private static Meal parseMeal(List<String> components) {
-        String name = (components.get(0));
-        double weight = Double.parseDouble(components.get(1));
-        double cost = Double.parseDouble(components.get(2));
-        double calories = Double.parseDouble(components.get(3));
-        double carbs = Double.parseDouble(components.get(4));
-        double fats = Double.parseDouble(components.get(5));
-        double proteins = Double.parseDouble(components.get(6));
-        double amount = Double.parseDouble(components.get(7));
-        int day = Integer.parseInt(components.get(8));
+        int day = Integer.parseInt(components.get(0));
+        String name = (components.get(1));
+        double weight = Double.parseDouble(components.get(2));
+        double cost = Double.parseDouble(components.get(3));
+        double calories = Double.parseDouble(components.get(4));
+        double carbs = Double.parseDouble(components.get(5));
+        double fats = Double.parseDouble(components.get(6));
+        double proteins = Double.parseDouble(components.get(7));
+        double amount = Double.parseDouble(components.get(8));
         Food notARealFood = new Food(name, weight, cost, calories, carbs, fats, proteins);
         return new Meal(0, notARealFood, amount, day);
     }
+
+    private static int parseDate(List<String> components) {
+        return Integer.parseInt(components.get(0));
+    }
+
 }

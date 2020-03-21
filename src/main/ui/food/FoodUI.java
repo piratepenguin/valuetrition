@@ -6,49 +6,49 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.Food;
+import model.food.Food;
 
 public abstract class FoodUI {
 
-    static Food food;
-    static Stage window;
-    static Scene scene;
-    static String purposeString;
+    Food food;
+    Stage window;
+    Scene scene;
+    String purposeString;
 
     // current values for display
-    static String cName;
-    static int cWeight;
-    static double cCost;
-    static int cCalories;
-    static int cCarbs;
-    static int cFats;
-    static int cProteins;
-    static String cValue;
+    String cName;
+    int cWeight;
+    double cCost;
+    int cCalories;
+    int cCarbs;
+    int cFats;
+    int cProteins;
+    String cValue;
 
     // header labels
-    static Label nameLabel;
-    static Label weightLabel;
-    static Label costLabel;
-    static Label caloriesLabel;
-    static Label carbsLabel;
-    static Label fatsLabel;
-    static Label proteinLabel;
-    static Label valueLabel;
+    Label nameLabel;
+    Label weightLabel;
+    Label costLabel;
+    Label caloriesLabel;
+    Label carbsLabel;
+    Label fatsLabel;
+    Label proteinLabel;
+    Label valueLabel;
 
     // labels with current values
-    static Label nameCL;
-    static Label weightCL;
-    static Label costCL;
-    static Label caloriesCL;
-    static Label carbsCL;
-    static Label fatsCL;
-    static Label proteinCL;
-    static Label valueCL;
+    Label nameCL;
+    Label weightCL;
+    Label costCL;
+    Label caloriesCL;
+    Label carbsCL;
+    Label fatsCL;
+    Label proteinCL;
+    Label valueCL;
 
-    static GridPane grid;
+    GridPane grid;
 
 
-    public static void initFood() {
+    public void initFood() {
 
         cName = food.getName();
         cWeight = (int) food.getWeight();
@@ -60,7 +60,7 @@ public abstract class FoodUI {
         cValue = food.value();
     }
 
-    public static void initLabels() {
+    public void initLabels() {
 
         nameLabel = new Label("Name");
         weightLabel = new Label("Weight");
@@ -81,7 +81,7 @@ public abstract class FoodUI {
         valueCL = new Label(cValue);
     }
 
-    public static void initScene() {
+    public void initScene() {
         grid = new GridPane();
         grid.setPadding(new Insets(10,10,10,10));
         grid.setVgap(8);
@@ -93,7 +93,7 @@ public abstract class FoodUI {
         grid.getChildren().addAll(nameCL, weightCL, costCL, caloriesCL, carbsCL, fatsCL, proteinCL, valueCL);
     }
 
-    public static void initGridConstraints() {
+    public void initGridConstraints() {
 
         GridPane.setConstraints(nameLabel, 0,1);
         GridPane.setConstraints(weightLabel, 0,2);
@@ -114,7 +114,7 @@ public abstract class FoodUI {
         GridPane.setConstraints(valueCL,1,8);
     }
 
-    public static void initWindow(int width, int height) {
+    public void initWindow(int width, int height) {
         // initializing window
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);

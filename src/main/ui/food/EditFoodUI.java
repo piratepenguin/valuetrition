@@ -9,34 +9,33 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import model.*;
-import javafx.scene.control.Label;
-import sun.security.krb5.internal.APRep;
-import ui.ConfirmBox;
+import model.food.Food;
+import ui.boxes.ConfirmBox;
 
 public class EditFoodUI extends FoodUI {
 
     // miscellaneous
-    static boolean exit;
+    boolean exit;
 
 
     // text fields
-    static TextField nameField;
-    static TextField weightField;
-    static TextField costField;
-    static TextField caloriesField;
-    static TextField carbsField;
-    static TextField fatsField;
-    static TextField proteinField;
-    static Button saveButton;
+    TextField nameField;
+    TextField weightField;
+    TextField costField;
+    TextField caloriesField;
+    TextField carbsField;
+    TextField fatsField;
+    TextField proteinField;
+    Button saveButton;
 
-
-    public static void displayEditMenu(Food foodGiven) {
-
+    public EditFoodUI(Food foodGiven) {
         food = foodGiven;
         purposeString = "Editor";
+    }
+
+    public void displayEditMenu() {
+
+
         initFood();
         initTextFields();
         initLabels();
@@ -48,7 +47,7 @@ public class EditFoodUI extends FoodUI {
         window.showAndWait();
     }
 
-    public static void initTextFields() {
+    public void initTextFields() {
 
         nameField = new TextField(food.getName());
         weightField = new TextField(Integer.toString(cWeight));
@@ -59,12 +58,12 @@ public class EditFoodUI extends FoodUI {
         proteinField = new TextField(Integer.toString(cProteins));
     }
 
-    public static void initButtons() {
+    public void initButtons() {
         saveButton = new Button("Save");
         saveButton.setOnAction(e -> save());
     }
 
-    public static void initSetOnCloseRequest() {
+    public void initSetOnCloseRequest() {
 
         // what to do if user chooses to exit
         window.setOnCloseRequest(e -> {
@@ -79,7 +78,7 @@ public class EditFoodUI extends FoodUI {
         });
     }
 
-    public static void initSceneForEditing() {
+    public void initSceneForEditing() {
 
         initScene();
         grid.getChildren().addAll(nameField, weightField, costField);
@@ -88,7 +87,7 @@ public class EditFoodUI extends FoodUI {
         scene = new Scene(grid);
     }
 
-    public static void setGridConstraintsForEditing() {
+    public void setGridConstraintsForEditing() {
 
         GridPane.setConstraints(nameField,2,1);
         GridPane.setConstraints(weightField,2,2);
@@ -100,7 +99,7 @@ public class EditFoodUI extends FoodUI {
         GridPane.setConstraints(saveButton,2,8);
     }
 
-    public static void save() {
+    public void save() {
         food.editName(nameField.getText());
         food.editWeight(Double.parseDouble(weightField.getText()));
         food.editCost(Double.parseDouble(costField.getText()));
@@ -118,7 +117,7 @@ public class EditFoodUI extends FoodUI {
         proteinCL.setText(proteinField.getText());
     }
 
-    public static boolean checkForSimilarity() {
+    public boolean checkForSimilarity() {
         return (nameField.getText().equals(cName)
                 && (int) Double.parseDouble(weightField.getText()) == Integer.parseInt(weightCL.getText())
                 && Double.parseDouble(costField.getText()) == Double.parseDouble(costCL.getText())

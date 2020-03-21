@@ -1,5 +1,6 @@
-package model;
+package model.food;
 
+import model.exceptions.FoodNotFoundException;
 import persistence.Saveable;
 import persistence.readers.FoodReader;
 

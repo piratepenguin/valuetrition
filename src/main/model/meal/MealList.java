@@ -1,7 +1,6 @@
-package model;
+package model.meal;
 
-import model.Food;
-import model.Meal;
+import model.exceptions.FoodNotFoundException;
 import persistence.Saveable;
 import persistence.readers.FoodReader;
 
@@ -98,6 +97,8 @@ public class MealList implements Saveable {
     @Override
     public void save(PrintWriter printWriter) {
         for (Meal meal : mealList) {
+            printWriter.print(meal.getDay());
+            printWriter.print(FoodReader.DELIMITER);
             printWriter.print(meal.getName());
             printWriter.print(FoodReader.DELIMITER);
             printWriter.print(meal.getFoodWeight());
@@ -112,9 +113,7 @@ public class MealList implements Saveable {
             printWriter.print(FoodReader.DELIMITER);
             printWriter.print(meal.getProteins());
             printWriter.print(FoodReader.DELIMITER);
-            printWriter.print(meal.getAmount());
-            printWriter.print(FoodReader.DELIMITER);
-            printWriter.println(meal.getDay());
+            printWriter.println(meal.getAmount());
         }
     }
 }

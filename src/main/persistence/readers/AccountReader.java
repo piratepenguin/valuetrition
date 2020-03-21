@@ -1,5 +1,7 @@
 package persistence.readers;
 
+import model.accounts.Account;
+import model.accounts.AccountList;
 import model.food.Food;
 import model.food.FoodList;
 
@@ -11,12 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 
 // A reader that can read food data from a file
-public class FoodReader {
+public class AccountReader {
+
     public static final String DELIMITER = ",";
 
     // EFFECTS: returns a list of foods parsed from file; throws
     // IOException if an exception is raised when opening / reading from file
-    public static FoodList readFoods(File file) throws IOException {
+    public static AccountList readAccounts(File file) throws IOException {
         List<String> fileContent = readFile(file);
         return parseContent(fileContent);
     }
@@ -29,15 +32,15 @@ public class FoodReader {
 
     // EFFECTS: returns a list of foods parsed from list of strings
     // where each string contains data for one food
-    private static FoodList parseContent(List<String> fileContent) {
-        FoodList foods = new FoodList();
+    private static AccountList parseContent(List<String> fileContent) {
+        AccountList accountList = new AccountList();
 
         for (String line : fileContent) {
             ArrayList<String> lineComponents = splitString(line);
-            foods.add(parseFood(lineComponents));
+            AccountList.add(parseUsername(lineComponents), parseAccounts(lineComponents));
         }
 
-        return foods;
+        return accountList;
     }
 
     // EFFECTS: returns a list of strings obtained by splitting line on DELIMITER
@@ -47,16 +50,15 @@ public class FoodReader {
     }
 
     // REQUIRES: components has size 7
-    // EFFECTS: returns a Food constructed from components
-    private static Food parseFood(List<String> components) {
-        String name = (components.get(0));
-        double weight = Double.parseDouble(components.get(1));
-        double cost = Double.parseDouble(components.get(2));
-        double calories = Double.parseDouble(components.get(3));
-        double carbs = Double.parseDouble(components.get(4));
-        double fats = Double.parseDouble(components.get(5));
-        double proteins = Double.parseDouble(components.get(6));
-        return new Food(name, weight, cost, calories, carbs, fats, proteins);
+    // EFFECTS: returns a username
+    private static String parseUsername(List<String> components) {
+        return (components.get(0));
 
+    }
+
+    private static Account parseAccounts(List<String> components) {
+        String username = (components.get(0));
+        String password = (components.get(1));
+        return new Account(username, password);
     }
 }
