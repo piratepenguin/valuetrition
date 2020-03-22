@@ -28,6 +28,16 @@ public class EnterTextBox {
         return answer;
     }
 
+    public static String display(String title, String message, int width, int height) {
+
+        initWindow(title,message,width,height);
+        initButtons();
+        initTextBox();
+        initScene();
+
+        return answer;
+    }
+
     public static void initTextBox() {
 
         // create text box for user to input a string
@@ -42,6 +52,15 @@ public class EnterTextBox {
             answer = answerField.getText();
             window.close();
         });
+    }
+
+    public static void initWindow(String title, String message, int width, int height) {
+        window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setWidth(width);
+        window.setHeight(height);
+        label = new Label(message);
     }
 
     public static void initWindow(String title, String message) {

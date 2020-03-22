@@ -29,9 +29,9 @@ public class Account {
         this.password = password;
         foodDatabase = new FoodList();
         log = new MealList();
-        foodsFileDir = ".data/accounts/" + username + "/foods.txt";
+        foodsFileDir = "./data/accounts/" + username + "/foods.txt";
         foodsFile = new File(foodsFileDir);
-        mealsFileDir = ".data/accounts/" + username + "/meals.txt";
+        mealsFileDir = "./data/accounts/" + username + "/meals.txt";
         mealsFile = new File(mealsFileDir);
     }
 

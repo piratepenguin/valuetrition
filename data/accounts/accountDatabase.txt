@@ -1,1 +1,3 @@
-deniskov,7bananas
+deniskov,b2
+frank,pass123
+john,pass123

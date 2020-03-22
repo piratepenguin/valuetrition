@@ -18,12 +18,13 @@ import model.exceptions.FoodNotFoundException;
 import model.food.Food;
 import model.food.FoodList;
 import model.meal.Log;
-import model.meal.MealList;
 import persistence.readers.AccountReader;
 import persistence.readers.FoodReader;
 import persistence.readers.LogReader;
 import persistence.writers.Writer;
+import ui.boxes.AlertBox;
 import ui.boxes.ConfirmBox;
+import ui.boxes.EnterTextBox;
 import ui.boxes.EnterTextBoxWithFooter;
 import ui.food.CreateFoodUI;
 import ui.food.ViewFoodUI;
@@ -40,13 +41,19 @@ public class Main extends Application {
     Stage window;
     Scene dashboard;
     Scene menu;
-    static Button viewLogButton;
-    static Button openMenuButton;
-    static Button openDashboardButton;
-    static Button logMealButton;
-    static Button closeButton;
-    static Button viewFoodButton;
-    static Button createFoodButton;
+
+    Button viewLogForTodayButton;
+    Button viewLogButton;
+    Button openMenuButton;
+    Button openDashboardButton;
+    Button logMealButton;
+    Button closeButton;
+    Button viewFoodButton;
+    Button createFoodButton;
+    Button nextDayButton;
+
+    Label welcomeLabel;
+    Label dayLabel;
 
     Account account;
 
@@ -55,19 +62,19 @@ public class Main extends Application {
     public File mealsFile;
     public File foodsFile;
     static AccountList accountList;
-    static FoodList database;
-    static Log log;
-    static int date = 1;
+    FoodList database;
+    Log log;
+    int date = 1;
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         loadAccountList();
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         LoginScreen loginScreen = new LoginScreen();
         account = loginScreen.display();
@@ -79,7 +86,10 @@ public class Main extends Application {
     }
 
     public void initialize(Stage primaryStage) {
+
+        initLabels();
         initializeButtons();
+        initializeGridConstraints();
         initializeScenes();
         initializeMainWindow(primaryStage);
     }
@@ -90,9 +100,7 @@ public class Main extends Application {
         window = primaryStage;
         window.setTitle("Nutritivity");
         window.getIcons().add(new Image(Main.class.getResourceAsStream("/NutritivityLogo.png")));
-        window.setOnCloseRequest(e -> {
-            save();
-        });
+        window.setOnCloseRequest(e -> save());
 
         // choosing which scene to start window on
         window.setScene(dashboard);
@@ -107,36 +115,25 @@ public class Main extends Application {
         }
     }
 
-    public void initializeScenes() {
-
-        // Scene 1 - uses vertical layout
-        VBox dashboardLayout = new VBox(40);
-        Label welcomeLabel = new Label("Welcome to Nutritivity!");
+    public void initLabels() {
+        welcomeLabel = new Label("Welcome to Nutritivity!");
         welcomeLabel.setFont(new Font("Arial", 40));
         welcomeLabel.setTextFill(Color.LIGHTSEAGREEN);
-        dashboardLayout.getChildren().addAll(welcomeLabel, openMenuButton, closeButton);
-        dashboardLayout.setAlignment(Pos.BASELINE_CENTER);
-        dashboardLayout.setBackground(new
-                Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
-        dashboard = new Scene(dashboardLayout, 500, 300);
 
-
-        // Scene 2 - uses horizontal layout
-        HBox menuLayout = new HBox(15);
-        menuLayout.getChildren().addAll(openDashboardButton, logMealButton, viewLogButton,
-                createFoodButton, viewFoodButton);
-        menuLayout.setAlignment(Pos.CENTER);
-        menuLayout.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-        menu = new Scene(menuLayout, 700, 150);
+        dayLabel = new Label("day: " + date);
+        dayLabel.setFont(new Font("Arial", 40));
+        dayLabel.setTextFill(Color.LIGHTSEAGREEN);
     }
 
-    public static void setButtonNames() {
+    public void setButtonNames() {
 
         // setting buttons for all future scenes
         openMenuButton = new Button("Open Menu");
         openDashboardButton = new Button("Return to Dashboard");
+        nextDayButton = new Button("Next Day");
         logMealButton = new Button("Log Meal");
-        viewLogButton = new Button("View Log");
+        viewLogForTodayButton = new Button("View Log For Today");
+        viewLogButton = new Button("View Log For Another Day");
         viewFoodButton = new Button("View Food Info");
         createFoodButton = new Button("Create a new Food");
         closeButton = new Button("Save & Exit");
@@ -145,7 +142,6 @@ public class Main extends Application {
     public void initializeButtons() {
 
         setButtonNames();
-
         closeButton.setFont(new Font("Arial", 20));
         closeButton.setTextFill(Color.SEAGREEN);
         closeButton.setOnAction(e -> closeProgram());
@@ -159,9 +155,11 @@ public class Main extends Application {
         openDashboardButton.setOnAction(e -> window.setScene(dashboard));
 
         setViewLogButton();
+        setViewLogForTodayButton();
         setLogMealButton();
         setViewFoodButton();
         setCreateFoodButton();
+        setNextDayButton();
 
     }
 
@@ -172,9 +170,9 @@ public class Main extends Application {
         });
     }
 
-    public static void setLogMealButton() {
+    public void setLogMealButton() {
         logMealButton.setOnAction(e -> {
-                    boolean retry = false;
+                    boolean retry;
                     do {
                         String databaseString = "Current available foods: " + database.toString();
                         String foodName = EnterTextBoxWithFooter.display("Log Meal", "Enter Food Name",
@@ -192,15 +190,32 @@ public class Main extends Application {
         );
     }
 
-    public static void setViewLogButton() {
+    public void setViewLogForTodayButton() {
+        viewLogForTodayButton.setOnAction(e -> AlertBox.display("View Log for Today", log.getLogForDayAsString(date),
+                    600, 200));
+    }
+
+    public void setViewLogButton() {
         viewLogButton.setOnAction(e -> {
-            System.out.println(log);
+            int day = Integer.parseInt(EnterTextBox.display("View Log for Day ...",
+                    "View log for day: ", 500, 250));
+            AlertBox.display("View Log for Today", log.getLogForDayAsString(day),
+                    600, 200);
         });
     }
 
-    public static void setViewFoodButton() {
+    public void setNextDayButton() {
+        nextDayButton.setFont(new Font("Arial", 20));
+        nextDayButton.setTextFill(Color.SEAGREEN);
+        nextDayButton.setOnAction(e -> {
+            date++;
+            dayLabel.setText("day: " + date);
+        });
+    }
+
+    public void setViewFoodButton() {
         viewFoodButton.setOnAction(e -> {
-            boolean retry = false;
+            boolean retry;
             do {
                 String databaseString = "Current available foods: " + database.toString();
                 String foodName = EnterTextBoxWithFooter.display("View Food", "Enter Food Name",
@@ -218,15 +233,56 @@ public class Main extends Application {
         );
     }
 
+    public void initializeGridConstraints() {
+
+        GridPane.setConstraints(welcomeLabel, 1,0);
+        GridPane.setConstraints(openMenuButton, 1,3);
+        GridPane.setConstraints(nextDayButton, 1,5);
+        GridPane.setConstraints(closeButton, 1,7);
+        GridPane.setConstraints(dayLabel, 1,1);
+        GridPane.setConstraints(openDashboardButton, 2,1);
+        GridPane.setConstraints(logMealButton, 3,2);
+        GridPane.setConstraints(viewLogButton, 2,2);
+        GridPane.setConstraints(viewLogForTodayButton, 2,4);
+        GridPane.setConstraints(viewFoodButton, 1,2);
+        GridPane.setConstraints(createFoodButton, 1,4);
+    }
+
+    public void initializeScenes() {
+
+        // Scene 1 - uses vertical layout
+        GridPane dashboardGrid = new GridPane();
+        dashboardGrid.setPadding(new Insets(10,10,10,10));
+        dashboardGrid.setVgap(8);
+        dashboardGrid.setHgap(10);
+        dashboardGrid.getChildren().addAll(welcomeLabel, openMenuButton, nextDayButton, closeButton, dayLabel);
+        dashboardGrid.setBackground(new
+                Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
+        dashboard = new Scene(dashboardGrid, 500, 400);
+
+
+        // Scene 2 - uses horizontal layout
+        GridPane menuGrid = new GridPane();
+        menuGrid.setPadding(new Insets(10,10,10,10));
+        menuGrid.setVgap(8);
+        menuGrid.setHgap(10);
+        menuGrid.getChildren().addAll(openDashboardButton, viewFoodButton, createFoodButton, viewLogForTodayButton,
+                viewLogButton, logMealButton);
+        menuGrid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        menu = new Scene(menuGrid, 900, 150);
+    }
+
     private void load() {
         try {
-            log = LogReader.readLog(new File(".data/accounts/deniskov/meals.txt"));
+            log = LogReader.readLog(mealsFile);
+            date = log.getLastDay();
         } catch (IOException e) {
             System.out.println("no meal save file found; starting from scratch");
             log = new Log();
+            date = 1;
         }
         try {
-            database = FoodReader.readFoods(new File(".data/accounts/deniskov/foods.txt"));
+            database = FoodReader.readFoods(foodsFile);
         } catch (IOException e) {
             System.out.println("no food save file found; starting from scratch");
             database = new FoodList();

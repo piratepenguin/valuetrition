@@ -33,6 +33,7 @@ public class LoginScreen {
     Button loginButton;
     Button signUpButton;
 
+    Scene scene;
     Stage window;
 
     FoodList foodList;
@@ -41,9 +42,8 @@ public class LoginScreen {
     public LoginScreen() {
         username = "";
         password = "";
-        window = new Stage();
-
     }
+
 
     public Account display() {
 
@@ -86,9 +86,7 @@ public class LoginScreen {
         });
 
         signUpButton = new Button("sign up");
-        signUpButton.setOnAction(e -> {
-            signUp(username, password);
-        });
+        signUpButton.setOnAction(e -> signUp(username, password));
     }
 
     public void initWindow(String title) {
@@ -96,7 +94,9 @@ public class LoginScreen {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setWidth(500);
-        window.setHeight(300);
+        window.setHeight(200);
+        window.setScene(scene);
+        window.showAndWait();
     }
 
     public void initScene() {
@@ -106,9 +106,7 @@ public class LoginScreen {
         grid.setHgap(10);
         initGridConstraints();
         grid.getChildren().addAll(usernameLabel, passwordLabel, usernameField, passwordField, signUpButton,loginButton);
-        Scene scene = new Scene(grid);
-        window.setScene(scene);
-        window.showAndWait();
+        scene = new Scene(grid);
     }
 
     public void initGridConstraints() {
