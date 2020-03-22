@@ -4,6 +4,9 @@ import model.accounts.Account;
 import model.food.FoodList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountTest {
@@ -18,9 +21,12 @@ public class AccountTest {
     @Test
     void createFilesTest() {
         account.createFiles();
-        assertEquals(account.getDirectoryFile().getPath(), ".\\data\\accounts\\denis");
-        assertEquals(account.getFoodsFile().getPath(), ".\\data\\accounts\\denis\\foods.txt");
-        assertEquals(account.getMealsFile().getPath(), ".\\data\\accounts\\denis\\meals.txt");
+        File directoryFile = account.getDirectoryFile();
+        assertEquals(directoryFile.getPath(), ".\\data\\accounts\\denis");
+        File foodsFile = account.getFoodsFile();
+        assertEquals(foodsFile.getPath(), ".\\data\\accounts\\denis\\foods.txt");
+        File mealsFile = account.getMealsFile();
+        assertEquals(mealsFile.getPath(), ".\\data\\accounts\\denis\\meals.txt");
     }
 
     @Test

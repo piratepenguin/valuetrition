@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MealListTest {
 
     Meal banana = new Meal(new Food("banana", 100,0.7, 100, 24, 0, 1), 200, 1);
+    Meal banana2 = new Meal(new Food("banana", 100,0.7, 100, 24, 0, 1), 200, 2);
     Meal rice = new Meal(new Food("rice", 3000,5.0, 3000, 700, 11, 25), 4500, 1);
     Meal beef = new Meal(new Food("beef", 100,5, 500, 0, 50, 70),250,2);
     Meal milk = new Meal(new Food("milk", 4000, 1,1500, 120, 70, 100),500,3);
@@ -23,6 +24,7 @@ public class MealListTest {
         meallist = new MealList();
         meallist.add(banana);
         meallist.add(rice);
+        meallist.add(banana2);
         meallist.add(beef);
         meallist.add(milk);
     }
@@ -43,11 +45,11 @@ public class MealListTest {
     @Test                                         // tests removeMeal and GetMeal
     public void removeMealTest() {
         try {
-            assertEquals(4, meallist.size());
+            assertEquals(5, meallist.size());
             meallist.removeMeal("banana",1);
-            assertEquals(3, meallist.size());
+            assertEquals(4, meallist.size());
             try {
-                meallist.removeMeal("banana",2);
+                meallist.removeMeal("banana",3);
                 fail();
             } catch (FoodNotFoundException ignored) {}
         } catch (FoodNotFoundException e) { fail(); }
@@ -66,6 +68,19 @@ public class MealListTest {
         } catch (FoodNotFoundException ignored) {
             fail();
         }
+
+        try {
+            meallist.removeMeal("banana",2);
+        } catch (FoodNotFoundException ignored) {
+            fail();
+        }
+
+        try {
+            meallist.getMeal("banana",2);
+            fail();
+        } catch (FoodNotFoundException ignored) {
+        }
+
         try {
             meallist.getMeal("beef",2 );
             fail();
@@ -86,7 +101,7 @@ public class MealListTest {
     @Test
     public void toStringTest() {
         assertEquals("| Day 1| banana - 200Cal, rice - 4500Cal, \n" +
-                              "| Day 2| beef - 1250Cal, \n" +
+                              "| Day 2| banana - 200Cal, beef - 1250Cal, \n" +
                               "| Day 3| milk - 187Cal", meallist.toString());
     }
 

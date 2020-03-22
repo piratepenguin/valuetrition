@@ -28,6 +28,7 @@ class ReaderTest {
     @Test
     void testParseFoodsFile() {
         try {
+            FoodReader foodReader = new FoodReader();
             FoodList foods = FoodReader.readFoods(new File("./data/foodsTest.txt"));
             Food food1 = foods.get(0);
             assertEquals(food1.getName(), "Banana");
@@ -64,6 +65,7 @@ class ReaderTest {
     @Test
     void testParseLogFile() {
         try {
+            LogReader logReader = new LogReader();
             Log log = LogReader.readLog(new File("./data/logTest.txt"));
             MealList mealList1 = log.getLogForDay(1);
             Meal meal1 = mealList1.get(0);
@@ -108,6 +110,7 @@ class ReaderTest {
     @Test
     void testParseAccountFile() {
         try {
+            AccountReader accountReader = new AccountReader();
             AccountList.newAccountList();
             AccountList accountList = AccountReader.readAccounts(new File("./data/accountsTest.txt"));
             assertEquals(AccountList.getAccount("denis").getUsername(), "denis");
