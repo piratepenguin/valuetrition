@@ -50,12 +50,12 @@ public class EditFoodUI extends FoodUI {
     public void initTextFields() {
 
         nameField = new TextField(food.getName());
-        weightField = new TextField(Integer.toString(cWeight));
-        costField = new TextField(Double.toString(cCost));
-        caloriesField = new TextField(Integer.toString(cCalories));
-        carbsField = new TextField(Integer.toString(cCarbs));
-        fatsField = new TextField(Integer.toString(cFats));
-        proteinField = new TextField(Integer.toString(cProteins));
+        weightField = new TextField(Integer.toString(currentWeight));
+        costField = new TextField(Double.toString(currentCost));
+        caloriesField = new TextField(Integer.toString(currentCalories));
+        carbsField = new TextField(Integer.toString(currentCarbs));
+        fatsField = new TextField(Integer.toString(currentFats));
+        proteinField = new TextField(Integer.toString(currentProteins));
     }
 
     public void initButtons() {
@@ -71,7 +71,7 @@ public class EditFoodUI extends FoodUI {
                 e.consume();
                 exit = ConfirmBox.display("Unsaved Changes", "Unsaved changes, do you wish to exit?");
                 if (exit) {
-                    System.out.println("Changes for " + cName + " have been discarded");
+                    System.out.println("Changes for " + currentName + " have been discarded");
                     window.close();
                 }
             }
@@ -118,7 +118,7 @@ public class EditFoodUI extends FoodUI {
     }
 
     public boolean checkForSimilarity() {
-        return (nameField.getText().equals(cName)
+        return (nameField.getText().equals(currentName)
                 && (int) Double.parseDouble(weightField.getText()) == Integer.parseInt(weightCL.getText())
                 && Double.parseDouble(costField.getText()) == Double.parseDouble(costCL.getText())
                 && (int)  Double.parseDouble(caloriesField.getText()) == Integer.parseInt(caloriesCL.getText())

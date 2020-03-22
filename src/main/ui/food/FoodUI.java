@@ -16,14 +16,14 @@ public abstract class FoodUI {
     String purposeString;
 
     // current values for display
-    String cName;
-    int cWeight;
-    double cCost;
-    int cCalories;
-    int cCarbs;
-    int cFats;
-    int cProteins;
-    String cValue;
+    String currentName;
+    int currentWeight;
+    double currentCost;
+    int currentCalories;
+    int currentCarbs;
+    int currentFats;
+    int currentProteins;
+    String currentValue;
 
     // header labels
     Label nameLabel;
@@ -50,14 +50,14 @@ public abstract class FoodUI {
 
     public void initFood() {
 
-        cName = food.getName();
-        cWeight = (int) food.getWeight();
-        cCost = food.getCost();
-        cCalories = (int) food.getCalories();
-        cCarbs = (int) food.getCarbs();
-        cFats = (int) food.getFats();
-        cProteins = (int) food.getProteins();
-        cValue = food.value();
+        currentName = food.getName();
+        currentWeight = (int) food.getWeight();
+        currentCost = food.getCost();
+        currentCalories = (int) food.getCalories();
+        currentCarbs = (int) food.getCarbs();
+        currentFats = (int) food.getFats();
+        currentProteins = (int) food.getProteins();
+        currentValue = food.value();
     }
 
     public void initLabels() {
@@ -71,14 +71,14 @@ public abstract class FoodUI {
         proteinLabel = new Label("Protein");
         valueLabel = new Label("Economic\n Value: ");
 
-        nameCL = new Label(cName);
-        weightCL = new Label(Integer.toString(cWeight));
-        caloriesCL = new Label(Integer.toString(cCalories));
-        costCL = new Label(Double.toString(cCost));
-        carbsCL = new Label(Integer.toString(cCarbs));
-        fatsCL = new Label(Integer.toString(cFats));
-        proteinCL = new Label(Integer.toString(cProteins));
-        valueCL = new Label(cValue);
+        nameCL = new Label(currentName);
+        weightCL = new Label(Integer.toString(currentWeight));
+        caloriesCL = new Label(Integer.toString(currentCalories));
+        costCL = new Label(Double.toString(currentCost));
+        carbsCL = new Label(Integer.toString(currentCarbs));
+        fatsCL = new Label(Integer.toString(currentFats));
+        proteinCL = new Label(Integer.toString(currentProteins));
+        valueCL = new Label(currentValue);
     }
 
     public void initScene() {
