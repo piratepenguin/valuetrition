@@ -58,16 +58,28 @@ class FoodTest {
         apple.editName("ambrosia");
         assertEquals("ambrosia", apple.getName());
         assertEquals("food: ambrosia\nweight: 1.0g\ncost: $1.3333333333333333\ncalories: 100.0\ncarbs: 24.0g\nfats: 0.0g\nproteins: 1.0g"
-        + "\nprimary type: carbs\nfood value: very low\ncalories per dollar: 75.0", apple.viewInfo());
+        + "\nprimary type: carbs\nfood value: very low\ncalories per dollar: 75", apple.viewInfo());
+        apple.editCost(10);
+        assertEquals(apple.getCost(), 10);
+        apple.editWeight(11);
+        assertEquals(apple.getWeight(), 11);
+        apple.editCarbs(12);
+        assertEquals(apple.getCarbs(), 12);
+        apple.editFats(13);
+        assertEquals(apple.getFats(), 13);
+        apple.editProteins(14);
+        assertEquals(apple.getProteins(), 14);
+        apple.editCalories(15);
+        assertEquals(apple.getCalories(), 15);
     }
 
     @Test
     void valueTest() {
-        assertEquals(banana.value(), "very low\ncalories per dollar: 50.0");
-        assertEquals(apple.value(), "low\ncalories per dollar: 133.33333333333334");
-        assertEquals(beef.value(), "medium\ncalories per dollar: 225.0");
-        assertEquals(milk.value(), "good\ncalories per dollar: 333.3333333333333");
-        assertEquals(rice.value(), "excellent\ncalories per dollar: 600.0");
+        assertEquals(banana.value(), "very low\ncalories per dollar: 50");
+        assertEquals(apple.value(), "low\ncalories per dollar: 133");
+        assertEquals(beef.value(), "medium\ncalories per dollar: 225");
+        assertEquals(milk.value(), "good\ncalories per dollar: 333");
+        assertEquals(rice.value(), "excellent\ncalories per dollar: 600");
     }
 
 

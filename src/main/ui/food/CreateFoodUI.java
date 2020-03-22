@@ -77,9 +77,9 @@ public class CreateFoodUI extends FoodUI {
         fatsLabel = new Label("Fats");
         proteinLabel = new Label("Protein");
         enterBelowLabel = new Label("Enter Below");
-        enterBelowLabel.setFont(new Font("Arial", 20));;
+        enterBelowLabel.setFont(new Font("Arial", 20));
         foodInfoLabel = new Label("Food Info   ");
-        foodInfoLabel.setFont(new Font("Arial", 20));;
+        foodInfoLabel.setFont(new Font("Arial", 20));
     }
 
     public void initButtons() {
@@ -149,6 +149,18 @@ public class CreateFoodUI extends FoodUI {
             AlertBox.display("Incomplete", "Please enter all necessary values", 400, 120);
         }
     }
+
+    public void setFields(String name, double weight, double cost, double calories, double carbs, double fats,
+                          double protein) {
+        this.name = name;
+        this.weight = weight;
+        this.cost = cost;
+        this.calories = calories;
+        this.carbs = carbs;
+        this.fats = fats;
+        this.protein = protein;
+    }
+
 
     public void checkFormNotBlank() throws NullFoodException {
         if (name.equals("") || (carbs == 0.0 && fats == 0.0 && protein == 0.0) || calories == 0.0) {

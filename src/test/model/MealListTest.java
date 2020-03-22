@@ -85,9 +85,9 @@ public class MealListTest {
 
     @Test
     public void toStringTest() {
-        assertEquals("| Day 1| banana - 200.0Cal, rice - 4500.0Cal, \n" +
-                              "| Day 2| beef - 1250.0Cal, \n" +
-                              "| Day 3| milk - 187.5Cal", meallist.toString());
+        assertEquals("| Day 1| banana - 200Cal, rice - 4500Cal, \n" +
+                              "| Day 2| beef - 1250Cal, \n" +
+                              "| Day 3| milk - 187Cal", meallist.toString());
     }
 
 

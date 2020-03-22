@@ -53,15 +53,15 @@ public class LogReader {
     private static Meal parseMeal(List<String> components) {
         int day = Integer.parseInt(components.get(0));
         String name = (components.get(1));
-        double weight = Double.parseDouble(components.get(2));
-        double cost = Double.parseDouble(components.get(3));
-        double calories = Double.parseDouble(components.get(4));
-        double carbs = Double.parseDouble(components.get(5));
-        double fats = Double.parseDouble(components.get(6));
-        double proteins = Double.parseDouble(components.get(7));
-        double amount = Double.parseDouble(components.get(8));
-        Food notARealFood = new Food(name, weight, cost, calories, carbs, fats, proteins);
-        return new Meal(0, notARealFood, amount, day);
+        double foodWeight = Double.parseDouble(components.get(2));
+        double foodCost = Double.parseDouble(components.get(3));
+        double foodCalories = Double.parseDouble(components.get(4));
+        double foodCarbs = Double.parseDouble(components.get(5));
+        double foodFats = Double.parseDouble(components.get(6));
+        double foodProteins = Double.parseDouble(components.get(7));
+        double weight = Double.parseDouble(components.get(8));
+        Food food = new Food(name, foodWeight, foodCost, foodCalories, foodCarbs, foodFats, foodProteins);
+        return new Meal(food, weight, day);
     }
 
     private static int parseDate(List<String> components) {

@@ -5,11 +5,10 @@ import model.food.Food;
 public class Meal {
 
     Food food;
-    double amount;
     int day;
 
     String name;
-    double foodWeight;
+    double weight;
     double cost;
     double calories;
     double carbs;
@@ -17,23 +16,40 @@ public class Meal {
     double proteins;
     String primaryType;
 
-    public Meal(Food food, double amount, int day) {
+    double foodWeight;
+    double foodCost;
+    double foodCalories;
+    double foodCarbs;
+    double foodFats;
+    double foodProteins;
+
+    public Meal(Food food, double weight, int day) {
         this.food = food;
-        this.amount = amount;
+        this.weight = weight;
         this.day = day;
-        name = food.getName();
+
         foodWeight = food.getWeight();
-        cost = food.getCost() * (amount / foodWeight);
-        calories = food.getCalories() * (amount / foodWeight);
-        carbs = food.getCarbs() * (amount / foodWeight);
-        fats = food.getFats() * (amount / foodWeight);
-        proteins = food.getProteins() * (amount / foodWeight);
+        foodCost = food.getCost();
+        foodCalories = food.getCalories();
+        foodCarbs = food.getCarbs();
+        foodFats = food.getFats();
+        foodProteins = food.getProteins();
+
+        name = food.getName();
+        cost = food.getCost() * (weight / foodWeight);
+        calories = food.getCalories() * (weight / foodWeight);
+        carbs = food.getCarbs() * (weight / foodWeight);
+        fats = food.getFats() * (weight / foodWeight);
+        proteins = food.getProteins() * (weight / foodWeight);
         primaryType = food.getPrimaryType();
+
+
+
     }
 
-    public Meal(int ignored, Food food, double amount, int day) {
+    public Meal(int ignored, Food food, double weight, int day) {
         this.food = food;
-        this.amount = amount;
+        this.weight = weight;
         this.day = day;
         name = food.getName();
         foodWeight = food.getWeight();
@@ -44,7 +60,6 @@ public class Meal {
         proteins = food.getProteins();
         primaryType = food.getPrimaryType();
     }
-
 
     public String getName() {
         return name;
@@ -78,17 +93,47 @@ public class Meal {
         return primaryType;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getWeight() {
+        return weight;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+
+    // FOR FOODS NOT MEAL
+
+    public double getFoodCost() {
+        return foodCost;
+    }
+
+    public double getFoodCalories() {
+        return foodCalories;
+    }
+
+    public double getFoodCarbs() {
+        return foodCarbs;
+    }
+
+    public double getFoodFats() {
+        return foodFats;
+    }
+
+    public double getFoodProteins() {
+        return foodProteins;
     }
 
     public double getFoodWeight() {
         return foodWeight;
     }
 
-    public int getDay() {
-        return day;
-    }
+
+
+
+
+
+
 
     // EDITING METHODS
 
@@ -97,8 +142,8 @@ public class Meal {
     }
 
     public void editAmount(double newAmount) {
-        refactor(newAmount / amount);
-        this.amount = newAmount;
+        refactor(newAmount / weight);
+        this.weight = newAmount;
     }
 
     public void refactor(double scale) {

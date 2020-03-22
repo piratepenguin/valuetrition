@@ -20,10 +20,6 @@ public class FoodList implements Saveable {
         return foodlist.size();
     }
 
-    public Food get(int index) {
-        return foodlist.get(index);
-    }
-
     public void clear() {
         foodlist.clear();
     }
@@ -44,13 +40,16 @@ public class FoodList implements Saveable {
     // EFFECTS: returns food with given name from list,
     //          if not found returns FoodNotFoundException
     public Food getFood(String name) throws FoodNotFoundException {
-        for (Food food: foodlist) {
+        for (Food food : foodlist) {
             if (food.getName().equalsIgnoreCase(name)) {
                 return food;
             }
         }
         throw new FoodNotFoundException();
+    }
 
+    public Food get(int index) {
+        return foodlist.get(index);
     }
 
     // EFFECTS: returns a string of all the foods contained in the list

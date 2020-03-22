@@ -45,7 +45,6 @@ public class MealList implements Saveable {
             }
         }
         throw new FoodNotFoundException();
-
     }
 
     // EFFECTS: returns meal at given index in MealList
@@ -64,10 +63,9 @@ public class MealList implements Saveable {
         StringBuilder list = new StringBuilder();
         int currentDay = 0;
         for (Meal each : mealList) {
-            if (mealList.indexOf(each) == mealList.size() - 1) {
+            if (mealList.indexOf(each) == mealList.size() - 1) { // if last food of day
                 if (each.getDay() != currentDay) {
                     list.append("\n| Day ").append(each.getDay()).append("| ");
-                    currentDay = each.getDay();
                 }
                 list.append(each.getName()).append(" - ");
                 list.append(each.getRoundedCalories()).append("Cal");
@@ -103,17 +101,17 @@ public class MealList implements Saveable {
             printWriter.print(FoodReader.DELIMITER);
             printWriter.print(meal.getFoodWeight());
             printWriter.print(FoodReader.DELIMITER);
-            printWriter.print(meal.getCost());
+            printWriter.print(meal.getFoodCost());
             printWriter.print(FoodReader.DELIMITER);
-            printWriter.print(meal.getCalories());
+            printWriter.print(meal.getFoodCalories());
             printWriter.print(FoodReader.DELIMITER);
-            printWriter.print(meal.getCarbs());
+            printWriter.print(meal.getFoodCarbs());
             printWriter.print(FoodReader.DELIMITER);
-            printWriter.print(meal.getFats());
+            printWriter.print(meal.getFoodFats());
             printWriter.print(FoodReader.DELIMITER);
-            printWriter.print(meal.getProteins());
+            printWriter.print(meal.getFoodProteins());
             printWriter.print(FoodReader.DELIMITER);
-            printWriter.println(meal.getAmount());
+            printWriter.println(meal.getWeight());
         }
     }
 }

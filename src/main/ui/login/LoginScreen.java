@@ -1,21 +1,29 @@
 package ui.login;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.accounts.Account;
 import model.accounts.AccountList;
+import model.exceptions.AccountNotFoundException;
 import model.food.FoodList;
 import model.meal.MealList;
-import ui.Dashboard;
 import ui.boxes.AlertBox;
+
+import java.io.File;
+import java.io.IOException;
 
 public class LoginScreen {
 
@@ -32,6 +40,9 @@ public class LoginScreen {
 
     Button loginButton;
     Button signUpButton;
+
+    ImageView nutritivityImageView;
+    Image nutritivityIcon;
 
     Scene scene;
     Stage window;
@@ -69,6 +80,8 @@ public class LoginScreen {
 
         usernameLabel = new Label("username: ");
         passwordLabel = new Label("password: ");
+        nutritivityImageView = new ImageView("File:./data/NutritivityLogo.png");
+        nutritivityIcon = new Image("File:./data/NutritivityLogo.png");
     }
 
     public void initButtons() {
@@ -78,23 +91,37 @@ public class LoginScreen {
             username = usernameField.getText();
             password = passwordField.getText();
             if (verify(username, password)) {
-                account = AccountList.getAccount(username);
+                try {
+                    account = AccountList.getAccount(username);
+                } catch (AccountNotFoundException ignored) {
+                    AlertBox.display("Error", "Account seems to exist but is inaccessible/corrupted",
+                            600, 150);
+                    // this should NEVER happen b/c wrapped in verify 'if' statement
+                }
                 window.close();
             } else {
-                AlertBox.display("Invalid username/password combination");
+                AlertBox.display("Invalid Entry", "Invalid username/password combination",
+                        300, 100);
             }
         });
 
         signUpButton = new Button("sign up");
-        signUpButton.setOnAction(e -> signUp(username, password));
+        signUpButton.setOnAction(e -> {
+            username = usernameField.getText();
+            password = passwordField.getText();
+            signUp(username, password);
+        });
     }
 
     public void initWindow(String title) {
+
         window = new Stage();
+        window.setOnCloseRequest(e -> System.exit(1));
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setWidth(500);
-        window.setHeight(200);
+        window.setHeight(400);
+        window.getIcons().add(nutritivityIcon);
         window.setScene(scene);
         window.showAndWait();
     }
@@ -106,7 +133,18 @@ public class LoginScreen {
         grid.setHgap(10);
         initGridConstraints();
         grid.getChildren().addAll(usernameLabel, passwordLabel, usernameField, passwordField, signUpButton,loginButton);
-        scene = new Scene(grid);
+
+        GridPane mainGrid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setVgap(8);
+        grid.setHgap(10);
+        GridPane.setConstraints(grid, 0,1);
+        GridPane.setConstraints(nutritivityImageView, 0,0);
+        GridPane.setHalignment(nutritivityImageView, HPos.CENTER);
+        mainGrid.getChildren().addAll(grid, nutritivityImageView);
+        mainGrid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        scene = new Scene(mainGrid);
+
     }
 
     public void initGridConstraints() {
@@ -119,16 +157,48 @@ public class LoginScreen {
     }
 
     public boolean verify(String username, String password) {
-        return (AccountList.contains(username)
-                && AccountList.getAccount(username).getPassword().equals(password));
+        try {
+            return (AccountList.contains(username)
+                    && AccountList.getAccount(username).getPassword().equals(password));
+        } catch (AccountNotFoundException ignored) {
+            return false;
+        }
     }
 
     public void signUp(String username, String password) {
-        boolean success = AccountList.add(username, new Account(username, password));
+        account = new Account(username, password);
+        boolean success = AccountList.add(username, account);
         if (success) {
-            AlertBox.display("successfully created account for " + username);
+            AlertBox.display("success!", "successfully created account for " + username,
+                    400, 140);
+            createFiles();
+            AccountList.add(username,account);
         } else {
-            AlertBox.display("could not create account, username already taken");
+            AlertBox.display("Username Taken", "Could not create account, username already taken",
+                    400, 120);
+        }
+    }
+
+    public void createFiles() {
+        File directoryFile = new File("./data/accounts/" + username);
+        File foodsFile = new File(account.getFoodsFileDir());
+        File mealsFile = new File(account.getMealsFileDir());
+        boolean success = directoryFile.mkdir();
+        if (success) {
+            try {
+                boolean a = foodsFile.createNewFile();
+                boolean b = mealsFile.createNewFile();
+                success = a & b;
+                if (success) {
+                    System.out.println("created food and meal files");
+                } else {
+                    System.out.println("unable to create food and meal files");
+                }
+            } catch (IOException ignored) {
+                System.out.println("directory " + username + " created, unable to create files");
+            }
+        } else {
+            System.out.println("couldn't make directory for " + username);
         }
     }
 

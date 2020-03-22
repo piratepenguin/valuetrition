@@ -1,21 +1,5 @@
 package ui;
 
-import model.exceptions.FoodNotFoundException;
-import model.exceptions.InvalidUserChoiceException;
-import model.food.Food;
-import model.food.FoodList;
-import model.meal.Log;
-import model.meal.Meal;
-import model.meal.MealList;
-import persistence.readers.*;
-import persistence.writers.Writer;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Scanner;
-
 public class NutritivityApp {
 
 //    private static final String MEALS_FILE = "./data/log.txt";

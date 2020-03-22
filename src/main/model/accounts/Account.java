@@ -20,8 +20,9 @@ public class Account {
 
     File  foodsFile;
     File  mealsFile;
+    File  directoryFile;
     String foodsFileDir;
-    String  mealsFileDir;
+    String mealsFileDir;
 
     public Account(String username, String password) {
 
@@ -36,21 +37,9 @@ public class Account {
     }
 
     public void createFiles() {
-        foodsFile = new File(".data/accounts/" + username + "/foods.txt");
-        mealsFile = new File(".data/accounts/" + username + "/meals.txt");
-        boolean success = foodsFile.mkdir();
-        if (success) {
-            try {
-                boolean a = foodsFile.createNewFile();
-                boolean b = mealsFile.createNewFile();
-                success = a & b;
-                System.out.println(success);
-            } catch (IOException ignored) {
-                System.out.println("directory " + username + " created, unable to create files");
-            }
-        } else {
-            System.out.println("couldn't make directory for " + username);
-        }
+        directoryFile = new File("./data/accounts/" + username);
+        foodsFile = new File(foodsFileDir);
+        mealsFile = new File(mealsFileDir);
     }
 
     public String getUsername() {
@@ -63,6 +52,10 @@ public class Account {
 
     public File getFoodsFile() {
         return foodsFile;
+    }
+
+    public File getDirectoryFile() {
+        return directoryFile;
     }
 
     public String getFoodsFileDir() {

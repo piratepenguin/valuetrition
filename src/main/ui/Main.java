@@ -1,6 +1,7 @@
 package ui;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -61,6 +62,7 @@ public class Main extends Application {
     private static final String ACCOUNTS_FILE = "./data/accounts/accountDatabase.txt";
     public File mealsFile;
     public File foodsFile;
+    public static final File accountsFile = new File("./data/accounts/accountDatabase.txt");
     static AccountList accountList;
     FoodList database;
     Log log;
@@ -163,7 +165,7 @@ public class Main extends Application {
 
     }
 
-    private void setCreateFoodButton() {
+    public void setCreateFoodButton() {
         createFoodButton.setOnAction(e -> {
             CreateFoodUI createFoodUI = new CreateFoodUI();
             createFoodUI.display(database);
@@ -235,17 +237,30 @@ public class Main extends Application {
 
     public void initializeGridConstraints() {
 
-        GridPane.setConstraints(welcomeLabel, 1,0);
-        GridPane.setConstraints(openMenuButton, 1,3);
-        GridPane.setConstraints(nextDayButton, 1,5);
-        GridPane.setConstraints(closeButton, 1,7);
-        GridPane.setConstraints(dayLabel, 1,1);
+        GridPane.setConstraints(welcomeLabel, 3,0);
+        GridPane.setHalignment(welcomeLabel, HPos.CENTER);
+        GridPane.setConstraints(openMenuButton, 3,3);
+        GridPane.setHalignment(openMenuButton, HPos.CENTER);
+        GridPane.setConstraints(nextDayButton, 3,5);
+        GridPane.setHalignment(nextDayButton, HPos.CENTER);
+        GridPane.setConstraints(dayLabel, 3,1);
+        GridPane.setHalignment(dayLabel, HPos.CENTER);
+        GridPane.setConstraints(closeButton, 3,7);
+        GridPane.setHalignment(closeButton, HPos.CENTER);
+
+
         GridPane.setConstraints(openDashboardButton, 2,1);
+        GridPane.setHalignment(openDashboardButton, HPos.CENTER);
         GridPane.setConstraints(logMealButton, 3,2);
+        GridPane.setHalignment(logMealButton, HPos.CENTER);
         GridPane.setConstraints(viewLogButton, 2,2);
+        GridPane.setHalignment(viewLogButton, HPos.CENTER);
         GridPane.setConstraints(viewLogForTodayButton, 2,4);
+        GridPane.setHalignment(viewLogForTodayButton, HPos.CENTER);
         GridPane.setConstraints(viewFoodButton, 1,2);
+        GridPane.setHalignment(viewFoodButton, HPos.CENTER);
         GridPane.setConstraints(createFoodButton, 1,4);
+        GridPane.setHalignment(createFoodButton, HPos.CENTER);
     }
 
     public void initializeScenes() {
@@ -301,6 +316,7 @@ public class Main extends Application {
     private void save() {
         saveFoods();
         saveMeals();
+        saveAccounts();
     }
 
     private void saveFoods() {
@@ -326,6 +342,20 @@ public class Main extends Application {
             System.out.println("Log saved to file " + mealsFile.getPath());
         } catch (FileNotFoundException e) {
             System.out.println("Unable to save log to " + mealsFile.getPath());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            // this is due to a programming error
+        }
+    }
+
+    private void saveAccounts() {
+        try {
+            Writer writer = new Writer(accountsFile);
+            writer.write(accountList);
+            writer.close();
+            System.out.println("Account database saved to file " + accountsFile.getPath());
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save foods to " + accountsFile.getPath());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             // this is due to a programming error

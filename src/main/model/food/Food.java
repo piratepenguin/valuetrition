@@ -152,7 +152,6 @@ public class Food {
     }
 
 
-
     // EFFECTS: returns all the food's information
     public String viewInfo() {
         return "food: " + name + "\nweight: " + weight + "g\ncost: $" + cost + "\ncalories: "
