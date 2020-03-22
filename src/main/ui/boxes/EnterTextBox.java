@@ -1,11 +1,13 @@
 package ui.boxes;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -42,6 +44,8 @@ public class EnterTextBox {
 
         // create text box for user to input a string
         answerField = new TextField();
+        answerField.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(5),
+                Insets.EMPTY)));
         answerField.setPromptText("Type here");
     }
 
@@ -73,10 +77,19 @@ public class EnterTextBox {
     }
 
     public static void initScene() {
-        HBox layout1 = new HBox(10);
-        layout1.getChildren().addAll(label, answerField, enterButton);
-        layout1.setAlignment(Pos.BASELINE_CENTER);
-        Scene scene = new Scene(layout1);
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(30,10,10,30));
+        grid.setVgap(8);
+        grid.setHgap(10);
+        grid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY,
+                Insets.EMPTY)));
+
+        GridPane.setConstraints(label, 0,0);
+        GridPane.setConstraints(answerField, 0,1);
+        GridPane.setConstraints(enterButton, 0,2);
+
+        grid.getChildren().addAll(label, answerField, enterButton);
+        Scene scene = new Scene(grid);
         window.setScene(scene);
         window.showAndWait();
     }

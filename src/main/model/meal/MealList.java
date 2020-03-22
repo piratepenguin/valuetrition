@@ -7,7 +7,9 @@ import persistence.readers.FoodReader;
 import java.io.PrintWriter;
 import java.util.*;
 
-// represents a list of Food items
+// represents a list of Meal items
+// - intended for representing a list of all meals eaten on a given day
+
 public class MealList implements Saveable {
     private ArrayList<Meal> mealList;
 

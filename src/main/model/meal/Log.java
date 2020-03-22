@@ -11,6 +11,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+//       represents a Log, which has:
+//        - a MealList assigned to each existing day (int)
+//        - each MealList represents what meals were eaten that day
+
 public class Log implements Saveable {
 
     private HashMap<Integer,MealList> log;

@@ -2,6 +2,12 @@ package model.meal;
 
 import model.food.Food;
 
+
+// represents a meal, which consists of:
+//  - the food being eaten
+//  - how much of that food is being eaten (weight)
+//  - the day it is being eaten on
+
 public class Meal {
 
     Food food;

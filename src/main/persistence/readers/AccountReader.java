@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-// A reader that can read food data from a file
+// A reader that can read account data from a file
 public class AccountReader {
 
     public static final String DELIMITER = ",";

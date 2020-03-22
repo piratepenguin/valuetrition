@@ -156,7 +156,7 @@ public class Main extends Application {
         openMenuButton.setOnAction(e -> window.setScene(menu));
 
         openDashboardButton.setTextFill(Color.SEAGREEN);
-        openDashboardButton.setFont(new Font("Arial", 20));
+        openDashboardButton.setFont(new Font("Arial", 30));
         openDashboardButton.setOnAction(e -> window.setScene(dashboard));
 
         setViewLogButton();
@@ -169,6 +169,8 @@ public class Main extends Application {
     }
 
     public void setCreateFoodButton() {
+        createFoodButton.setFont(new Font("Arial", 20));
+        createFoodButton.setTextFill(Color.SEAGREEN);
         createFoodButton.setOnAction(e -> {
             CreateFoodUI createFoodUI = new CreateFoodUI();
             createFoodUI.display(database);
@@ -176,36 +178,42 @@ public class Main extends Application {
     }
 
     public void setLogMealButton() {
+
+        logMealButton.setFont(new Font("Arial", 20));
+        logMealButton.setTextFill(Color.SEAGREEN);
         logMealButton.setOnAction(e -> {
-                    boolean retry;
-                    do {
-                        String databaseString;
-                        if (database.toString().equals("")) {
-                            databaseString = "Food database empty, please create some foods first";
-                        } else {
-                            databaseString = "Current available foods: " + database.toString();
-                        }
-                        String foodName = EnterTextBoxWithFooter.display("Log Meal", "Enter Food Name",
-                                databaseString);
-                        try {
-                            Food foodToLog = database.getFood(foodName);
-                            LogMealUI logMealUI = new LogMealUI();
-                            logMealUI.display(foodToLog, log, date);
-                            retry = false;
-                        } catch (FoodNotFoundException ex) {
-                            retry = ConfirmBox.display("error", "Food not found, would you like to try again?");
-                        }
-                    } while (retry);
+            boolean retry;
+            do {
+                String databaseString;
+                if (database.toString().equals("")) {
+                    databaseString = "Food database empty, please create some foods first";
+                } else {
+                    databaseString = "Current available foods: " + database.toString();
                 }
-        );
+                String foodName = EnterTextBoxWithFooter.display("Log Meal", "Enter Food Name",
+                        databaseString);
+                try {
+                    Food foodToLog = database.getFood(foodName);
+                    LogMealUI logMealUI = new LogMealUI();
+                    logMealUI.display(foodToLog, log, date);
+                    retry = false;
+                } catch (FoodNotFoundException ex) {
+                    retry = ConfirmBox.display("error", "Food not found, would you like to try again?");
+                }
+            } while (retry);
+        });
     }
 
     public void setViewLogForTodayButton() {
+        viewLogForTodayButton.setFont(new Font("Arial", 20));
+        viewLogForTodayButton.setTextFill(Color.SEAGREEN);
         viewLogForTodayButton.setOnAction(e -> AlertBox.display("View Log for Today", log.getLogForDayAsString(date),
                     600, 200));
     }
 
     public void setViewLogButton() {
+        viewLogButton.setFont(new Font("Arial", 20));
+        viewLogButton.setTextFill(Color.SEAGREEN);
         viewLogButton.setOnAction(e -> {
             int day = Integer.parseInt(EnterTextBox.display("View Log for Day ...",
                     "View log for day: ", 500, 250));
@@ -224,6 +232,8 @@ public class Main extends Application {
     }
 
     public void setViewFoodButton() {
+        viewFoodButton.setFont(new Font("Arial", 20));
+        viewFoodButton.setTextFill(Color.SEAGREEN);
         viewFoodButton.setOnAction(e -> {
             boolean retry;
             do {
@@ -276,7 +286,7 @@ public class Main extends Application {
 
     public void initializeScenes() {
 
-        // Scene 1 - uses vertical layout
+        // Scene 1 for dashboard
         GridPane dashboardGrid = new GridPane();
         dashboardGrid.setPadding(new Insets(10,10,10,10));
         dashboardGrid.setVgap(8);
@@ -287,15 +297,15 @@ public class Main extends Application {
         dashboard = new Scene(dashboardGrid, 500, 400);
 
 
-        // Scene 2 - uses horizontal layout
+        // Scene 2 for menu
         GridPane menuGrid = new GridPane();
         menuGrid.setPadding(new Insets(10,10,10,10));
-        menuGrid.setVgap(8);
-        menuGrid.setHgap(10);
+        menuGrid.setVgap(50);
+        menuGrid.setHgap(15);
         menuGrid.getChildren().addAll(openDashboardButton, viewFoodButton, createFoodButton, viewLogForTodayButton,
                 viewLogButton, logMealButton);
         menuGrid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-        menu = new Scene(menuGrid, 900, 150);
+        menu = new Scene(menuGrid, 800, 500);
     }
 
 

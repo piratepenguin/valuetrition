@@ -13,6 +13,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+
+// represents a database of user accounts
 public class AccountList implements Saveable {
 
     private static HashMap<String, Account> accountList;

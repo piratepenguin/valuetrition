@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
-// A writer that can write food data to a file
+// A writer that can write data to a file
 public class Writer {
     private PrintWriter printWriter;
 

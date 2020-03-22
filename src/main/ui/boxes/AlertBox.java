@@ -1,10 +1,15 @@
 package ui.boxes;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -22,9 +27,7 @@ public class AlertBox {
 
         // create buttons
         Button okButton = new Button("ok");
-        okButton.setOnAction(e -> {
-            window.close();
-        });
+        okButton.setOnAction(e ->  window.close());
 
 
         VBox layout = new VBox(10);
@@ -45,15 +48,14 @@ public class AlertBox {
 
         // create buttons
         Button okButton = new Button("ok");
-        okButton.setOnAction(e -> {
-            window.close();
-        });
+        okButton.setOnAction(e ->  window.close());
 
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, okButton);
-        layout.setAlignment(Pos.BASELINE_CENTER);
+        layout.setAlignment(Pos.CENTER);
         Scene scene = new Scene(layout);
+        layout.setBackground(new Background(new BackgroundFill(Color.DARKTURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
         window.setScene(scene);
         window.showAndWait();
     }

@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+
+// Represents a user account
 public class Account {
 
     String username;
