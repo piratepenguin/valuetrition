@@ -13,6 +13,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.accounts.Account;
@@ -20,10 +21,15 @@ import model.accounts.AccountList;
 import model.exceptions.AccountNotFoundException;
 import model.food.FoodList;
 import model.meal.MealList;
+import persistence.writers.Writer;
+import ui.Main;
 import ui.boxes.AlertBox;
 
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public class LoginScreen {
 
@@ -50,6 +56,9 @@ public class LoginScreen {
     FoodList foodList;
     MealList mealList;
 
+    public static final File accountsFile = new File("./data/accounts/accountDatabase.txt");
+    static AccountList accountList;
+
     public LoginScreen() {
         username = "";
         password = "";
@@ -72,21 +81,50 @@ public class LoginScreen {
         // create text box for user to input a string
         usernameField = new TextField();
         usernameField.setPromptText("Type here");
+        usernameField.setFont(new Font("Arial", 15));
+        usernameField.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(7),
+                Insets.EMPTY)));
         passwordField = new TextField();
         passwordField.setPromptText("Type here");
+        passwordField.setFont(new Font("Arial", 15));
+        passwordField.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(7),
+                Insets.EMPTY)));
     }
 
     public void initLabels() {
 
         usernameLabel = new Label("username: ");
+        usernameLabel.setFont(new Font("AcmeFont", 18));
         passwordLabel = new Label("password: ");
+        passwordLabel.setFont(new Font("AcmeFont", 18));
+//        passwordLabel.setTextFill(Color.TURQUOISE);
         nutritivityImageView = new ImageView("File:./data/NutritivityLogo.png");
         nutritivityIcon = new Image("File:./data/NutritivityLogo.png");
     }
 
     public void initButtons() {
         // create buttons
+        initLoginButton();
+        initSignUpButton();
+    }
+
+    private void initSignUpButton() {
+        signUpButton = new Button("sign up");
+        signUpButton.setFont(new Font("Arial", 18));
+        signUpButton.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(5),
+                Insets.EMPTY)));
+        signUpButton.setOnAction(e -> {
+            username = usernameField.getText();
+            password = passwordField.getText();
+            signUp(username, password);
+        });
+    }
+
+    public void initLoginButton() {
         loginButton = new Button("log in");
+        loginButton.setFont(new Font("Arial", 18));
+        loginButton.setBackground(new Background(new BackgroundFill(Color.WHITESMOKE, new CornerRadii(5),
+                Insets.EMPTY)));
         loginButton.setOnAction(e -> {
             username = usernameField.getText();
             password = passwordField.getText();
@@ -101,15 +139,8 @@ public class LoginScreen {
                 window.close();
             } else {
                 AlertBox.display("Invalid Entry", "Invalid username/password combination",
-                        300, 100);
+                        300, 120);
             }
-        });
-
-        signUpButton = new Button("sign up");
-        signUpButton.setOnAction(e -> {
-            username = usernameField.getText();
-            password = passwordField.getText();
-            signUp(username, password);
         });
     }
 
@@ -119,7 +150,7 @@ public class LoginScreen {
         window.setOnCloseRequest(e -> System.exit(1));
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setWidth(500);
+        window.setWidth(640);
         window.setHeight(400);
         window.getIcons().add(nutritivityIcon);
         window.setScene(scene);
@@ -153,7 +184,9 @@ public class LoginScreen {
         GridPane.setConstraints(usernameField, 2, 1);
         GridPane.setConstraints(passwordField, 4, 1);
         GridPane.setConstraints(loginButton, 2, 3);
+        GridPane.setHalignment(loginButton, HPos.CENTER);
         GridPane.setConstraints(signUpButton, 4, 3);
+        GridPane.setHalignment(signUpButton, HPos.CENTER);
     }
 
     public boolean verify(String username, String password) {
@@ -172,12 +205,28 @@ public class LoginScreen {
             AlertBox.display("success!", "successfully created account for " + username,
                     400, 140);
             createFiles();
-            AccountList.add(username,account);
+            saveAccounts();
         } else {
             AlertBox.display("Username Taken", "Could not create account, username already taken",
                     400, 120);
         }
     }
+
+    private void saveAccounts() {
+//        try {
+//            Writer writer = new Writer(accountsFile);
+//            writer.write(accountList);
+//            writer.close();
+//            System.out.println("Account database saved to file " + accountsFile.getPath());
+//        } catch (FileNotFoundException e) {
+//            System.out.println("Unable to save account database to " + accountsFile.getPath());
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//            // this is due to a programming error
+//        }
+        Main.saveAccounts();
+    }
+
 
     public void createFiles() {
         File directoryFile = new File("./data/accounts/" + username);

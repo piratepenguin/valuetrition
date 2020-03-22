@@ -23,10 +23,7 @@ import persistence.readers.AccountReader;
 import persistence.readers.FoodReader;
 import persistence.readers.LogReader;
 import persistence.writers.Writer;
-import ui.boxes.AlertBox;
-import ui.boxes.ConfirmBox;
-import ui.boxes.EnterTextBox;
-import ui.boxes.EnterTextBoxWithFooter;
+import ui.boxes.*;
 import ui.food.CreateFoodUI;
 import ui.food.ViewFoodUI;
 import ui.login.LoginScreen;
@@ -36,6 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -70,7 +68,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-
         loadAccountList();
         launch(args);
     }
@@ -95,6 +92,9 @@ public class Main extends Application {
         initializeScenes();
         initializeMainWindow(primaryStage);
     }
+
+
+    //   window
 
     public void initializeMainWindow(Stage primaryStage) {
 
@@ -126,6 +126,9 @@ public class Main extends Application {
         dayLabel.setFont(new Font("Arial", 40));
         dayLabel.setTextFill(Color.LIGHTSEAGREEN);
     }
+
+
+    //   buttons
 
     public void setButtonNames() {
 
@@ -176,7 +179,12 @@ public class Main extends Application {
         logMealButton.setOnAction(e -> {
                     boolean retry;
                     do {
-                        String databaseString = "Current available foods: " + database.toString();
+                        String databaseString;
+                        if (database.toString().equals("")) {
+                            databaseString = "Food database empty, please create some foods first";
+                        } else {
+                            databaseString = "Current available foods: " + database.toString();
+                        }
                         String foodName = EnterTextBoxWithFooter.display("Log Meal", "Enter Food Name",
                                 databaseString);
                         try {
@@ -235,6 +243,9 @@ public class Main extends Application {
         );
     }
 
+
+    //   scene
+
     public void initializeGridConstraints() {
 
         GridPane.setConstraints(welcomeLabel, 3,0);
@@ -287,6 +298,10 @@ public class Main extends Application {
         menu = new Scene(menuGrid, 900, 150);
     }
 
+
+
+    //    load & save
+
     private void load() {
         try {
             log = LogReader.readLog(mealsFile);
@@ -333,7 +348,6 @@ public class Main extends Application {
         }
     }
 
-    // EFFECTS: saves log
     private void saveMeals() {
         try {
             Writer writer = new Writer(mealsFile);
@@ -348,18 +362,19 @@ public class Main extends Application {
         }
     }
 
-    private void saveAccounts() {
+    public static void saveAccounts() {
         try {
             Writer writer = new Writer(accountsFile);
             writer.write(accountList);
             writer.close();
             System.out.println("Account database saved to file " + accountsFile.getPath());
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to save foods to " + accountsFile.getPath());
+            System.out.println("Unable to save account database to " + accountsFile.getPath());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             // this is due to a programming error
         }
     }
+
 }
 

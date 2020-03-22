@@ -2,6 +2,7 @@ package ui.food;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -24,7 +25,7 @@ public class ViewFoodUI extends FoodUI {
         initButtons();
         initScene();
         initSceneForViewing();
-        initWindow(600,600);
+        initWindow(640,600);
         window.show();
     }
 
@@ -34,7 +35,20 @@ public class ViewFoodUI extends FoodUI {
         editInfoButton.setOnAction(e -> {
             EditFoodUI editFoodUI = new EditFoodUI(food);
             editFoodUI.displayEditMenu();
+            initFood();
+            refreshLabels();
         });
+    }
+
+    private void refreshLabels() {
+        nameCL.setText(currentName);
+        weightCL.setText(Integer.toString(currentWeight));
+        caloriesCL.setText(Integer.toString(currentCalories));
+        costCL.setText(Double.toString(currentCost));
+        carbsCL.setText(Integer.toString(currentCarbs));
+        fatsCL.setText(Integer.toString(currentFats));
+        proteinCL.setText(Integer.toString(currentProteins));
+        valueCL.setText(currentValue);
     }
 
     public void initSceneForViewing() {

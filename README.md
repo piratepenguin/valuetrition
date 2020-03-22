@@ -26,13 +26,58 @@ good my overall diet is.
 ## User Stories:
 
 #### Basics
-As a user, I want to create my own version of a certain food by inputting its nutrients and cost
+1.  As a user, I want to create my own version of a certain food by inputting its nutrients and cost
 
-As a user, I want to be able to select a food and view its nutrients and economical value
+2.  As a user, I want to be able to select a food and view its nutrients and economical value
 
-As a user, I want to add a food to the log of foods I've eaten today
+3.  As a user, I want to add a food to the log of foods I've eaten today
 
 #### Saving
-As a user, I want to be able to save my log and the food database
+4\. As a user, I want to be able to save my log and the food database
 
-As a user, I want the application to load my saved log when i open it
+5\. As a user, I want the application to load my saved log when i open it
+
+
+## For the TA:
+
+1. Run 'Main'
+2. Login Menu will open.
+    - Nutritivity logo on screen, title bar, desktop taskbar . . .   Audiovisual component
+    - try to input random usernames and passwords and click "login"
+        - since these haven't been created yet, they don't work
+    - try entering a username that's already taken and click "sign up"
+        - username: deniskov
+    - try signing up with a different username
+        - your account will be added to the database
+        - new save files will be made for your account
+        - you can now log in with this account (wait till after demo, for demo clarity)
+    - try logging in to my account
+        - notice if you enter an incorrect password, it will not load
+        - username: deniskov 
+        - password: b2 
+    - The saved log for deniskov will now load . . . . . . . . . . . . . . . (User Story #5)
+3. This is the 'Dashboard'.
+    - You can:
+        - see what the current day is - in this case, day 5
+        - open the Menu
+        - save & exit
+    - Click "Next Day"
+        - notice the day increases by 1
+        - now you will be logging for day 6
+    - Click "Open Menu"
+        - this is where you can perform actions like:
+            - return to dashboard
+            - "View Food Info" = view info for a certain food . . . . . (User Story #2)
+            - "Create a new Food" = create own version of a food (User Story #1)
+            - "View log for Another Day" = view log for some day
+                - . . . . . . . . . . . . . . . . . . . . . . . . . . . .. .  Viewing X's added to the Y
+            - "View log for Today" = view log for today
+                - . . . . . . . . . . . . . . . . . . . . . . . . . . . .. .  Viewing X's added to the Y
+            - "Log Meal" = add a meal to the log . . . . . . . . . . . . . . (User Story #3)
+                - . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . adding an X to a Y
+    - Once you are done, navigate back to the 'Dashboard'
+    - Click "Save & Exit"
+        - any changed you made will now be saved to files . . . . . . (User Story #4)
+    
+            
+     

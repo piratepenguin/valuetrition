@@ -40,10 +40,10 @@ public class EditFoodUI extends FoodUI {
         initTextFields();
         initLabels();
         initButtons();
-        initSetOnCloseRequest();
         initSceneForEditing();
         setGridConstraintsForEditing();
         initWindow(350,400);
+        initSetOnCloseRequest();
         window.showAndWait();
     }
 
