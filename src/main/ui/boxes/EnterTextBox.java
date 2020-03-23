@@ -30,6 +30,7 @@ public class EnterTextBox {
         return answer;
     }
 
+
     public static String display(String title, String message, int width, int height) {
 
         initWindow(title,message,width,height);

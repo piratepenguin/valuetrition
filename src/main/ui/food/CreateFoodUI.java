@@ -103,7 +103,8 @@ public class CreateFoodUI extends FoodUI {
         grid.getChildren().addAll(nameLabel, weightLabel, costLabel, caloriesLabel,
                 carbsLabel, fatsLabel, proteinLabel, foodInfoLabel, enterBelowLabel);
         grid.getChildren().addAll(nameField, weightField, costField);
-        grid.getChildren().addAll(caloriesField, carbsField, fatsField, proteinField, createButton, uploadImageButton);
+        grid.getChildren().addAll(caloriesField, carbsField, fatsField, proteinField, createButton);
+//        grid.getChildren().add(uploadImageButton);
         grid.setBackground(new Background(new BackgroundFill(Color.LIGHTSALMON, CornerRadii.EMPTY, Insets.EMPTY)));
         scene = new Scene(grid);
     }

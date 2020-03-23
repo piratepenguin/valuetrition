@@ -37,6 +37,8 @@ import java.util.List;
 
 public class Main extends Application {
 
+    boolean retry;
+
     Stage window;
     Scene dashboard;
     Scene menu;
@@ -110,7 +112,9 @@ public class Main extends Application {
     }
 
     public void closeProgram() {
-        boolean close = ConfirmBox.display("Confirm Quit", "Are you sure you want to quit?", 300, 150);
+        ConfirmBox confirmBox = new ConfirmBox();
+        boolean close = confirmBox.display("Confirm Quit", "Are you sure you want to quit?", 300,
+                150);
         if (close) {
             save();
             window.close();
@@ -161,7 +165,11 @@ public class Main extends Application {
 
         setViewLogButton();
         setViewLogForTodayButton();
+
         setLogMealButton();
+        logMealButton.setFont(new Font("Arial", 20));
+        logMealButton.setTextFill(Color.SEAGREEN);
+
         setViewFoodButton();
         setCreateFoodButton();
         setNextDayButton();
@@ -179,10 +187,7 @@ public class Main extends Application {
 
     public void setLogMealButton() {
 
-        logMealButton.setFont(new Font("Arial", 20));
-        logMealButton.setTextFill(Color.SEAGREEN);
         logMealButton.setOnAction(e -> {
-            boolean retry;
             do {
                 String databaseString;
                 if (database.toString().equals("")) {
@@ -193,12 +198,15 @@ public class Main extends Application {
                 String foodName = EnterTextBoxWithFooter.display("Log Meal", "Enter Food Name",
                         databaseString);
                 try {
-                    Food foodToLog = database.getFood(foodName);
-                    LogMealUI logMealUI = new LogMealUI();
-                    logMealUI.display(foodToLog, log, date);
-                    retry = false;
+                    if (foodName != null) {
+                        Food foodToLog = database.getFood(foodName);
+                        LogMealUI logMealUI = new LogMealUI();
+                        logMealUI.display(foodToLog, log, date);
+                        retry = false;
+                    }
                 } catch (FoodNotFoundException ex) {
-                    retry = ConfirmBox.display("error", "Food not found, would you like to try again?");
+                    ConfirmBox confirmBox = new ConfirmBox();
+                    retry = confirmBox.display("error", "Food not found, would you like to try again?");
                 }
             } while (retry);
         });
@@ -215,10 +223,13 @@ public class Main extends Application {
         viewLogButton.setFont(new Font("Arial", 20));
         viewLogButton.setTextFill(Color.SEAGREEN);
         viewLogButton.setOnAction(e -> {
-            int day = Integer.parseInt(EnterTextBox.display("View Log for Day ...",
-                    "View log for day: ", 500, 250));
-            AlertBox.display("View Log for Today", log.getLogForDayAsString(day),
-                    600, 200);
+            String dayString = EnterTextBox.display("View Log for Day ...",
+                    "View log for day: ", 500, 250);
+            if (dayString != null) {
+                int day = Integer.parseInt(dayString);
+                AlertBox.display("View Log for Today", log.getLogForDayAsString(day),
+                        600, 200);
+            }
         });
     }
 
@@ -246,7 +257,8 @@ public class Main extends Application {
                     viewFoodUI.displayFoodInfo(foodToView);
                     retry = false;
                 } catch (FoodNotFoundException ex) {
-                    retry = ConfirmBox.display("error", "Food not found, would you like to try again?");
+                    ConfirmBox confirmBox = new ConfirmBox();
+                    retry = confirmBox.display("error", "Food not found, would you like to try again?");
                 }
             } while (retry);
         }

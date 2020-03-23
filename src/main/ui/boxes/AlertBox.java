@@ -5,10 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -32,7 +29,8 @@ public class AlertBox {
 
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, okButton);
-        layout.setAlignment(Pos.BASELINE_CENTER);
+        layout.setAlignment(Pos.CENTER);
+        layout.setBackground(new Background(new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY)));
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
@@ -54,8 +52,8 @@ public class AlertBox {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(label, okButton);
         layout.setAlignment(Pos.CENTER);
+        layout.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
         Scene scene = new Scene(layout);
-        layout.setBackground(new Background(new BackgroundFill(Color.DARKTURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
         window.setScene(scene);
         window.showAndWait();
     }

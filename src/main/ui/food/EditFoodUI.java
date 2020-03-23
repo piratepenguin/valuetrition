@@ -69,7 +69,8 @@ public class EditFoodUI extends FoodUI {
         window.setOnCloseRequest(e -> {
             if (!checkForSimilarity()) {
                 e.consume();
-                exit = ConfirmBox.display("Unsaved Changes", "Unsaved changes, do you wish to exit?");
+                ConfirmBox confirmBox = new ConfirmBox();
+                exit = confirmBox.display("Unsaved Changes", "Unsaved changes, do you wish to exit?");
                 if (exit) {
                     System.out.println("Changes for " + currentName + " have been discarded");
                     window.close();
