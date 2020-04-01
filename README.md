@@ -74,5 +74,20 @@ good my overall diet is.
     - Click "Save & Exit"
         - any changed you made will now be saved to files ........... (User Story #4, Saving)
     
-            
+           
+           
+## Phase 4: Task 2
      
+The AccountList class, which stores all the account usernames and passwords, both uses a HashMap<<a>String, Account>
+and is an example of a robust class that throws a checked exception.
+
+The hashmap stores usernames as keys, and accounts as values, so when the user enters a username and password, 
+the program checks whether the account mapped to that username has the same password as the one entered.
+
+If the user enters a username that is not recognized by AccountList, AccountList throws an AccountNotFoundException.
+This exception is caught by LoginScreen, which in turn pops up an alert box notifying the user that the provided information is invalid.
+
+It is tested thoroughly, including the checked exception, in AccountListTest
+
+It uses an account as the mapped value instead of a password because after a successful entry, 
+the AccountList passes the Account to the login system which then loads that account's data
