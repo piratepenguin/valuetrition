@@ -112,3 +112,8 @@ Furthermore, an even sneakier bug appeared because we assume that since the days
 log.size() will be equal to the last day, so we can stop saving there. However, if meals are only logged for days 1 and 5, for example, 
 log.size() will return 2, and thus day 5's meals will never get saved. This causes no excpetions to be thrown or compilation errors, and is very hard to catch.
 To fix this, I implemented an iterator, like we learned in class, to loop through all the Entries in the hashmap and save each one.
+
+###3.
+In case #2 doesn't quite count as coupling since it's mostly within the same class, I've also reduced coupling between
+Main and Account, where Main no longer has a field of Account, and instead uses loginScreen's return value of Account to immediately load everything it needs from that account,
+which are the MealList and Log files, and then doesn't need to hold onto it any longer. This cleaned up the flow of the UML diagram.

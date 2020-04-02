@@ -61,7 +61,6 @@ public class Main extends Application {
     File foodsFile;
 
 
-    Account account;
     static AccountList accountList;
     FoodList database;
     Log log;
@@ -76,7 +75,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
 
         LoginScreen loginScreen = new LoginScreen();
-        account = loginScreen.display();
+        Account account = loginScreen.display();
         foodsFile = account.getFoodsFile();
         mealsFile = account.getMealsFile();
         load();
@@ -179,7 +178,10 @@ public class Main extends Application {
         createFoodButton.setTextFill(Color.SEAGREEN);
         createFoodButton.setOnAction(e -> {
             CreateFoodUI createFoodUI = new CreateFoodUI();
-            createFoodUI.display(database);
+            Food newFood = createFoodUI.display();
+            if (null != newFood) {
+                database.add(newFood);
+            }
         });
     }
 

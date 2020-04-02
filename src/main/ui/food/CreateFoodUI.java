@@ -34,8 +34,6 @@ public class CreateFoodUI extends FoodUI {
     Label enterBelowLabel;
     Label foodInfoLabel;
 
-    FoodList database;
-
     String name;
     double weight;
     double cost;
@@ -44,16 +42,16 @@ public class CreateFoodUI extends FoodUI {
     double fats;
     double protein;
 
-    public void display(FoodList database) {
+    public Food display() {
 
         purposeString = "New Food Creator";
-        this.database = database;
         initTextFields();
         initLabels();
         initButtons();
         initScene();
         initWindow(500,500);
         window.showAndWait();
+        return food;
     }
 
     public void initTextFields() {
@@ -144,8 +142,6 @@ public class CreateFoodUI extends FoodUI {
         try {
             checkFormNotBlank();
             food = new Food(name, weight, cost, calories, carbs, fats, protein);
-            database.add(food);
-            window.close();
         } catch (NullFoodException ex) {
             AlertBox.display("Incomplete", "Please enter all necessary values", 400, 120);
         }
