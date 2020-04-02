@@ -55,14 +55,13 @@ public class Main extends Application {
     Label welcomeLabel;
     Label dayLabel;
 
-    Account account;
-
-
     private static final String ACCOUNTS_FILE_STRING = "./data/accounts/accountDatabase.txt";
     public static final File ACCOUNTS_FILE = new File(ACCOUNTS_FILE_STRING);
     File mealsFile;
     File foodsFile;
 
+
+    Account account;
     static AccountList accountList;
     FoodList database;
     Log log;

@@ -10,10 +10,10 @@ import model.food.Food;
 
 public abstract class FoodUI {
 
-    Food food;
-    Stage window;
-    Scene scene;
-    String purposeString;
+    protected Food food;
+    protected Stage window;
+    protected Scene scene;
+    protected String purposeString;
 
     // current values for display
     String currentName;

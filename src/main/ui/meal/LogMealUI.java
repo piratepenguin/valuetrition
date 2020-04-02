@@ -16,8 +16,6 @@ import model.meal.Meal;
 
 public class LogMealUI {
 
-    Food food;
-    Meal meal;
     Log log;
     double amount;
     int date;
@@ -36,10 +34,10 @@ public class LogMealUI {
 
     public void display(Food food, Log log, int date) {
 
-        initParams(food, date, log);
+        initParams(date, log);
         initTextFields();
         initLabels();
-        initButtons();
+        initButtons(food);
         initGridLines();
         initScene();
         initWindow();
@@ -61,20 +59,19 @@ public class LogMealUI {
         dateLabel = new Label("Day:");
     }
 
-    public void initButtons() {
+    public void initButtons(Food food) {
 
         addToLogButton = new Button("Add Meal to Log");
         addToLogButton.setOnAction(e -> {
-            createMeal();
-            log.logMeal(date, meal);
+            log.logMeal(date, createMeal(food));
             window.close();
         });
     }
 
-    private void createMeal() {
+    private Meal createMeal(Food food) {
         amount = Double.parseDouble(amountField.getText());
         date = Integer.parseInt(dateField.getText());
-        meal = new Meal(food, amount, date);
+        return new Meal(food, amount, date);
     }
 
     public void initTextFields() {
@@ -101,8 +98,7 @@ public class LogMealUI {
         window.show();
     }
 
-    public void initParams(Food food1, int day, Log givenLog) {
-        food = food1;
+    public void initParams(int day, Log givenLog) {
         date = day;
         log = givenLog;
     }
