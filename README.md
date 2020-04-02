@@ -103,3 +103,12 @@ Some references included the dot and some didn't, and some even used "\\" instea
 Now I changed it to be a static final string declared in Account, so whenever i need it, it will always reference the same, proper directory.
 
 ###2. 
+Another instance of coupling happened in my Log class, while saving. \
+I had initially used -   for (int i = 0; i < log.size(); i++) { log.get(i).save }
+however, this method treated log as more of a list than a hashmap (whereas log is a hashmap) \
+This method worked in basic test runs, but caused problems when a certain day had no meals logged \
+ie. log.get(i) returned null\
+Furthermore, an even sneakier bug appeared because we assume that since the days (hashmap keys), start at 1 and increase by 1,
+log.size() will be equal to the last day, so we can stop saving there. However, if meals are only logged for days 1 and 5, for example, 
+log.size() will return 2, and thus day 5's meals will never get saved. This causes no excpetions to be thrown or compilation errors, and is very hard to catch.
+To fix this, I implemented an iterator, like we learned in class, to loop through all the Entries in the hashmap and save each one.

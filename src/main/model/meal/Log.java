@@ -5,6 +5,8 @@ import persistence.Saveable;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 //       represents a Log, which has:
@@ -57,12 +59,22 @@ public class Log implements Saveable {
 
     @Override
     public void save(PrintWriter printWriter) {
-        for (int i = 0; i <= log.size(); i++) {
-            if (log.get(i) != null) {
-                MealList mealList = log.get(i);
-                mealList.save(printWriter);
-            }
+
+        Iterator<Map.Entry<Integer,MealList>> logIterator = log.entrySet().iterator();
+        while (logIterator.hasNext()) {
+            Map.Entry<Integer,MealList> mapElement = logIterator.next();
+            mapElement.getValue().save(printWriter);
         }
+
+        // log.forEach((k, v) -> log.get(k).save(printWriter));
+
+//        /old code, reformatted to decrease coupling
+//        for (int i = 0; i <= log.size(); i++) {
+//            if (log.get(i) != null) {
+//                MealList mealList = log.get(i);
+//                mealList.save(printWriter);
+//            }
+//        }
     }
 
 }
