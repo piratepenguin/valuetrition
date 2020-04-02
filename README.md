@@ -91,3 +91,15 @@ It is tested thoroughly, including the checked exception, in AccountListTest
 
 It uses an account as the mapped value instead of a password because after a successful entry, 
 the AccountList passes the Account to the login system which then loads that account's data
+
+
+## Phase 4: Task 3
+###1.
+I had an instance of coupling in my Account class & its dependents, where the directory of my accounts folder was missing a "." in the start of the file name
+
+was: (/data/accounts/...) should be: (./data/accounts/...) 
+
+Some references included the dot and some didn't, and some even used "\\" instead of "/" so it took me hours to find what was causing the problem. 
+Now I changed it to be a static final string declared in Account, so whenever i need it, it will always reference the same, proper directory.
+
+###2. 

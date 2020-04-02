@@ -2,7 +2,7 @@ package model.meal;
 
 import model.exceptions.FoodNotFoundException;
 import persistence.Saveable;
-import persistence.readers.FoodReader;
+import persistence.readers.LogReader;
 
 import java.io.PrintWriter;
 import java.util.*;
@@ -98,21 +98,21 @@ public class MealList implements Saveable {
     public void save(PrintWriter printWriter) {
         for (Meal meal : mealList) {
             printWriter.print(meal.getDay());
-            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(LogReader.DELIMITER);
             printWriter.print(meal.getName());
-            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(LogReader.DELIMITER);
             printWriter.print(meal.getFoodWeight());
-            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(LogReader.DELIMITER);
             printWriter.print(meal.getFoodCost());
-            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(LogReader.DELIMITER);
             printWriter.print(meal.getFoodCalories());
-            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(LogReader.DELIMITER);
             printWriter.print(meal.getFoodCarbs());
-            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(LogReader.DELIMITER);
             printWriter.print(meal.getFoodFats());
-            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(LogReader.DELIMITER);
             printWriter.print(meal.getFoodProteins());
-            printWriter.print(FoodReader.DELIMITER);
+            printWriter.print(LogReader.DELIMITER);
             printWriter.println(meal.getWeight());
         }
     }

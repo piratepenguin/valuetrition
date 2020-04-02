@@ -3,7 +3,6 @@ package persistence.readers;
 import model.food.Food;
 import model.meal.Log;
 import model.meal.Meal;
-import model.meal.MealList;
 
 import java.io.File;
 import java.io.IOException;

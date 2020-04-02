@@ -19,17 +19,12 @@ import javafx.stage.Stage;
 import model.accounts.Account;
 import model.accounts.AccountList;
 import model.exceptions.AccountNotFoundException;
-import model.food.FoodList;
-import model.meal.MealList;
-import persistence.writers.Writer;
 import ui.Main;
 import ui.boxes.AlertBox;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 public class LoginScreen {
 
@@ -53,11 +48,6 @@ public class LoginScreen {
     Scene scene;
     Stage window;
 
-    FoodList foodList;
-    MealList mealList;
-
-    public static final File accountsFile = new File("./data/accounts/accountDatabase.txt");
-    static AccountList accountList;
 
     public LoginScreen() {
         username = "";
@@ -213,17 +203,6 @@ public class LoginScreen {
     }
 
     private void saveAccounts() {
-//        try {
-//            Writer writer = new Writer(accountsFile);
-//            writer.write(accountList);
-//            writer.close();
-//            System.out.println("Account database saved to file " + accountsFile.getPath());
-//        } catch (FileNotFoundException e) {
-//            System.out.println("Unable to save account database to " + accountsFile.getPath());
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//            // this is due to a programming error
-//        }
         Main.saveAccounts();
     }
 

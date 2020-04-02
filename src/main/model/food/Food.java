@@ -87,38 +87,26 @@ public class Food {
         this.name = name;
     }
 
-    // MODIFIES: this
-    // EFFECTS: changes food name
     public void editCost(double cost) {
         this.cost = cost;
     }
 
-    // MODIFIES: this
-    // EFFECTS: changes food name
     public void editWeight(double weight) {
         this.weight = weight;
     }
 
-    // MODIFIES: this
-    // EFFECTS: changes food name
     public void editCalories(double calories) {
         this.calories = calories;
     }
 
-    // MODIFIES: this
-    // EFFECTS: changes food name
     public void editCarbs(double carbs) {
         this.carbs = carbs;
     }
 
-    // MODIFIES: this
-    // EFFECTS: changes food name
     public void editFats(double fats) {
         this.fats = fats;
     }
 
-    // MODIFIES: this
-    // EFFECTS: changes food name
     public void editProteins(double proteins) {
         this.proteins = proteins;
     }

@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import model.food.Food;
 import model.meal.Log;
 import model.meal.Meal;
-import model.meal.MealList;
 
 
 public class LogMealUI {

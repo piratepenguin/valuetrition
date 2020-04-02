@@ -1,24 +1,17 @@
 package model.accounts;
 
-import model.food.Food;
-import model.food.FoodList;
-import model.meal.Meal;
-import model.meal.MealList;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 
 // Represents a user account
 public class Account {
 
+    public static final String ACCOUNT_DIRECTORY = "./data/accounts/";
+    public static final String FOODS_FILE_NAME = "/foods.txt";
+    public static final String MEALS_FILE_NAME = "/meals.txt";
+
     String username;
     String password;
-
-
-    FoodList foodDatabase;
-    MealList log;
 
     File  foodsFile;
     File  mealsFile;
@@ -26,20 +19,18 @@ public class Account {
     String foodsFileDir;
     String mealsFileDir;
 
+
     public Account(String username, String password) {
 
         this.username = username;
         this.password = password;
-        foodDatabase = new FoodList();
-        log = new MealList();
-        foodsFileDir = "./data/accounts/" + username + "/foods.txt";
-        foodsFile = new File(foodsFileDir);
-        mealsFileDir = "./data/accounts/" + username + "/meals.txt";
-        mealsFile = new File(mealsFileDir);
+        foodsFileDir = ACCOUNT_DIRECTORY + username + FOODS_FILE_NAME;
+        mealsFileDir = ACCOUNT_DIRECTORY + username + MEALS_FILE_NAME;
+        createFiles();
     }
 
     public void createFiles() {
-        directoryFile = new File("./data/accounts/" + username);
+        directoryFile = new File(ACCOUNT_DIRECTORY + username);
         foodsFile = new File(foodsFileDir);
         mealsFile = new File(mealsFileDir);
     }

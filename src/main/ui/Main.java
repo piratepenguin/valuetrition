@@ -3,7 +3,6 @@ package ui;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,11 +32,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 public class Main extends Application {
 
     boolean retry;
+    int date = 1;
 
     Stage window;
     Scene dashboard;
@@ -59,14 +58,14 @@ public class Main extends Application {
     Account account;
 
 
-    private static final String ACCOUNTS_FILE = "./data/accounts/accountDatabase.txt";
-    public File mealsFile;
-    public File foodsFile;
-    public static final File accountsFile = new File("./data/accounts/accountDatabase.txt");
+    private static final String ACCOUNTS_FILE_STRING = "./data/accounts/accountDatabase.txt";
+    public static final File ACCOUNTS_FILE = new File(ACCOUNTS_FILE_STRING);
+    File mealsFile;
+    File foodsFile;
+
     static AccountList accountList;
     FoodList database;
     Log log;
-    int date = 1;
 
 
     public static void main(String[] args) {
@@ -344,7 +343,7 @@ public class Main extends Application {
     private static void loadAccountList() {
         AccountList.newAccountList();
         try {
-            accountList = AccountReader.readAccounts(new File(ACCOUNTS_FILE));
+            accountList = AccountReader.readAccounts(new File(ACCOUNTS_FILE_STRING));
         } catch (IOException ignored) {
             System.out.println("Neo you've broken the matrix");
         }
@@ -386,12 +385,12 @@ public class Main extends Application {
 
     public static void saveAccounts() {
         try {
-            Writer writer = new Writer(accountsFile);
+            Writer writer = new Writer(ACCOUNTS_FILE);
             writer.write(accountList);
             writer.close();
-            System.out.println("Account database saved to file " + accountsFile.getPath());
+            System.out.println("Account database saved to file " + ACCOUNTS_FILE.getPath());
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to save account database to " + accountsFile.getPath());
+            System.out.println("Unable to save account database to " + ACCOUNTS_FILE.getPath());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             // this is due to a programming error

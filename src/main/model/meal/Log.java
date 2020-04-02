@@ -2,13 +2,9 @@ package model.meal;
 
 import model.exceptions.LogNotFoundException;
 import persistence.Saveable;
-import persistence.readers.FoodReader;
 
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 //       represents a Log, which has:

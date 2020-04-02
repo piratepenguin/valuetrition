@@ -2,8 +2,6 @@ package persistence.readers;
 
 import model.accounts.Account;
 import model.accounts.AccountList;
-import model.food.Food;
-import model.food.FoodList;
 
 import java.io.File;
 import java.io.IOException;
