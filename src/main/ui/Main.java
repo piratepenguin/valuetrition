@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class Main extends Application {
+    //
 
     boolean retry;
     int date = 1;
@@ -51,6 +53,7 @@ public class Main extends Application {
     Button viewFoodButton;
     Button createFoodButton;
     Button nextDayButton;
+    Button prevDayButton;
 
     Label welcomeLabel;
     Label dayLabel;
@@ -71,6 +74,7 @@ public class Main extends Application {
         launch(args);
     }
 
+    // load user data and launch GUI
     @Override
     public void start(Stage primaryStage) {
 
@@ -83,6 +87,7 @@ public class Main extends Application {
 
     }
 
+    // initialize all utilities
     public void initialize(Stage primaryStage) {
 
         initLabels();
@@ -94,7 +99,6 @@ public class Main extends Application {
 
 
     //   window
-
     public void initializeMainWindow(Stage primaryStage) {
 
         // setting window icon, title, border, close functionality
@@ -121,6 +125,7 @@ public class Main extends Application {
     public void initLabels() {
         welcomeLabel = new Label("Welcome to Nutritivity!");
         welcomeLabel.setFont(new Font("Arial", 40));
+        welcomeLabel.setPadding(new Insets(30,0,10,0));
         welcomeLabel.setTextFill(Color.LIGHTSEAGREEN);
 
         dayLabel = new Label("day: " + date);
@@ -136,7 +141,16 @@ public class Main extends Application {
         // setting buttons for all future scenes
         openMenuButton = new Button("Open Menu");
         openDashboardButton = new Button("Return to Dashboard");
-        nextDayButton = new Button("Next Day");
+        prevDayButton = new Button();
+        Image prevDayImg = new Image("/wedgeLeft.png");
+        ImageView wedgeLeft = new ImageView(prevDayImg);
+        prevDayButton.setGraphic(wedgeLeft);
+        prevDayButton.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE,CornerRadii.EMPTY,Insets.EMPTY)));
+        nextDayButton = new Button();
+        Image nextDayImg = new Image("/wedgeRight.png");
+        ImageView wedgeRightview = new ImageView(nextDayImg);
+        nextDayButton.setGraphic(wedgeRightview);
+        nextDayButton.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE,CornerRadii.EMPTY,Insets.EMPTY)));
         logMealButton = new Button("Log Meal");
         viewLogForTodayButton = new Button("View Log For Today");
         viewLogButton = new Button("View Log For Another Day");
@@ -145,15 +159,19 @@ public class Main extends Application {
         closeButton = new Button("Save & Exit");
     }
 
+
+    public void setDefaultButtonFont(Button b) {
+        b.setFont(new Font("Arial", 20));
+        b.setTextFill(Color.SEAGREEN);
+    }
+
     public void initializeButtons() {
 
         setButtonNames();
-        closeButton.setFont(new Font("Arial", 20));
-        closeButton.setTextFill(Color.SEAGREEN);
+        setDefaultButtonFont(closeButton);
         closeButton.setOnAction(e -> closeProgram());
 
-        openMenuButton.setFont(new Font("Arial", 20));
-        openMenuButton.setTextFill(Color.SEAGREEN);
+        setDefaultButtonFont(openMenuButton);
         openMenuButton.setOnAction(e -> window.setScene(menu));
 
         openDashboardButton.setTextFill(Color.SEAGREEN);
@@ -164,18 +182,17 @@ public class Main extends Application {
         setViewLogForTodayButton();
 
         setLogMealButton();
-        logMealButton.setFont(new Font("Arial", 20));
-        logMealButton.setTextFill(Color.SEAGREEN);
+        setDefaultButtonFont(logMealButton);
 
         setViewFoodButton();
         setCreateFoodButton();
+        setPrevDayButton();
         setNextDayButton();
 
     }
 
     public void setCreateFoodButton() {
-        createFoodButton.setFont(new Font("Arial", 20));
-        createFoodButton.setTextFill(Color.SEAGREEN);
+        setDefaultButtonFont(createFoodButton);
         createFoodButton.setOnAction(e -> {
             CreateFoodUI createFoodUI = new CreateFoodUI();
             Food newFood = createFoodUI.display();
@@ -212,16 +229,15 @@ public class Main extends Application {
         });
     }
 
+
     public void setViewLogForTodayButton() {
-        viewLogForTodayButton.setFont(new Font("Arial", 20));
-        viewLogForTodayButton.setTextFill(Color.SEAGREEN);
+        setDefaultButtonFont(viewLogForTodayButton);
         viewLogForTodayButton.setOnAction(e -> AlertBox.display("View Log for Today", log.getLogForDayAsString(date),
-                    600, 200));
+                600, 200));
     }
 
     public void setViewLogButton() {
-        viewLogButton.setFont(new Font("Arial", 20));
-        viewLogButton.setTextFill(Color.SEAGREEN);
+        setDefaultButtonFont(viewLogButton);
         viewLogButton.setOnAction(e -> {
             String dayString = EnterTextBox.display("View Log for Day ...",
                     "View log for day: ", 500, 250);
@@ -233,35 +249,42 @@ public class Main extends Application {
         });
     }
 
+    public void setPrevDayButton() {
+        setDefaultButtonFont(prevDayButton);
+        prevDayButton.setOnAction(e -> {
+            date--;
+            dayLabel.setText("day: " + date);
+        });
+    }
+
     public void setNextDayButton() {
-        nextDayButton.setFont(new Font("Arial", 20));
-        nextDayButton.setTextFill(Color.SEAGREEN);
+        setDefaultButtonFont(nextDayButton);
         nextDayButton.setOnAction(e -> {
             date++;
             dayLabel.setText("day: " + date);
         });
     }
 
+
     public void setViewFoodButton() {
-        viewFoodButton.setFont(new Font("Arial", 20));
-        viewFoodButton.setTextFill(Color.SEAGREEN);
+        setDefaultButtonFont(viewFoodButton);
         viewFoodButton.setOnAction(e -> {
-            boolean retry;
-            do {
-                String databaseString = "Current available foods: " + database.toString();
-                String foodName = EnterTextBoxWithFooter.display("View Food", "Enter Food Name",
-                        databaseString);
-                try {
-                    Food foodToView = database.getFood(foodName);
-                    ViewFoodUI viewFoodUI = new ViewFoodUI();
-                    viewFoodUI.displayFoodInfo(foodToView);
-                    retry = false;
-                } catch (FoodNotFoundException ex) {
-                    ConfirmBox confirmBox = new ConfirmBox();
-                    retry = confirmBox.display("error", "Food not found, would you like to try again?");
+                    boolean retry;
+                    do {
+                        String databaseString = "Current available foods: " + database.toString();
+                        String foodName = EnterTextBoxWithFooter.display("View Food", "Enter Food Name",
+                                databaseString);
+                        try {
+                            Food foodToView = database.getFood(foodName);
+                            ViewFoodUI viewFoodUI = new ViewFoodUI();
+                            viewFoodUI.displayFoodInfo(foodToView);
+                            retry = false;
+                        } catch (FoodNotFoundException ex) {
+                            ConfirmBox confirmBox = new ConfirmBox();
+                            retry = confirmBox.display("error", "Food not found, would you like to try again?");
+                        }
+                    } while (retry);
                 }
-            } while (retry);
-        }
         );
     }
 
@@ -272,12 +295,14 @@ public class Main extends Application {
 
         GridPane.setConstraints(welcomeLabel, 3,0);
         GridPane.setHalignment(welcomeLabel, HPos.CENTER);
-        GridPane.setConstraints(openMenuButton, 3,3);
-        GridPane.setHalignment(openMenuButton, HPos.CENTER);
-        GridPane.setConstraints(nextDayButton, 3,5);
-        GridPane.setHalignment(nextDayButton, HPos.CENTER);
         GridPane.setConstraints(dayLabel, 3,1);
         GridPane.setHalignment(dayLabel, HPos.CENTER);
+        GridPane.setConstraints(nextDayButton, 4,1);
+        GridPane.setHalignment(nextDayButton, HPos.CENTER);
+        GridPane.setConstraints(prevDayButton, 2,1);
+        GridPane.setHalignment(prevDayButton, HPos.CENTER);
+        GridPane.setConstraints(openMenuButton, 3,3);
+        GridPane.setHalignment(openMenuButton, HPos.CENTER);
         GridPane.setConstraints(closeButton, 3,7);
         GridPane.setHalignment(closeButton, HPos.CENTER);
 
@@ -303,10 +328,10 @@ public class Main extends Application {
         dashboardGrid.setPadding(new Insets(10,10,10,10));
         dashboardGrid.setVgap(8);
         dashboardGrid.setHgap(10);
-        dashboardGrid.getChildren().addAll(welcomeLabel, openMenuButton, nextDayButton, closeButton, dayLabel);
+        dashboardGrid.getChildren().addAll(welcomeLabel, openMenuButton, prevDayButton, nextDayButton, closeButton, dayLabel);
         dashboardGrid.setBackground(new
                 Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
-        dashboard = new Scene(dashboardGrid, 500, 400);
+        dashboard = new Scene(dashboardGrid, 600, 600);
 
 
         // Scene 2 for menu
