@@ -1,10 +1,13 @@
 package model.accounts;
 
 
+import persistence.Saveable;
+
 import java.io.File;
+import java.io.PrintWriter;
 
 // Represents a user account
-public class Account {
+public class Account implements Saveable {
 
     public static final String ACCOUNT_DIRECTORY = "./data/accounts/";
     public static final String FOODS_FILE_NAME = "/foods.txt";
@@ -63,6 +66,10 @@ public class Account {
         return mealsFileDir;
     }
 
-
+    @Override
+    public void save(PrintWriter printWriter) {
+        printWriter.println(username);
+        printWriter.print(password);
+    }
 }
 

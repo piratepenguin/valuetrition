@@ -36,8 +36,7 @@ public class LoginScreen {
 
     String username;
     String password;
-    final String savedUserFilePath = "./data/accounts/mostRecentUserInfo.txt";
-    ;
+    final String savedUserFilePath = Main.MOST_RECENT_USER_FILE_STRING;
 
     Account account;
 
@@ -95,8 +94,8 @@ public class LoginScreen {
         try {
             Account account = attemptLogin(tempAccount.getUsername(), tempAccount.getPassword());
             ConfirmBox useSavedAccount = new ConfirmBox();
-            if (useSavedAccount.display("Confirm Load Saved Account", "We have found a saved account for: "
-                    + username + ", would you like to login with it?")) return account;
+            if (useSavedAccount.display("Confirm Load Saved Account", "We have found a saved account for:\n\n"
+                    + "                    " + account.getUsername() + "\n\nwould you like to login with it?", 500 ,200)) return account;
         } catch (AccountNotFoundException ignored) {
             AlertBox.display("Error", "Saved user info found, but account is invalid",
                     600, 150);

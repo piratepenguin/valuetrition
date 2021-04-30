@@ -58,11 +58,14 @@ public class Main extends Application {
     Label welcomeLabel;
     Label dayLabel;
 
-    private static final String ACCOUNTS_FILE_STRING = "./data/accounts/accountDatabase.txt";
+    public static final String ACCOUNTS_FILE_STRING = "./data/accounts/accountDatabase.txt";
     public static final File ACCOUNTS_FILE = new File(ACCOUNTS_FILE_STRING);
+    public static final String MOST_RECENT_USER_FILE_STRING = "./data/accounts/mostRecentUser.txt";
+    public static final File MOST_RECENT_USER_FILE = new File(MOST_RECENT_USER_FILE_STRING);
     File mealsFile;
     File foodsFile;
 
+    Account account;
 
     static AccountList accountList;
     FoodList database;
@@ -81,7 +84,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         LoginScreen loginScreen = new LoginScreen();
-        Account account = loginScreen.display();
+        account = loginScreen.display();
         foodsFile = account.getFoodsFile();
         mealsFile = account.getMealsFile();
         load();
@@ -381,6 +384,21 @@ public class Main extends Application {
         saveFoods();
         saveMeals();
         saveAccounts();
+        saveMostRecentAccount();
+    }
+
+    private void saveMostRecentAccount() {
+        try {
+            Writer writer = new Writer(MOST_RECENT_USER_FILE);
+            writer.write(account);
+            writer.close();
+            System.out.println("Most recent user file saved to: " + MOST_RECENT_USER_FILE.getPath());
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save most recent user file to " + MOST_RECENT_USER_FILE.getPath());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            // this is due to a programming error
+        }
     }
 
     private void saveFoods() {
