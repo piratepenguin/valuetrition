@@ -1,9 +1,12 @@
 package persistence.readers;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import model.accounts.Account;
 import model.accounts.AccountList;
+import model.exceptions.AccountNotFoundException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -15,11 +18,16 @@ public class AccountReader {
 
     public static final String DELIMITER = ",";
 
-    // EFFECTS: returns a list of foods parsed from file; throws
+    // EFFECTS: returns a list of accounts parsed from file; throws
     // IOException if an exception is raised when opening / reading from file
     public static AccountList readAccounts(File file) throws IOException {
         List<String> fileContent = readFile(file);
         return parseContent(fileContent);
+    }
+
+    public static Account readMostRecentAccount(File file) throws IOException {
+        List<String> str = Files.readAllLines(file.toPath());
+        return new Account(str.get(0), str.get(1));
     }
 
     // EFFECTS: returns content of file as a list of strings

@@ -26,6 +26,8 @@ public class ConfirmBox {
     VBox layout;
     Label label;
 
+
+
     public boolean display(String title, String message) {
         window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL);

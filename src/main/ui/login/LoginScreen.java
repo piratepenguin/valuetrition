@@ -1,8 +1,11 @@
 package ui.login;
 
+import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,8 +22,11 @@ import javafx.stage.Stage;
 import model.accounts.Account;
 import model.accounts.AccountList;
 import model.exceptions.AccountNotFoundException;
+import model.exceptions.IncorrectPasswordException;
+import persistence.readers.AccountReader;
 import ui.Main;
 import ui.boxes.AlertBox;
+import ui.boxes.ConfirmBox;
 
 
 import java.io.File;
@@ -30,6 +36,8 @@ public class LoginScreen {
 
     String username;
     String password;
+    final String savedUserFilePath = "./data/accounts/mostRecentUserInfo.txt";
+    ;
 
     Account account;
 
@@ -48,23 +56,57 @@ public class LoginScreen {
     Scene scene;
     Stage window;
 
-
+    // basic constructor
     public LoginScreen() {
         username = "";
         password = "";
     }
 
 
+
+    /**
+     * displays the GUI and prompts user for username and password
+     *
+     * @return the account signed in to
+     */
     public Account display() {
 
-        initTextBoxes();
-        initLabels();
-        initButtons();
-        initScene();
-        initWindow("Nutritivity - Log In");
+        try {
+            return checkSavedUser();
+        } catch (IOException ignored) {
+            initTextBoxes();
+            initLabels();
+            initButtons();
+            initScene();
+            initWindow("Nutritivity - Log In");
+        }
 
         return account;
     }
+
+    /**
+     *
+     * @return the account of the most recently logged in user, if found
+     * @throws IOException if reading from file fails for any reason
+     */
+    public Account checkSavedUser() throws IOException {
+        File savedUserFile = new File(savedUserFilePath);
+        Account tempAccount = AccountReader.readMostRecentAccount(savedUserFile);
+        try {
+            Account account = attemptLogin(tempAccount.getUsername(), tempAccount.getPassword());
+            ConfirmBox useSavedAccount = new ConfirmBox();
+            if (useSavedAccount.display("Confirm Load Saved Account", "We have found a saved account for: "
+                    + username + ", would you like to login with it?")) return account;
+        } catch (AccountNotFoundException ignored) {
+            AlertBox.display("Error", "Saved user info found, but account is invalid",
+                    600, 150);
+        } catch (IncorrectPasswordException ignored) {
+            AlertBox.display("Error", "Saved user info found, but password is invalid",
+                    600, 150);
+        }
+        throw new IOException();    // IOException here just to signal failure to our caller
+    }
+
 
     public void initTextBoxes() {
 
@@ -118,19 +160,16 @@ public class LoginScreen {
         loginButton.setOnAction(e -> {
             username = usernameField.getText();
             password = passwordField.getText();
-            if (verify(username, password)) {
-                try {
-                    account = AccountList.getAccount(username);
-                } catch (AccountNotFoundException ignored) {
-                    AlertBox.display("Error", "Account seems to exist but is inaccessible/corrupted",
-                            600, 150);
-                    // this should NEVER happen b/c wrapped in verify 'if' statement
-                }
-                window.close();
-            } else {
-                AlertBox.display("Invalid Entry", "Invalid username/password combination",
-                        300, 120);
+            try {
+                account = attemptLogin(username, password);
+            } catch (AccountNotFoundException ignored) {
+                AlertBox.display("Error", "This account does not exist",
+                        600, 150);
+            } catch (IncorrectPasswordException ignored) {
+                AlertBox.display("Error", "Account exists, but password is incorrect",
+                        600, 150);
             }
+            window.close();
         });
     }
 
@@ -149,18 +188,18 @@ public class LoginScreen {
 
     public void initScene() {
         GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10,10,10,10));
+        grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(8);
         grid.setHgap(10);
         initGridConstraints();
-        grid.getChildren().addAll(usernameLabel, passwordLabel, usernameField, passwordField, signUpButton,loginButton);
+        grid.getChildren().addAll(usernameLabel, passwordLabel, usernameField, passwordField, signUpButton, loginButton);
 
         GridPane mainGrid = new GridPane();
-        grid.setPadding(new Insets(10,10,10,10));
+        grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(8);
         grid.setHgap(10);
-        GridPane.setConstraints(grid, 0,1);
-        GridPane.setConstraints(nutritivityImageView, 0,0);
+        GridPane.setConstraints(grid, 0, 1);
+        GridPane.setConstraints(nutritivityImageView, 0, 0);
         GridPane.setHalignment(nutritivityImageView, HPos.CENTER);
         mainGrid.getChildren().addAll(grid, nutritivityImageView);
         mainGrid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -185,6 +224,15 @@ public class LoginScreen {
                     && AccountList.getAccount(username).getPassword().equals(password));
         } catch (AccountNotFoundException ignored) {
             return false;
+        }
+    }
+
+    public Account attemptLogin(String username, String password) throws IncorrectPasswordException, AccountNotFoundException {
+
+        if (AccountList.getAccount(username).getPassword().equals(password)) {
+            return AccountList.getAccount(username);
+        } else {
+            throw new IncorrectPasswordException();
         }
     }
 

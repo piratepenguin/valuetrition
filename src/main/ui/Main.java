@@ -68,7 +68,10 @@ public class Main extends Application {
     FoodList database;
     Log log;
 
-
+    /**
+     * first loads list of accounts in database,
+     * then launches login screen and application
+     */
     public static void main(String[] args) {
         loadAccountList();
         launch(args);
@@ -77,7 +80,6 @@ public class Main extends Application {
     // load user data and launch GUI
     @Override
     public void start(Stage primaryStage) {
-
         LoginScreen loginScreen = new LoginScreen();
         Account account = loginScreen.display();
         foodsFile = account.getFoodsFile();
