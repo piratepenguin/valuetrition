@@ -162,6 +162,7 @@ public class LoginScreen {
             password = passwordField.getText();
             try {
                 account = attemptLogin(username, password);
+                window.close();
             } catch (AccountNotFoundException ignored) {
                 AlertBox.display("Error", "This account does not exist",
                         600, 150);
@@ -169,7 +170,6 @@ public class LoginScreen {
                 AlertBox.display("Error", "Account exists, but password is incorrect",
                         600, 150);
             }
-            window.close();
         });
     }
 
