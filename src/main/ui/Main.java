@@ -78,6 +78,8 @@ public class Main extends Application {
     public static void main(String[] args) {
         loadAccountList();
         launch(args);
+//        System.out.println(Font.getFamilies());
+//        System.out.println(Font.getFontNames());
     }
 
     // load user data and launch GUI

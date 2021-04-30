@@ -4,6 +4,7 @@ import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -11,12 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.accounts.Account;
@@ -62,10 +61,9 @@ public class LoginScreen {
     }
 
 
-
     /**
-     * displays the GUI and prompts user for username and password
-     *
+     * attempts to load last logged in user profile, asks confirmation
+     * otherwise displays the GUI and prompts user for username and password
      * @return the account signed in to
      */
     public Account display() {
@@ -84,7 +82,6 @@ public class LoginScreen {
     }
 
     /**
-     *
      * @return the account of the most recently logged in user, if found
      * @throws IOException if reading from file fails for any reason
      */
@@ -106,7 +103,6 @@ public class LoginScreen {
         throw new IOException();    // IOException here just to signal failure to our caller
     }
 
-
     public void initTextBoxes() {
 
         // create text box for user to input a string
@@ -125,9 +121,11 @@ public class LoginScreen {
     public void initLabels() {
 
         usernameLabel = new Label("username: ");
-        usernameLabel.setFont(new Font("AcmeFont", 18));
+        usernameLabel.getStyleClass().add("label");
+        usernameLabel.setFont(new Font("SansSerif", 22));
         passwordLabel = new Label("password: ");
-        passwordLabel.setFont(new Font("AcmeFont", 18));
+        usernameLabel.getStyleClass().add("label");
+        passwordLabel.setFont(new Font("SansSerif", 22));
 //        passwordLabel.setTextFill(Color.TURQUOISE);
         nutritivityImageView = new ImageView("File:./data/NutritivityLogo.png");
         nutritivityIcon = new Image("File:./data/NutritivityLogo.png");
@@ -178,8 +176,8 @@ public class LoginScreen {
         window.setOnCloseRequest(e -> System.exit(1));
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setWidth(640);
-        window.setHeight(400);
+        window.setWidth(700);
+        window.setHeight(370);
         window.getIcons().add(nutritivityIcon);
         window.setScene(scene);
         window.showAndWait();
@@ -187,10 +185,13 @@ public class LoginScreen {
 
     public void initScene() {
         GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(8);
         grid.setHgap(10);
         initGridConstraints();
+//        grid.getColumnConstraints().add(0,new ColumnConstraints(100.0));
+//        grid.getColumnConstraints().add(1,new ColumnConstraints(100.0));
         grid.getChildren().addAll(usernameLabel, passwordLabel, usernameField, passwordField, signUpButton, loginButton);
 
         GridPane mainGrid = new GridPane();
@@ -201,8 +202,12 @@ public class LoginScreen {
         GridPane.setConstraints(nutritivityImageView, 0, 0);
         GridPane.setHalignment(nutritivityImageView, HPos.CENTER);
         mainGrid.getChildren().addAll(grid, nutritivityImageView);
-        mainGrid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        mainGrid.setStyle("-fx-background: linear-gradient(to bottom, #a3f1c4, #6df1fa, #2980B9);");
+        mainGrid.getStyleClass().add("GridPane");
+//        Color c = new Color(22.0/255.0, 100.0/255.0, 153.0/255.0, 0.418);
+//        mainGrid.setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
         scene = new Scene(mainGrid);
+        scene.getStylesheets().add("./css/login.css");
 
     }
 
@@ -215,15 +220,6 @@ public class LoginScreen {
         GridPane.setHalignment(loginButton, HPos.CENTER);
         GridPane.setConstraints(signUpButton, 4, 3);
         GridPane.setHalignment(signUpButton, HPos.CENTER);
-    }
-
-    public boolean verify(String username, String password) {
-        try {
-            return (AccountList.contains(username)
-                    && AccountList.getAccount(username).getPassword().equals(password));
-        } catch (AccountNotFoundException ignored) {
-            return false;
-        }
     }
 
     public Account attemptLogin(String username, String password) throws IncorrectPasswordException, AccountNotFoundException {
@@ -252,7 +248,6 @@ public class LoginScreen {
     private void saveAccounts() {
         Main.saveAccounts();
     }
-
 
     public void createFiles() {
         File directoryFile = new File("./data/accounts/" + username);
