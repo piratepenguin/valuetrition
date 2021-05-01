@@ -1,7 +1,7 @@
 
 .text-input {
     -fx-background-color: rgb(218, 240, 248);
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 
 .label {

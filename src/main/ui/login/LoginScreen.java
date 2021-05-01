@@ -5,6 +5,7 @@ import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -176,36 +177,65 @@ public class LoginScreen {
         window.setOnCloseRequest(e -> System.exit(1));
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
-        window.setWidth(700);
-        window.setHeight(370);
+        window.setWidth(1000);
+        window.setHeight(800);
         window.getIcons().add(nutritivityIcon);
         window.setScene(scene);
         window.showAndWait();
     }
 
+    /**
+     * scene consists of a gridPane (grid) nested into the center of another gridPane (mainGrid)
+     * this way, we add columns and rows around in mainGrid which are around grid, and tell them to resize
+     * result: grid (ie. all content) stays fixed size, borders grow evenly as window is resized
+     */
     public void initScene() {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setPadding(new Insets(10, 10, 10, 10));
         grid.setVgap(8);
         grid.setHgap(10);
-        initGridConstraints();
-//        grid.getColumnConstraints().add(0,new ColumnConstraints(100.0));
-//        grid.getColumnConstraints().add(1,new ColumnConstraints(100.0));
         grid.getChildren().addAll(usernameLabel, passwordLabel, usernameField, passwordField, signUpButton, loginButton);
 
         GridPane mainGrid = new GridPane();
-        grid.setPadding(new Insets(10, 10, 10, 10));
-        grid.setVgap(8);
-        grid.setHgap(10);
-        GridPane.setConstraints(grid, 0, 1);
-        GridPane.setConstraints(nutritivityImageView, 0, 0);
+//        mainGrid.setGridLinesVisible(true);   // for debugging
+
+        /* setting column constraints */
+        ColumnConstraints column0 = new ColumnConstraints(0,0,1000);
+        mainGrid.getColumnConstraints().add(0, column0);
+        column0.setHgrow(Priority.ALWAYS);
+
+        ColumnConstraints column1 = new ColumnConstraints(600,700,700);
+        mainGrid.getColumnConstraints().add(1, column1);
+
+        ColumnConstraints column2 = new ColumnConstraints(0,0,1000);
+        mainGrid.getColumnConstraints().add(2, column2);
+        column2.setHgrow(Priority.ALWAYS);
+
+        /* setting row constraints */
+        RowConstraints row0 = new RowConstraints(0,50,800);
+        mainGrid.getRowConstraints().add(0, row0);
+        row0.setVgrow(Priority.ALWAYS);
+
+        RowConstraints row1 = new RowConstraints(300,300,300);
+        mainGrid.getRowConstraints().add(1, row1);
+
+        RowConstraints row2 = new RowConstraints(100,100,100);
+        mainGrid.getRowConstraints().add(2, row2);
+
+
+        RowConstraints row3 = new RowConstraints(0,200,800);
+        mainGrid.getRowConstraints().add(3, row3);
+        row3.setVgrow(Priority.ALWAYS);
+
+
+        /* init grid constraints of all the content, set up css*/
+        initGridConstraints();
+        GridPane.setConstraints(grid, 1, 2);
+        GridPane.setConstraints(nutritivityImageView, 1, 1);
         GridPane.setHalignment(nutritivityImageView, HPos.CENTER);
         mainGrid.getChildren().addAll(grid, nutritivityImageView);
         mainGrid.setStyle("-fx-background: linear-gradient(to bottom, #a3f1c4, #6df1fa, #2980B9);");
-        mainGrid.getStyleClass().add("GridPane");
-//        Color c = new Color(22.0/255.0, 100.0/255.0, 153.0/255.0, 0.418);
-//        mainGrid.setBackground(new Background(new BackgroundFill(c, CornerRadii.EMPTY, Insets.EMPTY)));
         scene = new Scene(mainGrid);
         scene.getStylesheets().add("./css/login.css");
 
