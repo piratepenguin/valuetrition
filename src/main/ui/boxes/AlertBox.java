@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AlertBox {
+public class AlertBox extends AbstractBox {
 
 
 
@@ -53,7 +53,7 @@ public class AlertBox {
         layout.getChildren().addAll(label, okButton);
         layout.setAlignment(Pos.CENTER);
         layout.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        Scene scene = new Scene(layout);
+        setStyle(layout);
         window.setScene(scene);
         window.showAndWait();
     }

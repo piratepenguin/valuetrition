@@ -55,7 +55,7 @@ public class ViewFoodUI extends FoodUI {
         GridPane.setConstraints(editInfoButton, 1,10);
         grid.getChildren().addAll(editInfoButton);
         grid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-        scene = new Scene(grid);
+        setStyle(grid);
     }
 
 }

@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ConfirmBox {
+public class ConfirmBox extends AbstractBox {
 
     static boolean answer;
 
@@ -21,7 +21,6 @@ public class ConfirmBox {
     Button noButton;
 
     Stage window;
-    Scene scene;
 
     VBox layout;
     Label label;
@@ -87,7 +86,7 @@ public class ConfirmBox {
         layout.getChildren().addAll(label, noButton, yesButton);
         layout.setAlignment(Pos.CENTER);
         layout.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        scene = new Scene(layout);
+        setStyle(layout);
         window.setScene(scene);
         window.showAndWait();
     }

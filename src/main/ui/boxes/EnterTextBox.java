@@ -11,7 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
-public class EnterTextBox {
+public class EnterTextBox extends AbstractBox {
 
     static String answer;
     static TextField answerField;
@@ -89,7 +89,7 @@ public class EnterTextBox {
         GridPane.setConstraints(enterButton, 0,2);
 
         grid.getChildren().addAll(label, answerField, enterButton);
-        Scene scene = new Scene(grid);
+        setStyle(grid);
         window.setScene(scene);
         window.showAndWait();
     }

@@ -33,6 +33,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
     //
@@ -54,6 +56,7 @@ public class Main extends Application {
     Button createFoodButton;
     Button nextDayButton;
     Button prevDayButton;
+    List<Button> buttons;
 
     Label welcomeLabel;
     Label dayLabel;
@@ -179,7 +182,10 @@ public class Main extends Application {
         closeButton.setOnAction(e -> closeProgram());
 
         setDefaultButtonFont(openMenuButton);
-        openMenuButton.setOnAction(e -> window.setScene(menu));
+        openMenuButton.setOnAction(e -> {
+//            window.setScene(menu);
+            logMealButton.setVisible(false);
+        });
 
         openDashboardButton.setTextFill(Color.SEAGREEN);
         openDashboardButton.setFont(new Font("Arial", 30));
@@ -195,6 +201,9 @@ public class Main extends Application {
         setCreateFoodButton();
         setPrevDayButton();
         setNextDayButton();
+
+        buttons = new ArrayList<>();
+//        buttons.add(logMealButton, viewLogButton, createFoodButton, viewLogForTodayButton, viewFoodButton);
 
     }
 
@@ -310,22 +319,26 @@ public class Main extends Application {
         GridPane.setHalignment(prevDayButton, HPos.CENTER);
         GridPane.setConstraints(openMenuButton, 3,3);
         GridPane.setHalignment(openMenuButton, HPos.CENTER);
-        GridPane.setConstraints(closeButton, 3,7);
+
+        // useful ones
+        GridPane.setConstraints(logMealButton, 3,4);
+        GridPane.setHalignment(logMealButton, HPos.CENTER);
+        GridPane.setConstraints(viewLogButton, 3,5);
+        GridPane.setHalignment(viewLogButton, HPos.CENTER);
+        GridPane.setConstraints(viewLogForTodayButton, 3,6);
+        GridPane.setHalignment(viewLogForTodayButton, HPos.CENTER);
+        GridPane.setConstraints(viewFoodButton, 3,7);
+        GridPane.setHalignment(viewFoodButton, HPos.CENTER);
+        GridPane.setConstraints(createFoodButton, 3,8);
+        GridPane.setHalignment(createFoodButton, HPos.CENTER);
+
+        // save & exit
+        GridPane.setConstraints(closeButton, 3,9);
         GridPane.setHalignment(closeButton, HPos.CENTER);
 
-
+        // remove soon
         GridPane.setConstraints(openDashboardButton, 2,1);
         GridPane.setHalignment(openDashboardButton, HPos.CENTER);
-        GridPane.setConstraints(logMealButton, 3,2);
-        GridPane.setHalignment(logMealButton, HPos.CENTER);
-        GridPane.setConstraints(viewLogButton, 2,2);
-        GridPane.setHalignment(viewLogButton, HPos.CENTER);
-        GridPane.setConstraints(viewLogForTodayButton, 2,4);
-        GridPane.setHalignment(viewLogForTodayButton, HPos.CENTER);
-        GridPane.setConstraints(viewFoodButton, 1,2);
-        GridPane.setHalignment(viewFoodButton, HPos.CENTER);
-        GridPane.setConstraints(createFoodButton, 1,4);
-        GridPane.setHalignment(createFoodButton, HPos.CENTER);
     }
 
     public void initializeScenes() {
@@ -335,24 +348,34 @@ public class Main extends Application {
         dashboardGrid.setPadding(new Insets(10,10,10,10));
         dashboardGrid.setVgap(8);
         dashboardGrid.setHgap(10);
+
+        // add all buttons to main screen
         dashboardGrid.getChildren().addAll(welcomeLabel, openMenuButton, prevDayButton, nextDayButton, closeButton, dayLabel);
-        dashboardGrid.setBackground(new
-                Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
-        dashboard = new Scene(dashboardGrid, 600, 600);
+        dashboardGrid.getChildren().addAll(viewFoodButton, createFoodButton, viewLogForTodayButton, viewLogButton, logMealButton);
+
+        dashboardGrid.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE, CornerRadii.EMPTY, Insets.EMPTY)));
+        setStyle(dashboardGrid);
 
 
         // Scene 2 for menu
-        GridPane menuGrid = new GridPane();
-        menuGrid.setPadding(new Insets(10,10,10,10));
-        menuGrid.setVgap(50);
-        menuGrid.setHgap(15);
-        menuGrid.getChildren().addAll(openDashboardButton, viewFoodButton, createFoodButton, viewLogForTodayButton,
-                viewLogButton, logMealButton);
-        menuGrid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-        menu = new Scene(menuGrid, 800, 500);
+//        GridPane menuGrid = new GridPane();
+//        menuGrid.setPadding(new Insets(10,10,10,10));
+//        menuGrid.setVgap(50);
+//        menuGrid.setHgap(15);
+////        menuGrid.getChildren().addAll(openDashboardButton, viewFoodButton, createFoodButton, viewLogForTodayButton,
+////                viewLogButton, logMealButton);
+//        menuGrid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+//
+//        setStyle(menuGrid);
     }
 
 
+    public void setStyle(GridPane grid) {
+        grid.setStyle("-fx-background: linear-gradient(to bottom, #a3f1c4, #6df1fa, #2980B9);");
+        dashboard = new Scene(grid, 600, 600);
+        dashboard.getStylesheets().add("./css/login.css");
+
+    }
 
     //    load & save
 

@@ -85,8 +85,9 @@ public class EditFoodUI extends FoodUI {
         grid.getChildren().addAll(nameField, weightField, costField);
         grid.getChildren().addAll(caloriesField, carbsField, fatsField, proteinField, saveButton);
         grid.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-        scene = new Scene(grid);
+        setStyle(grid);
     }
+
 
     public void setGridConstraintsForEditing() {
 

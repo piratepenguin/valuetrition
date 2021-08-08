@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class EnterTextBoxWithFooter {
+public class EnterTextBoxWithFooter extends AbstractBox {
 
     static String answer;
     static TextField answerField;
@@ -79,7 +79,7 @@ public class EnterTextBoxWithFooter {
                 Insets.EMPTY)));
         GridPane.setHalignment(layout, HPos.CENTER);
         GridPane.setValignment(layout, VPos.CENTER);
-        Scene scene = new Scene(layout);
+        setStyle(layout);
         window.setScene(scene);
         window.showAndWait();
     }

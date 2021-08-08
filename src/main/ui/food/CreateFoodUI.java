@@ -84,11 +84,11 @@ public class CreateFoodUI extends FoodUI {
         createButton = new Button("Create Food");
         createButton.setOnAction(e -> create());
         createButton.setFont(new Font("Arial", 20));
-        createButton.setTextFill(Color.LIGHTSALMON);
+        createButton.setTextFill(Color.MEDIUMSEAGREEN);
         uploadImageButton = new Button("Upload\nImage");
         uploadImageButton.setOnAction(e -> uploadImage());
         uploadImageButton.setFont(new Font("Arial", 20));
-        uploadImageButton.setTextFill(Color.LIGHTSALMON);
+        uploadImageButton.setTextFill(Color.MEDIUMSEAGREEN);
     }
 
     public void initScene() {
@@ -103,9 +103,10 @@ public class CreateFoodUI extends FoodUI {
         grid.getChildren().addAll(nameField, weightField, costField);
         grid.getChildren().addAll(caloriesField, carbsField, fatsField, proteinField, createButton);
 //        grid.getChildren().add(uploadImageButton);
-        grid.setBackground(new Background(new BackgroundFill(Color.LIGHTSALMON, CornerRadii.EMPTY, Insets.EMPTY)));
-        scene = new Scene(grid);
+        grid.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
+        setStyle(grid);
     }
+
 
     public void initGridConstraints() {
 

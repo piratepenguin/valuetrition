@@ -47,6 +47,13 @@ public abstract class FoodUI {
 
     GridPane grid;
 
+    public void setStyle(GridPane grid) {
+        grid.setStyle("-fx-background: linear-gradient(to bottom, #a3f1c4, #6df1fa, #2980B9);");
+        scene = new Scene(grid, 600, 600);
+        scene.getStylesheets().add("./css/login.css");
+
+    }
+
 
     public void initFood() {
 
