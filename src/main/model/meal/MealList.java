@@ -26,9 +26,9 @@ public class MealList implements Saveable {
     }
 
     // EFFECTS: removes meal from list
-    public void removeMeal(String foodname, int day) throws FoodNotFoundException {
+    public void removeMeal(String foodname, String day) throws FoodNotFoundException {
         int size = mealList.size();
-        mealList.removeIf(meal -> (meal.getName().equals(foodname) && meal.getDay() == day));
+        mealList.removeIf(meal -> (meal.getName().equals(foodname) && meal.getDate().equals(day)));
         if (mealList.size() == size) {
             throw new FoodNotFoundException();
         }
@@ -40,9 +40,9 @@ public class MealList implements Saveable {
 
     // EFFECTS: returns Meal with given name and day from list,
     //          if not found returns FoodNotFoundException
-    public Meal getMeal(String name, int day) throws FoodNotFoundException {
+    public Meal getMeal(String name, String day) throws FoodNotFoundException {
         for (Meal meal: mealList) {
-            if (meal.getName().equals(name) && meal.getDay() == day) {
+            if (meal.getName().equals(name) && meal.getDate().equals(day)) {
                 return meal;
             }
         }
@@ -59,32 +59,38 @@ public class MealList implements Saveable {
         return mealList.get(mealList.size() - 1);
     }
 
+
+
+
+    // REMOVE OR UPGRADE !!!
     // REQUIRES: meals should already be sorted increasingly by day
     // EFFECTS: returns a string of all the foods contained in the list
     public String toString() {
         StringBuilder list = new StringBuilder();
-        int currentDay = 0;
+        String currentDay = "JAN002021";
         for (Meal each : mealList) {
             if (mealList.indexOf(each) == mealList.size() - 1) { // if last food of day
-                if (each.getDay() != currentDay) {
-                    list.append("\n| Day ").append(each.getDay()).append("| ");
+                if (each.getDate() != currentDay) {
+                    list.append("\n| Day ").append(each.getDate()).append("| ");
                 }
                 list.append(each.getName()).append(" - ");
                 list.append(each.getRoundedCalories()).append("Cal");
             } else if (mealList.indexOf(each) == 0) {
-                list.append("| Day ").append(each.getDay()).append("| ");
-                currentDay = each.getDay();
+                list.append("| Day ").append(each.getDate()).append("| ");
+                currentDay = each.getDate();
                 checkStyleMethodLengthRuleIsABitch(list, each);
             } else {
-                if (each.getDay() != currentDay) {
-                    list.append("\n| Day ").append(each.getDay()).append("| ");
-                    currentDay = each.getDay();
+                if (each.getDate() != currentDay) {
+                    list.append("\n| Day ").append(each.getDate()).append("| ");
+                    currentDay = each.getDate();
                 }
                 checkStyleMethodLengthRuleIsABitch(list, each);
             }
         }
         return list.toString();
     }
+
+
 
     // my condolences
     static void checkStyleMethodLengthRuleIsABitch(StringBuilder list, Meal each) {
@@ -97,7 +103,7 @@ public class MealList implements Saveable {
     @Override
     public void save(PrintWriter printWriter) {
         for (Meal meal : mealList) {
-            printWriter.print(meal.getDay());
+            printWriter.print(meal.getDate());
             printWriter.print(LogReader.DELIMITER);
             printWriter.print(meal.getName());
             printWriter.print(LogReader.DELIMITER);

@@ -35,7 +35,7 @@ class MealTest {
         assertEquals(blueberryMeal.getFats(), 0.0);
         assertEquals(blueberryMeal.getProteins(), 3.0);
         assertEquals(blueberryMeal.getWeight(), 300);
-        assertEquals(blueberryMeal.getDay(), 1);
+        assertEquals(blueberryMeal.getDate(), 1);
         assertEquals(blueberryMeal.getPrimaryType(), "carbs");
         assertEquals(foodFromFileMeal.getPrimaryType(), "fats");
         assertEquals(riceMeal.getPrimaryType(), "carbs");
@@ -51,8 +51,8 @@ class MealTest {
         assertEquals(0.75, riceMeal.getCost());
         riceMeal.editAmount(1500);
         assertEquals(0.75 * 3, riceMeal.getCost());
-        assertEquals(3, milkMeal.getDay());
+        assertEquals(3, milkMeal.getDate());
         milkMeal.editDay(1);
-        assertEquals(1, milkMeal.getDay());
+        assertEquals(1, milkMeal.getDate());
     }
 }

@@ -51,8 +51,8 @@ class WriterTest {
 
         mealTestWriter = new Writer(new File(MEAL_TEST_FILE));
         log = new Log();
-        log.logMeal(bananaMeal.getDay(), bananaMeal);
-        log.logMeal(riceMeal.getDay(), riceMeal);
+        log.logMeal(bananaMeal.getDate(), bananaMeal);
+        log.logMeal(riceMeal.getDate(), riceMeal);
 
         accountTestWriter = new Writer(new File(ACCOUNT_TEST_FILE));
         accountList = new AccountList();
@@ -95,7 +95,7 @@ class WriterTest {
             assertEquals(24 * 1.5, observedBanana.getCarbs());
             assertEquals(0.0 * 1.5, observedBanana.getFats());
             assertEquals(1 * 1.5, observedBanana.getProteins());
-            assertEquals(1, observedBanana.getDay());
+            assertEquals(1, observedBanana.getDate());
 
             // now for rice:
             assertEquals("rice", observedRice.getName());
@@ -112,7 +112,7 @@ class WriterTest {
             assertEquals(700 * 0.5, observedRice.getCarbs());
             assertEquals(11 * 0.5, observedRice.getFats());
             assertEquals(25 * 0.5, observedRice.getProteins());
-            assertEquals(2, observedRice.getDay());
+            assertEquals(2, observedRice.getDate());
         } catch (IOException | LogNotFoundException e) {
             fail("Exception should not have been thrown");
         }

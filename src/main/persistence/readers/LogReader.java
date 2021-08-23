@@ -35,7 +35,7 @@ public class LogReader {
 
         for (String line : fileContent) {
             ArrayList<String> lineComponents = splitString(line);
-            log.logMeal(parseDate(lineComponents), parseMeal(lineComponents));
+            log.logMeal(parseMeal(lineComponents));
         }
 
         return log;
@@ -50,7 +50,7 @@ public class LogReader {
     // REQUIRES: components has size 10
     // EFFECTS: returns an account constructed from components
     private static Meal parseMeal(List<String> components) {
-        int day = Integer.parseInt(components.get(0));
+        String day = (components.get(0));
         String name = (components.get(1));
         double foodWeight = Double.parseDouble(components.get(2));
         double foodCost = Double.parseDouble(components.get(3));
@@ -63,8 +63,8 @@ public class LogReader {
         return new Meal(food, weight, day);
     }
 
-    private static int parseDate(List<String> components) {
-        return Integer.parseInt(components.get(0));
+    private static String parseDate(List<String> components) {
+        return components.get(0);
     }
 
 }

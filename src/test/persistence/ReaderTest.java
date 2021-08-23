@@ -83,7 +83,7 @@ class ReaderTest {
             assertEquals(meal1.getCarbs(), 0.0);
             assertEquals(meal1.getFats(), 10.0);
             assertEquals(meal1.getProteins(), 100.0);
-            assertEquals(meal1.getDay(), 1);
+            assertEquals(meal1.getDate(), 1);
 
             MealList mealList2 = log.getLogForDay(2);
             Meal meal2 = mealList2.get(0);
@@ -101,7 +101,7 @@ class ReaderTest {
             assertEquals(meal2.getCarbs(), 12.0);
             assertEquals(meal2.getFats(), 0.0);
             assertEquals(meal2.getProteins(), 0.5);
-            assertEquals(meal2.getDay(), 2);
+            assertEquals(meal2.getDate(), 2);
         } catch (IOException | LogNotFoundException e) {
             fail("Exception should not have been thrown");
         }

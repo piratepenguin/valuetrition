@@ -11,7 +11,7 @@ import model.food.Food;
 public class Meal {
 
     Food food;
-    int day;
+    String date;
 
     String name;
     double weight;
@@ -29,10 +29,10 @@ public class Meal {
     double foodFats;
     double foodProteins;
 
-    public Meal(Food food, double weight, int day) {
+    public Meal(Food food, double weight, String date) {
         this.food = food;
         this.weight = weight;
-        this.day = day;
+        this.date = date;
 
         foodWeight = food.getWeight();
         foodCost = food.getCost();
@@ -53,10 +53,10 @@ public class Meal {
 
     }
 
-    public Meal(int ignored, Food food, double weight, int day) {
+    public Meal(int ignored, Food food, double weight, String date) {
         this.food = food;
         this.weight = weight;
-        this.day = day;
+        this.date = date;
         name = food.getName();
         foodWeight = food.getWeight();
         cost = food.getCost();
@@ -103,8 +103,8 @@ public class Meal {
         return weight;
     }
 
-    public int getDay() {
-        return day;
+    public String getDate() {
+        return date;
     }
 
 
@@ -160,7 +160,7 @@ public class Meal {
         proteins = proteins * scale;
     }
 
-    public void editDay(int day) {
-        this.day = day;
+    public void editDay(String day) {
+        this.date = day;
     }
 }

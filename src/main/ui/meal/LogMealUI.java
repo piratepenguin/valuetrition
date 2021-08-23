@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.calendar.Date;
 import model.food.Food;
 import model.meal.Log;
 import model.meal.Meal;
@@ -18,7 +19,7 @@ public class LogMealUI {
 
     Log log;
     double amount;
-    int date;
+    Date date;
 
     Button addToLogButton;
     GridPane grid;
@@ -32,7 +33,7 @@ public class LogMealUI {
     Label amountLabel;
     Label headerLabel;
 
-    public void display(Food food, Log log, int date) {
+    public void display(Food food, Log log, Date date) {
 
         initParams(date, log);
         initTextFields();
@@ -77,7 +78,7 @@ public class LogMealUI {
     public void initTextFields() {
         amountField = new TextField();
         amountField.setPromptText("grams");
-        dateField = new TextField(Integer.toString(date));
+        dateField = new TextField(Date.viewAsString());
     }
 
     public void initScene() {
@@ -98,7 +99,7 @@ public class LogMealUI {
         window.show();
     }
 
-    public void initParams(int day, Log givenLog) {
+    public void initParams(Date day, Log givenLog) {
         date = day;
         log = givenLog;
     }

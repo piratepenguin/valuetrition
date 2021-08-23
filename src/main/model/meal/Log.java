@@ -1,5 +1,6 @@
 package model.meal;
 
+import model.calendar.Date;
 import model.exceptions.LogNotFoundException;
 import persistence.Saveable;
 
@@ -10,25 +11,33 @@ import java.util.Map;
 import java.util.Set;
 
 //       represents a Log, which has:
-//        - a MealList assigned to each existing day (int)
+//        - a MealList assigned to each existing Date
 //        - each MealList represents what meals were eaten that day
 
 public class Log implements Saveable {
 
-    private HashMap<Integer,MealList> log;
+    private HashMap<String,MealList> log;
 
     public Log() {
         log = new HashMap<>();
     }
 
-    public void logMeal(int date, Meal meal) {
+//    public void logMeal(String date, Meal meal) {
+//        if (log.get(date) == null) {
+//            log.put(date, new MealList());
+//        }
+//        log.get(date).add(meal);
+//    }
+
+    public void logMeal(Meal meal) {
+        String date = meal.getDate();
         if (log.get(date) == null) {
             log.put(date, new MealList());
         }
         log.get(date).add(meal);
     }
 
-    public MealList getLogForDay(int date) throws LogNotFoundException {
+    public MealList getLogForDay(String date) throws LogNotFoundException {
         if (log.get(date) != null) {
             return log.get(date);
         } else {
@@ -36,7 +45,7 @@ public class Log implements Saveable {
         }
     }
 
-    public String getLogForDayAsString(int date) {
+    public String getLogForDayAsString(String date) {
         if (log.get(date) != null) {
             return log.get(date).toString();
         } else {
@@ -45,12 +54,12 @@ public class Log implements Saveable {
     }
 
 
-    public int getLastDay() {
-        int lastDay = 1;
-        Set<Integer> allDates = log.keySet();
-        for (Integer i : allDates) {
-            if (i > lastDay) {
-                lastDay = i;
+    public String getLastDay() {
+        String lastDay = "JAN00000";
+        Set<String> allDates = log.keySet();
+        for (String str : allDates) {
+            if (Date.firstLargerThanSecond(str, lastDay)) {
+                lastDay = str;
             }
         }
         return lastDay;
@@ -60,9 +69,7 @@ public class Log implements Saveable {
     @Override
     public void save(PrintWriter printWriter) {
 
-        Iterator<Map.Entry<Integer,MealList>> logIterator = log.entrySet().iterator();
-        while (logIterator.hasNext()) {
-            Map.Entry<Integer,MealList> mapElement = logIterator.next();
+        for (Map.Entry<String, MealList> mapElement : log.entrySet()) {
             mapElement.getValue().save(printWriter);
         }
 

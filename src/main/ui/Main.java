@@ -34,12 +34,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import model.calendar.Date;
 import java.util.List;
 
 public class Main extends Application {
     //
 
     boolean retry;
+    Date date2;
     int date = 1;
 
     Stage window;
@@ -79,6 +81,9 @@ public class Main extends Application {
      * then launches login screen and application
      */
     public static void main(String[] args) {
+        Date.setDay(1);
+        Date.setMonth("January");
+        Date.setYear(2000);
         loadAccountList();
         launch(args);
 //        System.out.println(Font.getFamilies());
@@ -138,7 +143,7 @@ public class Main extends Application {
         welcomeLabel.setPadding(new Insets(30,0,10,0));
         welcomeLabel.setTextFill(Color.LIGHTSEAGREEN);
 
-        dayLabel = new Label("day: " + date);
+        dayLabel = new Label(Date.viewAsString());
         dayLabel.setFont(new Font("Arial", 40));
         dayLabel.setTextFill(Color.LIGHTSEAGREEN);
     }
@@ -234,7 +239,7 @@ public class Main extends Application {
                     if (foodName != null) {
                         Food foodToLog = database.getFood(foodName);
                         LogMealUI logMealUI = new LogMealUI();
-                        logMealUI.display(foodToLog, log, date);
+                        logMealUI.display(foodToLog, log);
                         retry = false;
                     }
                 } catch (FoodNotFoundException ex) {
@@ -248,7 +253,7 @@ public class Main extends Application {
 
     public void setViewLogForTodayButton() {
         setDefaultButtonFont(viewLogForTodayButton);
-        viewLogForTodayButton.setOnAction(e -> AlertBox.display("View Log for Today", log.getLogForDayAsString(date),
+        viewLogForTodayButton.setOnAction(e -> AlertBox.display("View Log for Today", log.getLogForDayAsString(),
                 600, 200));
     }
 
@@ -268,16 +273,16 @@ public class Main extends Application {
     public void setPrevDayButton() {
         setDefaultButtonFont(prevDayButton);
         prevDayButton.setOnAction(e -> {
-            date--;
-            dayLabel.setText("day: " + date);
+            Date.previous();
+            dayLabel.setText(Date.viewAsString());
         });
     }
 
     public void setNextDayButton() {
         setDefaultButtonFont(nextDayButton);
         nextDayButton.setOnAction(e -> {
-            date++;
-            dayLabel.setText("day: " + date);
+            Date.next();
+            dayLabel.setText(Date.viewAsString());
         });
     }
 
