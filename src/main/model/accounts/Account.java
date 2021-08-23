@@ -2,6 +2,7 @@ package model.accounts;
 
 
 import persistence.Saveable;
+import persistence.readers.AccountReader;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ public class Account implements Saveable {
 
     String username;
     String password;
+    String currentDate;
 
     File  foodsFile;
     File  mealsFile;
@@ -27,6 +29,16 @@ public class Account implements Saveable {
 
         this.username = username;
         this.password = password;
+        foodsFileDir = ACCOUNT_DIRECTORY + username + FOODS_FILE_NAME;
+        mealsFileDir = ACCOUNT_DIRECTORY + username + MEALS_FILE_NAME;
+        createFiles();
+    }
+
+    public Account(String username, String password, String date) {
+
+        this.username = username;
+        this.password = password;
+        this.currentDate = date;
         foodsFileDir = ACCOUNT_DIRECTORY + username + FOODS_FILE_NAME;
         mealsFileDir = ACCOUNT_DIRECTORY + username + MEALS_FILE_NAME;
         createFiles();
@@ -66,10 +78,18 @@ public class Account implements Saveable {
         return mealsFileDir;
     }
 
+    public String getDate() {
+        return currentDate;
+    }
+
     @Override
     public void save(PrintWriter printWriter) {
-        printWriter.println(username);
+
+        printWriter.print(username);
+        printWriter.print(AccountReader.DELIMITER);
         printWriter.print(password);
+        printWriter.print(AccountReader.DELIMITER);
+        printWriter.println(currentDate);
     }
 }
 

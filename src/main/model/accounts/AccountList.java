@@ -12,6 +12,7 @@ import java.util.Map;
 // represents a database of user accounts
 public class AccountList implements Saveable {
 
+    // maps username (String) to respective account (Account)
     private static HashMap<String, Account> accountList;
 
     public static void newAccountList() {
@@ -42,9 +43,7 @@ public class AccountList implements Saveable {
     @Override
     public void save(PrintWriter printWriter) {
         for (Map.Entry<String, Account> entry : accountList.entrySet()) {
-            printWriter.print(entry.getKey());
-            printWriter.print(AccountReader.DELIMITER);
-            printWriter.println(entry.getValue().getPassword());
+            entry.getValue().save(printWriter);
         }
     }
 }

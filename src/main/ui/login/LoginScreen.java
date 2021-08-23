@@ -1,13 +1,9 @@
 package ui.login;
 
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.accounts.Account;
@@ -93,9 +88,11 @@ public class LoginScreen {
             Account account = attemptLogin(tempAccount.getUsername(), tempAccount.getPassword());
             ConfirmBox useSavedAccount = new ConfirmBox();
             if (useSavedAccount.display("Confirm Load Saved Account", "We have found a saved account for:\n\n"
-                    + "                    " + account.getUsername() + "\n\nwould you like to login with it?", 500 ,200)) return account;
+                    + "                    " + account.getUsername() + "\n\nwould you like to login with it?", 500,250)) {
+                return account;
+            }
         } catch (AccountNotFoundException ignored) {
-            AlertBox.display("Error", "Saved user info found, but account is invalid",
+            AlertBox.display("Error", "Saved user info found, but username is invalid",
                     600, 150);
         } catch (IncorrectPasswordException ignored) {
             AlertBox.display("Error", "Saved user info found, but password is invalid",
@@ -271,7 +268,7 @@ public class LoginScreen {
     }
 
     public void signUp(String username, String password) {
-        account = new Account(username, password);
+        account = new Account(username, password, "SEP012021");
         boolean success = AccountList.add(username, account);
         if (success) {
             AlertBox.display("success!", "successfully created account for " + username,

@@ -49,7 +49,7 @@ public class Log implements Saveable {
         if (log.get(date) != null) {
             return log.get(date).toString();
         } else {
-            return "No meals logged for day " + date + "!";
+            return "No meals logged for " + Date.viewAsString(date) + "!";
         }
     }
 

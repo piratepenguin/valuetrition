@@ -1,5 +1,7 @@
 package model.calendar;
 
+import java.util.function.Predicate;
+
 public enum Month {
 
     JAN(1,"January"), FEB(2, "February"), MAR(3, "March"), APR(4, "April"),
@@ -14,9 +16,37 @@ public enum Month {
         asString = name;
     }
 
+    public Month stringToMonth(String str) {
+        return Month.valueOf(str);
+    }
 
+    public Month getNext() {
+        int newMonthInt = (getAsInt() % 12) + 1;
+        for (Month m : Month.values()) {
+            if (m.asInt == newMonthInt) {
+                return m;
+            }
+        }
+        return SEP;
+    }
+
+    public Month getPrev() {
+        int newMonthInt = (asInt == 1) ? 12 : asInt - 1;
+
+        for (Month m : Month.values()) {
+            if (m.asInt == newMonthInt) {
+                return m;
+            }
+        }
+        return SEP;
+    }
 
     public int getAsInt() {
         return asInt;
+    }
+
+    @Override
+    public String toString() {
+        return asString;
     }
 }

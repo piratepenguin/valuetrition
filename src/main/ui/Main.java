@@ -41,8 +41,6 @@ public class Main extends Application {
     //
 
     boolean retry;
-    Date date2;
-    int date = 1;
 
     Stage window;
     Scene dashboard;
@@ -58,7 +56,7 @@ public class Main extends Application {
     Button createFoodButton;
     Button nextDayButton;
     Button prevDayButton;
-    List<Button> buttons;
+    boolean buttonsVisible;
 
     Label welcomeLabel;
     Label dayLabel;
@@ -93,6 +91,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         LoginScreen loginScreen = new LoginScreen();
         account = loginScreen.display();
+        Date.setDate(account.getDate());
         foodsFile = account.getFoodsFile();
         mealsFile = account.getMealsFile();
         load();
@@ -180,6 +179,8 @@ public class Main extends Application {
 
     public void initializeButtons() {
 
+
+        buttonsVisible = false;
         setButtonNames();
         setDefaultButtonFont(closeButton);
         closeButton.setOnAction(e -> closeProgram());
@@ -187,7 +188,12 @@ public class Main extends Application {
         setDefaultButtonFont(openMenuButton);
         openMenuButton.setOnAction(e -> {
 //            window.setScene(menu);
-            logMealButton.setVisible(false);
+            if (buttonsVisible) {
+                hideButtons();
+            } else {
+                showButtons();
+            }
+            buttonsVisible = !buttonsVisible;
         });
 
         openDashboardButton.setTextFill(Color.SEAGREEN);
@@ -204,10 +210,27 @@ public class Main extends Application {
         setCreateFoodButton();
         setPrevDayButton();
         setNextDayButton();
+        hideButtons();
 
-        buttons = new ArrayList<>();
-//        buttons.add(logMealButton, viewLogButton, createFoodButton, viewLogForTodayButton, viewFoodButton);
 
+    }
+
+    private void showButtons() {
+        logMealButton.setVisible(true);
+        viewLogButton.setVisible(true);
+        viewLogForTodayButton.setVisible(true);
+        createFoodButton.setVisible(true);
+        viewFoodButton.setVisible(true);
+        closeButton.setVisible(true);
+    }
+
+    public void hideButtons() {
+        logMealButton.setVisible(false);
+        viewLogButton.setVisible(false);
+        viewLogForTodayButton.setVisible(false);
+        createFoodButton.setVisible(false);
+        viewFoodButton.setVisible(false);
+        closeButton.setVisible(false);
     }
 
     public void setCreateFoodButton() {
@@ -248,7 +271,6 @@ public class Main extends Application {
         });
     }
 
-
     public void setViewLogForTodayButton() {
         setDefaultButtonFont(viewLogForTodayButton);
         viewLogForTodayButton.setOnAction(e -> AlertBox.display("View Log for Today", log.getLogForDayAsString(Date.encode()),
@@ -282,7 +304,6 @@ public class Main extends Application {
             dayLabel.setText(Date.viewAsString());
         });
     }
-
 
     public void setViewFoodButton() {
         setDefaultButtonFont(viewFoodButton);
@@ -384,11 +405,9 @@ public class Main extends Application {
     private void load() {
         try {
             log = LogReader.readLog(mealsFile);
-            Date.setDate(log.getLastDay());
         } catch (IOException e) {
             System.out.println("no meal save file found; starting from scratch");
             log = new Log();
-            date = 1;
         }
         try {
             database = FoodReader.readFoods(foodsFile);

@@ -3,6 +3,7 @@ package persistence.readers;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import model.accounts.Account;
 import model.accounts.AccountList;
+import model.calendar.Date;
 import model.exceptions.AccountNotFoundException;
 
 import java.io.File;
@@ -26,8 +27,10 @@ public class AccountReader {
     }
 
     public static Account readMostRecentAccount(File file) throws IOException {
-        List<String> str = Files.readAllLines(file.toPath());
-        return new Account(str.get(0), str.get(1));
+        List<String> fileContent = readFile(file);
+        String line = fileContent.get(0);
+        ArrayList<String> components = splitString(line);
+        return new Account(components.get(0), components.get(1), components.get(2));
     }
 
     // EFFECTS: returns content of file as a list of strings
@@ -36,14 +39,14 @@ public class AccountReader {
         return Files.readAllLines(file.toPath());
     }
 
-    // EFFECTS: returns a list of foods parsed from list of strings
-    // where each string contains data for one food
+    // EFFECTS: returns a list of accounts parsed from list of strings
+    // where each string contains data for one account
     private static AccountList parseContent(List<String> fileContent) {
         AccountList accountList = new AccountList();
 
         for (String line : fileContent) {
             ArrayList<String> lineComponents = splitString(line);
-            AccountList.add(parseUsername(lineComponents), parseAccounts(lineComponents));
+            AccountList.add(parseUsername(lineComponents), parseAccount(lineComponents));
         }
 
         return accountList;
@@ -62,9 +65,10 @@ public class AccountReader {
 
     }
 
-    private static Account parseAccounts(List<String> components) {
+    private static Account parseAccount(List<String> components) {
         String username = (components.get(0));
         String password = (components.get(1));
-        return new Account(username, password);
+        String lastDay = (components.get(2));
+        return new Account(username, password, lastDay);
     }
 }
