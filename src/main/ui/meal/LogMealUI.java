@@ -19,7 +19,7 @@ public class LogMealUI {
 
     Log log;
     double amount;
-    Date date;
+    String date;
 
     Button addToLogButton;
     GridPane grid;
@@ -33,7 +33,7 @@ public class LogMealUI {
     Label amountLabel;
     Label headerLabel;
 
-    public void display(Food food, Log log, Date date) {
+    public void display(Food food, Log log, String date) {
 
         initParams(date, log);
         initTextFields();
@@ -64,14 +64,14 @@ public class LogMealUI {
 
         addToLogButton = new Button("Add Meal to Log");
         addToLogButton.setOnAction(e -> {
-            log.logMeal(date, createMeal(food));
+            log.logMeal(createMeal(food));
             window.close();
         });
     }
 
     private Meal createMeal(Food food) {
         amount = Double.parseDouble(amountField.getText());
-        date = Integer.parseInt(dateField.getText());
+        date = Date.encode(dateField.getText());
         return new Meal(food, amount, date);
     }
 
@@ -99,7 +99,7 @@ public class LogMealUI {
         window.show();
     }
 
-    public void initParams(Date day, Log givenLog) {
+    public void initParams(String day, Log givenLog) {
         date = day;
         log = givenLog;
     }

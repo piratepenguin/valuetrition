@@ -81,9 +81,7 @@ public class Main extends Application {
      * then launches login screen and application
      */
     public static void main(String[] args) {
-        Date.setDay(1);
-        Date.setMonth("January");
-        Date.setYear(2000);
+        Date.setDate(1, "JAN", 2021);
         loadAccountList();
         launch(args);
 //        System.out.println(Font.getFamilies());
@@ -160,12 +158,12 @@ public class Main extends Application {
         Image prevDayImg = new Image("/wedgeLeft.png");
         ImageView wedgeLeft = new ImageView(prevDayImg);
         prevDayButton.setGraphic(wedgeLeft);
-        prevDayButton.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE,CornerRadii.EMPTY,Insets.EMPTY)));
+        prevDayButton.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE,CornerRadii.EMPTY, Insets.EMPTY)));
         nextDayButton = new Button();
         Image nextDayImg = new Image("/wedgeRight.png");
         ImageView wedgeRightview = new ImageView(nextDayImg);
         nextDayButton.setGraphic(wedgeRightview);
-        nextDayButton.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE,CornerRadii.EMPTY,Insets.EMPTY)));
+        nextDayButton.setBackground(new Background(new BackgroundFill(Color.PALETURQUOISE,CornerRadii.EMPTY, Insets.EMPTY)));
         logMealButton = new Button("Log Meal");
         viewLogForTodayButton = new Button("View Log For Today");
         viewLogButton = new Button("View Log For Another Day");
@@ -239,7 +237,7 @@ public class Main extends Application {
                     if (foodName != null) {
                         Food foodToLog = database.getFood(foodName);
                         LogMealUI logMealUI = new LogMealUI();
-                        logMealUI.display(foodToLog, log);
+                        logMealUI.display(foodToLog, log, Date.encode());
                         retry = false;
                     }
                 } catch (FoodNotFoundException ex) {
@@ -253,7 +251,7 @@ public class Main extends Application {
 
     public void setViewLogForTodayButton() {
         setDefaultButtonFont(viewLogForTodayButton);
-        viewLogForTodayButton.setOnAction(e -> AlertBox.display("View Log for Today", log.getLogForDayAsString(),
+        viewLogForTodayButton.setOnAction(e -> AlertBox.display("View Log for Today", log.getLogForDayAsString(Date.encode()),
                 600, 200));
     }
 
@@ -263,8 +261,7 @@ public class Main extends Application {
             String dayString = EnterTextBox.display("View Log for Day ...",
                     "View log for day: ", 500, 250);
             if (dayString != null) {
-                int day = Integer.parseInt(dayString);
-                AlertBox.display("View Log for Today", log.getLogForDayAsString(day),
+                AlertBox.display("View Log for Today", log.getLogForDayAsString(dayString),
                         600, 200);
             }
         });
@@ -387,7 +384,7 @@ public class Main extends Application {
     private void load() {
         try {
             log = LogReader.readLog(mealsFile);
-            date = log.getLastDay();
+            Date.setDate(log.getLastDay());
         } catch (IOException e) {
             System.out.println("no meal save file found; starting from scratch");
             log = new Log();

@@ -2,13 +2,19 @@ package model.calendar;
 
 public enum Month {
 
-    January(1), February(2), March(3), April(4), May(5), June(6), July(7), August(8), September(9), October(10), November(11), December(12);
+    JAN(1,"January"), FEB(2, "February"), MAR(3, "March"), APR(4, "April"),
+    MAY(5, "May"), JUN(6, "June"), JUL(7, "July"), AUG(8, "August"),
+    SEP(9, "September"), OCT(10, "October"), NOV(11, "November"), DEC(12, "December");
 
     int asInt;
+    String asString;
 
-    Month(int i) {
+    Month(int i, String name) {
         asInt = i;
+        asString = name;
     }
+
+
 
     public int getAsInt() {
         return asInt;

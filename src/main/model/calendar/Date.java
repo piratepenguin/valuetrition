@@ -9,10 +9,17 @@ public class Date {
     static int day;
     static boolean isLeapYear;
 
-    public void setDate(int day, String month, int year) {
+    public static void setDate(int day, String month, int year) {
         Date.day = day;
         Date.month = Month.valueOf(month);
         Date.year = year;
+    }
+
+    public static void setDate(String encoded) {
+        Date.month = Month.valueOf(encoded.substring(0,3));
+        Date.day = Integer.parseInt(encoded.substring(3,5));
+        Date.year = Integer.parseInt(encoded.substring(5));
+
     }
 
     public static void previous() {
@@ -28,72 +35,72 @@ public class Date {
     public static void checkOverflow() {
         isLeapYear = (year % 4 == 0);
         switch (month) {
-            case January:
+            case JAN:
                 if (day > 31) {
                     day = 1;
-                    month = Month.February;
+                    month = Month.FEB;
                 }
-            case February:
+            case FEB:
                 if (isLeapYear) {
                     if (day > 29) {
                         day = 1;
-                        month = Month.March;
+                        month = Month.MAR;
                     }
                 } else {
                     if (day > 28) {
                         day = 1;
-                        month = Month.March;
+                        month = Month.MAR;
                     }
                 }
-            case March:
+            case MAR:
                 if (day > 31) {
                     day = 1;
-                    month = Month.April;
+                    month = Month.APR;
                 }
-            case April:
+            case APR:
                 if (day > 30) {
                     day = 1;
-                    month = Month.May;
+                    month = Month.MAY;
                 }
-            case May:
+            case MAY:
                 if (day > 31) {
                     day = 1;
-                    month = Month.June;
+                    month = Month.JUN;
                 }
-            case June:
+            case JUN:
                 if (day > 30) {
                     day = 1;
-                    month = Month.July;
+                    month = Month.JUL;
                 }
-            case July:
+            case JUL:
                 if (day > 31) {
                     day = 1;
-                    month = Month.August;
+                    month = Month.AUG;
                 }
-            case August:
+            case AUG:
                 if (day > 31) {
                     day = 1;
-                    month = Month.September;
+                    month = Month.SEP;
                 }
-            case September:
+            case SEP:
                 if (day > 30) {
                     day = 1;
-                    month = Month.October;
+                    month = Month.OCT;
                 }
-            case October:
+            case OCT:
                 if (day > 31) {
                     day = 1;
-                    month = Month.November;
+                    month = Month.NOV;
                 }
-            case November:
+            case NOV:
                 if (day > 30) {
                     day = 1;
-                    month = Month.December;
+                    month = Month.DEC;
                 }
-            case December:
+            case DEC:
                 if (day > 31) {
                     day = 1;
-                    month = Month.January;
+                    month = Month.JAN;
                     year++;
                 }
         }
@@ -103,42 +110,42 @@ public class Date {
         isLeapYear = (year % 4 == 0);
         if (day == 0) {
             switch (month) {
-                case January:
+                case JAN:
                     year--;
-                    month = Month.December;
+                    month = Month.DEC;
                     day = 31;
-                case February:
-                    month = Month.January;
+                case FEB:
+                    month = Month.JAN;
                     day = 31;
-                case March:
-                    month = Month.February;
+                case MAR:
+                    month = Month.FEB;
                     day = isLeapYear ? 29 : 28;
-                case April:
-                    month = Month.March;
+                case APR:
+                    month = Month.MAR;
                     day = 31;
-                case May:
-                    month = Month.April;
+                case MAY:
+                    month = Month.APR;
                     day = 30;
-                case June:
-                    month = Month.May;
+                case JUN:
+                    month = Month.MAY;
                     day = 31;
-                case July:
-                    month = Month.June;
+                case JUL:
+                    month = Month.JUN;
                     day = 30;
-                case August:
-                    month = Month.July;
+                case AUG:
+                    month = Month.JUL;
                     day = 31;
-                case September:
-                    month = Month.August;
+                case SEP:
+                    month = Month.AUG;
                     day = 31;
-                case October:
-                    month = Month.September;
+                case OCT:
+                    month = Month.SEP;
                     day = 30;
-                case November:
-                    month = Month.October;
+                case NOV:
+                    month = Month.OCT;
                     day = 31;
-                case December:
-                    month = Month.November;
+                case DEC:
+                    month = Month.NOV;
                     day = 30;
             }
         }
@@ -172,9 +179,13 @@ public class Date {
         return month.toString() + " " + day + " " + year;
     }
 
-    public static String encodeToString() {
+    public static String encode() {
         String dayString = day < 10 ? "0" + day : Integer.toString(day);
         return month.toString().substring(0,3) + dayString + year;
+    }
+
+    public static String encode(String longString) {
+        return Month.valueOf(longString).asString;
     }
 
     public static void parseDate(String dateString) {
@@ -184,10 +195,10 @@ public class Date {
     }
 
     public static boolean firstLargerThanSecond(String date1, String date2) {
-        if (Integer.parseInt(date1.substring(5,9)) > Integer.parseInt(date2.substring(5,9))) {
+        if (Integer.parseInt(date1.substring(5)) > Integer.parseInt(date2.substring(5))) {
             return true;
         }
-        if (Integer.parseInt(date1.substring(5,9)) < Integer.parseInt(date2.substring(5,9))) {
+        if (Integer.parseInt(date1.substring(5)) < Integer.parseInt(date2.substring(5))) {
             return false;
         }
         if (Month.valueOf(date1.substring(0,3)).getAsInt() > Month.valueOf(date2.substring(0,3)).getAsInt()) {
@@ -198,5 +209,6 @@ public class Date {
         }
         return Integer.parseInt(date1.substring(3,5)) > Integer.parseInt(date2.substring(3,5));
     }
+
 
 }

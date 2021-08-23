@@ -48,7 +48,7 @@ public class LogReader {
     }
 
     // REQUIRES: components has size 10
-    // EFFECTS: returns an account constructed from components
+    // EFFECTS: returns a meal constructed from components
     private static Meal parseMeal(List<String> components) {
         String day = (components.get(0));
         String name = (components.get(1));
